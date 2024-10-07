@@ -22,7 +22,7 @@ const Login = ({ setUser }) => {
         setUser(userData);
 
         // Navigate to the appointments page or dashboard
-        navigate('/appointments');
+        navigate('/');
     } catch (error) {
         console.error('Login failed', error);
         alert('Login failed');

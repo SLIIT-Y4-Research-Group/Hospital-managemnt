@@ -19,14 +19,57 @@ const Signup = () => {
   };
 
   return (
-    <form onSubmit={handleSubmit}>
-      <input type="text" name="username" placeholder="Username" onChange={handleChange} required />
-      <input type="text" name="contactNumber" placeholder="Contact Number" onChange={handleChange} required />
-      <input type="email" name="email" placeholder="Email" onChange={handleChange} required />
-      <input type="text" name="address" placeholder="Address" onChange={handleChange} required />
-      <input type="password" name="password" placeholder="Password" onChange={handleChange} required />
-      <button type="submit">Sign Up</button>
-    </form>
+    <div className="container mx-auto p-6">
+      <h1 className="text-3xl font-bold text-center mb-6">Sign Up</h1>
+      <form onSubmit={handleSubmit} className="bg-white shadow-md rounded-lg p-8 space-y-4">
+        <input 
+          type="text" 
+          name="username" 
+          placeholder="Username" 
+          onChange={handleChange} 
+          required 
+          className="border border-gray-300 rounded-md p-2 w-full focus:outline-none focus:ring-2 focus:ring-blue-400"
+        />
+        <input 
+          type="text" 
+          name="contactNumber" 
+          placeholder="Contact Number" 
+          onChange={handleChange} 
+          required 
+          className="border border-gray-300 rounded-md p-2 w-full focus:outline-none focus:ring-2 focus:ring-blue-400"
+        />
+        <input 
+          type="email" 
+          name="email" 
+          placeholder="Email" 
+          onChange={handleChange} 
+          required 
+          className="border border-gray-300 rounded-md p-2 w-full focus:outline-none focus:ring-2 focus:ring-blue-400"
+        />
+        <input 
+          type="text" 
+          name="address" 
+          placeholder="Address" 
+          onChange={handleChange} 
+          required 
+          className="border border-gray-300 rounded-md p-2 w-full focus:outline-none focus:ring-2 focus:ring-blue-400"
+        />
+        <input 
+          type="password" 
+          name="password" 
+          placeholder="Password" 
+          onChange={handleChange} 
+          required 
+          className="border border-gray-300 rounded-md p-2 w-full focus:outline-none focus:ring-2 focus:ring-blue-400"
+        />
+        <button 
+          type="submit" 
+          className="w-full bg-blue-500 text-white py-2 rounded-md hover:bg-blue-600 transition duration-300"
+        >
+          Sign Up
+        </button>
+      </form>
+    </div>
   );
 };
 
