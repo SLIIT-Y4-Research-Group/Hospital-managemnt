@@ -5,7 +5,7 @@ import Signup from './components/Signup.jsx';
 import Login from './components/Login.jsx';
 import Profile from './components/Profile.jsx';
 import CreateAppointment from './pages/CreateAppointment.jsx';
-
+import Payment from './pages/payment.jsx';
 
 
 import StockReport from './pages/dataAnalysis/stockreport.jsx';
@@ -40,10 +40,11 @@ const App = () => {
         <Route path='/doctors/delete/:id' element={<DeleteDoctor />} />
 
         <Route path="/appointments" element={<CreateAppointment />} /> {/* Change here */}
+        
+        <Route path="/payment" element={<Payment />} />
+
 
     </Routes>
-
-        
 
     </BrowserRouter>
   );
