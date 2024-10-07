@@ -6,6 +6,7 @@ import Login from './components/Login.jsx';
 import Profile from './components/Profile.jsx';
 import CreateAppointment from './pages/CreateAppointment.jsx';
 
+
 const App = () => {
   const [user, setUser] = useState(null);
   

@@ -18,7 +18,7 @@ const CreateAppointment = () => {
         doctor: '',
         address: '',
         reasonForVisit: '',
-        status: 'pending',
+        status: 'Pending', // Default to 'Pending'
     });
 
     const navigate = useNavigate();
@@ -30,14 +30,22 @@ const CreateAppointment = () => {
 
     const handleSubmit = async (e) => {
         e.preventDefault();
+        if (!user) {
+            alert('User is not logged in. Please log in to create an appointment.');
+            return;
+        }
         try {
-            const appointmentData = { ...formData, user_id: user._id };
-            await axios.post('http://localhost:5000/appointments', appointmentData);
+            // Log the entire user object and user ID
+            console.log("User from context:", user);
+            console.log("User ID:", user.user._id);  // Displaying user ID from the user context
+
+            const appointmentData = { ...formData, user_id: user.user._id };  // Use user._id from context
+            await axios.post('http://localhost:5000/appointments/add', appointmentData);
             alert('Appointment created successfully');
             navigate('/appointments');
         } catch (error) {
             console.error('Error creating appointment:', error);
-            alert('Failed to create appointment: ' + error.response.data);
+            alert('Failed to create appointment: ' + (error.response ? error.response.data : error.message));
         }
     };
 
@@ -108,9 +116,9 @@ const CreateAppointment = () => {
                         className="border border-gray-300 rounded-md p-2 focus:outline-none focus:ring-2 focus:ring-blue-400"
                     >
                         <option value="">Select Gender</option>
-                        <option value="male">Male</option>
-                        <option value="female">Female</option>
-                        <option value="other">Other</option>
+                        <option value="Male">Male</option>
+                        <option value="Female">Female</option>
+                        <option value="Other">Other</option>
                     </select>
                     <input 
                         type="date" 
@@ -156,6 +164,19 @@ const CreateAppointment = () => {
                         required 
                         className="border border-gray-300 rounded-md p-2 focus:outline-none focus:ring-2 focus:ring-blue-400 h-32 resize-none"
                     />
+                    {/* Status Dropdown */}
+                    <select 
+                        name="status" 
+                        value={formData.status} 
+                        onChange={handleChange} 
+                        required 
+                        className="border border-gray-300 rounded-md p-2 focus:outline-none focus:ring-2 focus:ring-blue-400"
+                    >
+                        <option value="Pending">Pending</option>
+                        <option value="Confirmed">Confirmed</option>
+                        <option value="Cancelled">Cancelled</option>
+                        <option value="Completed">Completed</option>
+                    </select>
                 </div>
                 <button type="submit" className="w-full bg-blue-500 text-white py-3 rounded-md hover:bg-blue-600 transition duration-300">
                     Create Appointment

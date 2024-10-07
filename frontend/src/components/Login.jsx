@@ -10,16 +10,26 @@ const Login = ({ setUser }) => {
 
   const handleSubmit = async (e) => {
     e.preventDefault();
+    const { email, password } = formData; // Destructure email and password from formData
     try {
-      const { data } = await axios.post('http://localhost:5000/api/auth/login', formData);
-      setUser(data.user); // Ensure data.user contains the user information you expect
-      alert('Login successful!');
-      navigate('/'); // Redirect to profile page
+        const response = await axios.post('http://localhost:5000/api/auth/login', { email, password });
+        const userData = response.data;
+
+        // Save user to localStorage
+        localStorage.setItem('user', JSON.stringify(userData));
+
+        // Update the user context
+        setUser(userData);
+
+        // Navigate to the appointments page or dashboard
+        navigate('/appointments');
     } catch (error) {
-      console.log(error.response.data);
-      alert('Login failed! Please check your credentials.');
+        console.error('Login failed', error);
+        alert('Login failed');
     }
-  };
+};
+
+
   
   return (
     <div className="max-w-md mx-auto mt-10">
