@@ -7,6 +7,7 @@ import Profile from './components/Profile.jsx';
 import CreateAppointment from './pages/CreateAppointment.jsx';
 
 
+
 import StockReport from './pages/dataAnalysis/stockreport.jsx';
 import AddStocks from './pages/dataAnalysis/AddStocks.jsx';
 
