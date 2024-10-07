@@ -1,10 +1,16 @@
-// HomePage.js
-
-import React from 'react';
+import React, { useState, useEffect } from 'react';
 import { Link } from 'react-router-dom';
 import 'tailwindcss/tailwind.css'; // Ensure Tailwind CSS is set up
 
-const HomePage = () => {
+const HomePage = ({ user }) => {
+  const [isLoggedIn, setIsLoggedIn] = useState(false);
+
+  useEffect(() => {
+    if (user) {
+      setIsLoggedIn(true);
+    }
+  }, [user]);
+
   return (
     <div className="min-h-screen bg-gray-100">
       {/* Navbar */}
@@ -16,7 +22,14 @@ const HomePage = () => {
             <Link to="/appointments" className="hover:underline">Appointments</Link>
             <Link to="/doctors" className="hover:underline">Doctors</Link>
             <Link to="/services" className="hover:underline">Services</Link>
-            <Link to="/Profile" className="hover:underline">Profile</Link>
+            {isLoggedIn ? (
+              <Link to="/profile" className="hover:underline">Profile</Link>
+            ) : (
+              <>
+                <Link to="/login" className="hover:underline">Login</Link>
+                <Link to="/signup" className="hover:underline">Signup</Link>
+              </>
+            )}
           </div>
         </div>
       </nav>
