@@ -1,0 +1,37 @@
+/* StockReport.css */
+.stock-report-container {
+    background-image: url('../../assets/blue_bg.jpg'); /* Adjust the path to the background image */
+    background-size: cover;
+    background-position: center;
+    min-height: 100vh;
+    padding: 20px;
+}
+
+h1 {
+    text-align: center;
+    color: white;
+    margin-bottom: 20px;
+}
+
+.stock-table {
+    width: 100%;
+    max-width: 1200px;
+    margin: 0 auto;
+    border-collapse: collapse;
+    background-color: rgba(255, 255, 255, 0.8); /* Transparent white background for the table */
+}
+
+.stock-table th, .stock-table td {
+    border: 1px solid #000;
+    padding: 12px;
+    text-align: center;
+}
+
+.stock-table th {
+    background-color: #4CAF50;
+    color: white;
+}
+
+.stock-table tr:nth-child(even) {
+    background-color: #f2f2f2;
+}

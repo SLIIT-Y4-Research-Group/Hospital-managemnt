@@ -6,6 +6,9 @@ import Signup from './components/Signup.jsx';
 import Login from './components/Login.jsx';
 import Profile from './components/Profile.jsx';
 
+
+import StockReport from './pages/dataAnalysis/stockreport.jsx';
+import AddStocks from './pages/dataAnalysis/AddStocks.jsx';
 const App = () => {
   const [user, setUser] = useState(null);
   return (
@@ -14,6 +17,11 @@ const App = () => {
       <Route path="/signup" element={<Signup />} />
         <Route path="/login" element={<Login setUser={setUser} />} />
         <Route path="/profile" element={<Profile user={user} />} />
+
+        <Route path="/stockreport" element={<StockReport/>} />
+        <Route path="/addstock" element={<AddStocks/>} />
+
+
     </Routes>
   )
 }
