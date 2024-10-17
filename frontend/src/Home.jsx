@@ -16,7 +16,9 @@ const HomePage = () => {
             <Link to="/appointments" className="hover:underline">Appointments</Link>
             <Link to="/doctors" className="hover:underline">Doctors</Link>
             <Link to="/services" className="hover:underline">Services</Link>
+            
             <Link to="/Profile" className="hover:underline">Profile</Link>
+            <Link to="/stockreport" className="hover:underline">Admin</Link>
           </div>
         </div>
       </nav>
