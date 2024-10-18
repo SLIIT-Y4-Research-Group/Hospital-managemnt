@@ -6,6 +6,9 @@ import Login from './components/Login.jsx';
 import Profile from './components/Profile.jsx';
 import CreateAppointment from './pages/CreateAppointment.jsx';
 import Payment from './pages/payment.jsx';
+import DoctorRegister from './pages/doctor.jsx';
+import DoctorDetails from './pages/doctordetails.jsx';
+import AllAppointments from './pages/AllApointments.jsx';
 
 const App = () => {
   const [user, setUser] = useState(null);
@@ -19,6 +22,9 @@ const App = () => {
         <Route path="/profile" element={<Profile user={user} />} />
         <Route path="/appointments" element={<CreateAppointment />} /> {/* Change here */}
         <Route path="/payment" element={<Payment />} />
+        <Route path="/register" element={<DoctorRegister />} />
+        <Route path="/doctors" element={<DoctorDetails />} />
+        <Route path="/all" element={<AllAppointments />} />
       </Routes>
     </BrowserRouter>
   );

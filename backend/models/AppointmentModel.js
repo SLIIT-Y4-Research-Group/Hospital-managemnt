@@ -41,8 +41,8 @@ const AppointmentSchema = new Schema({
         required: true,
         trim: true
     },
-    dob: {
-        type: Date,
+    hospital: {
+        type: String,
         required: true
     },
     gender: {
