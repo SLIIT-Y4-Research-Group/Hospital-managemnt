@@ -6,6 +6,7 @@ import cors from 'cors';
 import AppointmentRoute from './routes/AppointmentRoute.js';
 import authRoutes from './routes/authRoutes.js';
 import StockRoute from './routes/StockRoute.js';
+import Doctor_Route from './routes/Doctor_Route.js';
 
 
 // Create an instance of the Express application
@@ -39,3 +40,4 @@ mongoose.connect(mongoDBURL)
   app.use('/api/auth', authRoutes);
   app.use('/appointments', AppointmentRoute);
   app.use('/stocks', StockRoute);
+  app.use('/doctors', Doctor_Route);
