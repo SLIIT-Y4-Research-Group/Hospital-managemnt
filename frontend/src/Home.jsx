@@ -1,6 +1,6 @@
 // Home.jsx (HomePage Component)
 import React from 'react';
-import Navbar from './components/Navbar'; // Adjust the import path if necessary
+
 import { Link } from 'react-router-dom';
 import 'tailwindcss/tailwind.css'; // Ensure Tailwind CSS is set up
 
@@ -8,7 +8,6 @@ const HomePage = ({ user }) => {
   return (
     <div className="min-h-screen bg-gray-100">
       {/* Use the Navbar component */}
-      <Navbar user={user} />
 
       {/* Hero Section */}
       <header className="bg-blue-500 text-white py-20">
