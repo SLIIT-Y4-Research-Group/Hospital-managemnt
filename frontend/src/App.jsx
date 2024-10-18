@@ -9,6 +9,13 @@ import Profile from './components/Profile.jsx';
 
 import StockReport from './pages/dataAnalysis/stockreport.jsx';
 import AddStocks from './pages/dataAnalysis/AddStocks.jsx';
+
+import ShowAllDoctors from './pages/Doctor/ShowAllDoctors';
+import ReadOneDoctor from './pages/Doctor/ReadOneDoctor';
+import CreateDoctor from './pages/Doctor/CreateDoctor';
+import EditDoctor from './pages/Doctor/EditDoctor';
+import DeleteDoctor from './pages/Doctor/DeleteDoctor';
+
 const App = () => {
   const [user, setUser] = useState(null);
   return (
@@ -20,6 +27,14 @@ const App = () => {
 
         <Route path="/stockreport" element={<StockReport/>} />
         <Route path="/addstock" element={<AddStocks/>} />
+
+        {/* Doctor Routes */}
+        <Route path='/doctors/alldoctors' element={<ShowAllDoctors />} />
+        <Route path='/doctors/details/:id' element={<ReadOneDoctor />} />
+        <Route path='/doctors/create' element={<CreateDoctor />} />
+        <Route path='/doctors/edit/:id' element={<EditDoctor />} />
+        <Route path='/doctors/delete/:id' element={<DeleteDoctor />} />
+
 
 
     </Routes>
