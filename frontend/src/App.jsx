@@ -4,13 +4,13 @@ import HomePage from './Home.jsx'; // Update the import statement
 import Signup from './components/Signup.jsx';
 import Login from './components/Login.jsx';
 import Profile from './components/Profile.jsx';
-import CreateAppointment from './pages/CreateAppointment.jsx';
-import Payment from './pages/payment.jsx';
-import DoctorRegister from './pages/doctor.jsx';
-import DoctorDetails from './pages/doctordetails.jsx';
-import AllAppointments from './pages/AllApointments.jsx';
+import CreateAppointment from './pages/Appointment/CreateAppointment.jsx';
+import Payment from './pages/Appointment/payment.jsx';
+import DoctorRegister from './pages/Appointment/doctor.jsx';
+import DoctorDetails from './pages/Appointment/doctordetails.jsx';
+import AllAppointments from './pages/Appointment/AllApointments.jsx';
 import Navbar from './components/Navbar.jsx';
-
+import AdminDashboard from './pages/AdminDashBoard.jsx';
 const App = () => {
   const [user, setUser] = useState(null);
   
@@ -27,7 +27,11 @@ const App = () => {
         <Route path="/register" element={<DoctorRegister />} />
         <Route path="/doctors" element={<DoctorDetails />} />
         <Route path="/all" element={<AllAppointments />} />
+        <Route path="/admin" element={<AdminDashboard />} />
       </Routes>
+    
+      
+     
     </BrowserRouter>
   );
 };

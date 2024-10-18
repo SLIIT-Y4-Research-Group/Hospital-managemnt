@@ -1,6 +1,6 @@
 import React, { useContext, useEffect, useState } from 'react';
 import { UserContext } from '../context/UserContext'; // Adjust the path as necessary
-import AppointmentsList from './AllAppointments'; // Import the AppointmentsList component
+import AppointmentsList from './Appointment/AllAppointments'; // Import the AppointmentsList component
 import defaultProfilePicture from '../assets/user-profile-icon.png'; // Adjust the path as needed
 import Sidebar from './verticalNavBar'; // Import the Sidebar component
 import backgroundImage from '../assets/background.png'; // Import your background image (adjust the path as necessary)
