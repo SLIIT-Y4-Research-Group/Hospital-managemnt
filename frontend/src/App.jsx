@@ -6,6 +6,9 @@ import Login from './components/Login.jsx';
 import Profile from './components/Profile.jsx';
 import CreateAppointment from './pages/CreateAppointment.jsx';
 import Payment from './pages/payment.jsx';
+import DoctorRegister from './pages/doctor.jsx';
+import DoctorDetails from './pages/doctordetails.jsx';
+import AllAppointments from './pages/AllApointments.jsx';
 
 
 import StockReport from './pages/dataAnalysis/stockreport.jsx';
@@ -42,9 +45,10 @@ const App = () => {
         <Route path="/appointments" element={<CreateAppointment />} /> {/* Change here */}
         
         <Route path="/payment" element={<Payment />} />
-
-
-    </Routes>
+        <Route path="/register" element={<DoctorRegister />} />
+        <Route path="/doctors" element={<DoctorDetails />} />
+        <Route path="/all" element={<AllAppointments />} />
+      </Routes>
 
     </BrowserRouter>
   );
