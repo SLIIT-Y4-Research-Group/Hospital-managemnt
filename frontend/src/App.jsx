@@ -9,6 +9,7 @@ import Payment from './pages/payment.jsx';
 import DoctorRegister from './pages/doctor.jsx';
 import DoctorDetails from './pages/doctordetails.jsx';
 import AllAppointments from './pages/AllApointments.jsx';
+import Navbar from './components/Navbar.jsx';
 
 
 import StockReport from './pages/dataAnalysis/stockreport.jsx';
@@ -25,6 +26,7 @@ const App = () => {
   
   return (
     <BrowserRouter>
+      <Navbar user={user}/>
       <Routes>
         <Route path='/' element={<HomePage user={user} />} />
         <Route path="/signup" element={<Signup />} />

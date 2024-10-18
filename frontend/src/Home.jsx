@@ -1,6 +1,6 @@
 // Home.jsx (HomePage Component)
 import React from 'react';
-import Navbar from './components/Navbar'; // Adjust the import path if necessary
+
 import { Link } from 'react-router-dom';
 import 'tailwindcss/tailwind.css'; // Ensure Tailwind CSS is set up
 
@@ -35,7 +35,9 @@ const HomePage = ({ user }) => {
         </div>
       </nav>
       {/* Use the Navbar component */}
-      <Navbar user={user} />
+
+  
+
       {/* Hero Section */}
       <header className="bg-blue-500 text-white py-20">
         <div className="container mx-auto text-center">
