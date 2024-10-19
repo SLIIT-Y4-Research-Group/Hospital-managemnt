@@ -80,6 +80,7 @@ const ShowDoctor = () => {
                             <th className='p-4 border border-green-300'>Address</th>
                             <th className='p-4 border border-green-300'>BasicSalary</th>
                             <th className='p-4 border border-green-300'>Description</th>
+                            <th className='p-4 border border-green-300'>Password</th>
 
                             <th className='p-4 border border-green-300'>Working Hospitals</th> {/* New header */}
                             <th className='p-4 border border-green-300'>Operations</th>
@@ -96,6 +97,7 @@ const ShowDoctor = () => {
                                 <td className='p-4 border border-green-300'>{doctor.Address}</td>
                                 <td className='p-4 border border-green-300'>{doctor.BasicSalary}</td>
                                 <td className='p-4 border border-green-300'>{doctor.Description}</td>
+                                <td className='p-4 border border-green-300'>{doctor.Password}</td>
                                 <td className='p-4 border border-green-300'>
                                     {doctor.WorkingHospitals.map(hospital => 
                                         `${hospital.HospitalName} (${hospital.HospitalAddress})`

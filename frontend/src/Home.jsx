@@ -7,7 +7,9 @@ import 'tailwindcss/tailwind.css'; // Ensure Tailwind CSS is set up
 const HomePage = ({ user }) => {
   return (
     <div className="min-h-screen bg-gray-100">
+
       {/* Use the Navbar component */}
+
 
       {/* Hero Section */}
       <header className="bg-blue-500 text-white py-20">

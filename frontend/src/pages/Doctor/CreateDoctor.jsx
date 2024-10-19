@@ -12,6 +12,7 @@ const CreateDoctor = () => {
   const [basicSalary, setBasicSalary] = useState('');
   const [description, setDescription] = useState('');
   const [workingHospitals, setWorkingHospitals] = useState([{ HospitalName: '', HospitalAddress: '' }]);
+  const [Password, setPassword] = useState('');
   const [loading, setLoading] = useState(false);
   const navigate = useNavigate();
 
@@ -34,6 +35,7 @@ const CreateDoctor = () => {
       BasicSalary: basicSalary,
       Description: description,
       WorkingHospitals: workingHospitals,
+      Password: Password, 
     };
 
     setLoading(true);
@@ -107,6 +109,15 @@ const CreateDoctor = () => {
             onChange={(e) => setDescription(e.target.value)}
             className='border-2 border-gray-500 px-4 py-2 w-full'
           />
+          <div className='my-4'>
+          <label className='text-xl mr-4 text-gray-500'>Password</label>
+          <input
+            type='number'
+            value={Password}
+            onChange={(e) => setPassword(e.target.value)}
+            className='border-2 border-gray-500 px-4 py-2 w-full'
+          />
+        </div>
         </div>
         <h3 className='text-xl text-gray-500 mb-4'>Working Hospitals</h3>
         {workingHospitals.map((hospital, index) => (
@@ -130,6 +141,9 @@ const CreateDoctor = () => {
               />
             </div>
           </div>
+          
+          
+          
         ))}
         <button
           onClick={handleAddHospital}
