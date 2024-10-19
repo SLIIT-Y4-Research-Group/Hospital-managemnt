@@ -12,6 +12,7 @@ import AllAppointments from './pages/Appointment/AllApointments.jsx';
 import Navbar from './components/Navbar.jsx';
 
 
+
 import StockReport from './pages/dataAnalysis/stockreport.jsx';
 import AddStocks from './pages/dataAnalysis/AddStocks.jsx';
 
@@ -35,6 +36,7 @@ const App = () => {
         <Route path="/signup" element={<Signup />} />
         <Route path="/login" element={<Login setUser={setUser} />} />
         <Route path="/profile" element={<Profile user={user} />} />
+
 
 
         <Route path="/stockreport" element={<StockReport/>} />
