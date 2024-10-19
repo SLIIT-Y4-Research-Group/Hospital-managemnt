@@ -33,16 +33,18 @@ const CreateDoctor = () => {
     setWorkingHospitals([...workingHospitals, { HospitalName: '', HospitalAddress: '' }]);
   };
 
-  
+  const handleRemoveHospital = (index) => {
+    const updatedHospitals = workingHospitals.filter((_, i) => i !== index);
+    setWorkingHospitals(updatedHospitals);
+  };
+
   const handleSaveDoctor = () => {
     const uploadImageAndSubmit = (downloadURL) => {
 
     const data = {
       image: downloadURL || null, // Set image to null if no image is uploaded
-
       Name: name,
       Specialization: specialization,
-      
       ContactNo: contactNo,
       Email: email,
       Address: address,
@@ -151,12 +153,12 @@ const CreateDoctor = () => {
             value={description}
             onChange={(e) => setDescription(e.target.value)}
             placeholder="Enter a detailed description here..."
-            rows={6} // Adjust the number of rows as needed
+            rows={6}
             className='border-2 border-gray-500 px-4 py-2 w-full rounded-md focus:outline-none focus:border-green-500 transition duration-200'
           />
         </div>
 
-          <div className='my-4'>
+        <div className='my-4'>
           <label className='text-xl mr-4 text-gray-500'>Password</label>
           <input
             type='number'
@@ -187,19 +189,24 @@ const CreateDoctor = () => {
                 className='border-2 border-gray-500 px-4 py-2 w-full'
               />
             </div>
+            <button
+              onClick={() => handleRemoveHospital(index)}
+              className='p-2 bg-red-300 w-full mt-2'
+            >
+              Remove
+            </button>
           </div>
-          
-          
-          
         ))}
+
         <div className="flex flex-wrap -mx-3 mb-6">
-                <div className="w-full px-3 mb-6">
-                  <label className="block uppercase tracking-wide text-white text-xs font-bold mb-2" htmlFor="image">
-                    Upload Image
-                  </label>
-                  <input className="appearance-none block w-full bg-gray-200 text-black border border-gray-200 rounded py-3 px-4 mb-3 leading-tight focus:outline-none focus:bg-white" id="image" type="file" onChange={(e) => setImage(e.target.files[0])} />
-                </div>
-              </div>
+          <div className="w-full px-3 mb-6">
+            <label className="block uppercase tracking-wide text-white text-xs font-bold mb-2" htmlFor="image">
+              Upload Image
+            </label>
+            <input className="appearance-none block w-full bg-gray-200 text-black border border-gray-200 rounded py-3 px-4 mb-3 leading-tight focus:outline-none focus:bg-white" id="image" type="file" onChange={(e) => setImage(e.target.files[0])} />
+          </div>
+        </div>
+
         <button
           onClick={handleAddHospital}
           className='p-2 bg-green-300 w-full mt-2'
@@ -207,7 +214,7 @@ const CreateDoctor = () => {
           Add Another Hospital
         </button>
         <button className='p-2 bg-sky-300 m-8' onClick={handleSaveDoctor}>
-          Save
+          Create Doctor
         </button>
       </div>
     </div>

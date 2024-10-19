@@ -25,6 +25,12 @@ import DeleteDoctor from './pages/Doctor/DeleteDoctor';
 import DoctorLogin from './components/DoctorLogin';
 import ReadOneHome from './pages/Doctor/ReadOneHome';
 
+import CreateDoctorSchedule from './pages/DoctorShedule/CreateDoctorShedule.jsx';
+import DeletedoctorShedule from './pages/DoctorShedule/DeleteDoctorShedule.jsx';
+import EditDoctorSchedule from './pages/DoctorShedule/EditDoctorShedule.jsx';
+import ReadOneDoctorShedule from './pages/DoctorShedule/ReadOneDoctorShedule';
+import ShowAllDoctorsShedule from './pages/DoctorShedule/ShowAllDoctorsShedule';
+
 import AppointmentsTable from './pages/Appointment/AllAppointmentTable.jsx';
 
 
@@ -54,6 +60,13 @@ const App = () => {
         <Route path='/doctors/delete/:id' element={<DeleteDoctor />} />
         <Route path='/doctorlogin' element={<DoctorLogin />} />
         <Route path="/docHome/:id" element={<ReadOneHome />} />
+
+        
+        <Route path='/doctorShedules/alldoctorShedules' element={<ShowAllDoctorsShedule/>} />
+        <Route path='/doctorShedules/create' element={<CreateDoctorSchedule/>} />
+        <Route path='/doctorShedules/details/:id' element={<ReadOneDoctorShedule />} />
+        <Route path='/doctorShedules/edit/:id' element={<EditDoctorSchedule />} />
+        <Route path='/doctorShedules/delete/:id' element={<DeletedoctorShedule/>} />
 
         <Route path="/appointments" element={<CreateAppointment />} />
         <Route path="/payment" element={<Payment />} />
