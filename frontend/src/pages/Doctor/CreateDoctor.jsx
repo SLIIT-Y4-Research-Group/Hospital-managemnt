@@ -150,8 +150,12 @@ const CreateDoctor = () => {
           <textarea
             value={description}
             onChange={(e) => setDescription(e.target.value)}
-            className='border-2 border-gray-500 px-4 py-2 w-full'
+            placeholder="Enter a detailed description here..."
+            rows={6} // Adjust the number of rows as needed
+            className='border-2 border-gray-500 px-4 py-2 w-full rounded-md focus:outline-none focus:border-green-500 transition duration-200'
           />
+        </div>
+
           <div className='my-4'>
           <label className='text-xl mr-4 text-gray-500'>Password</label>
           <input
@@ -161,7 +165,7 @@ const CreateDoctor = () => {
             className='border-2 border-gray-500 px-4 py-2 w-full'
           />
         </div>
-        </div>
+        
         <h3 className='text-xl text-gray-500 mb-4'>Working Hospitals</h3>
         {workingHospitals.map((hospital, index) => (
           <div key={index} className='my-4'>
