@@ -5,10 +5,10 @@ import axios from 'axios';
 import { useNavigate, useParams } from 'react-router-dom';
 import { getStorage, ref, uploadBytesResumable, getDownloadURL } from "firebase/storage";
 import { app } from "../../config/firebase";
-import Swal from 'sweetalert2';
 
 const EditDoctor = () => {
   const [image, setImage] = useState(null);
+
   const [name, setName] = useState('');
   const [specialization, setSpecialization] = useState('');
   const [contactNo, setContactNo] = useState('');
@@ -17,9 +17,9 @@ const EditDoctor = () => {
   const [basicSalary, setBasicSalary] = useState('');
   const [description, setDescription] = useState('');
   const [workingHospitals, setWorkingHospitals] = useState([{ HospitalName: '', HospitalAddress: '' }]);
-  const [password, setPassword] = useState('');
+  const [Password, setPassword] = useState(''); 
+
   const [loading, setLoading] = useState(false);
-  
   const navigate = useNavigate();
   const { id } = useParams();
   const storage = getStorage(app);
@@ -29,8 +29,8 @@ const EditDoctor = () => {
     axios.get(`http://localhost:5000/doctors/${id}`)
       .then((response) => {
         const doctor = response.data;
-        setImage(null);  // Reset image since we're editing
-        setName(doctor.Name || '');
+        setImage(doctor.Image || '');  // Set the initial image if provided
+        setName(doctor.Name || '');  // Default to an empty string if undefined
         setSpecialization(doctor.Specialization || '');
         setContactNo(doctor.ContactNo || '');
         setEmail(doctor.Email || '');
@@ -53,56 +53,57 @@ const EditDoctor = () => {
     setWorkingHospitals(newHospitals);
   };
 
-  const uploadImageAndSubmit = (downloadURL) => {
-    const data = {
-      Image: downloadURL || '',  // Default to an empty string if no image
-      Name: name,
-      Specialization: specialization,
-      ContactNo: contactNo,
-      Email: email,
-      Address: address,
-      BasicSalary: basicSalary,
-      Description: description,
-      WorkingHospitals: workingHospitals,
-      Password: password,
+  const handleEditDoctor = () => {
+    const uploadImageAndSubmit = (downloadURL) => {
+        const data = {
+            image: downloadURL, // Ensure this matches your server's expected field name
+            Name: name,
+            Specialization: specialization,
+            ContactNo: contactNo,
+            Email: email,
+            Address: address,
+            BasicSalary: basicSalary,
+            Description: description,
+            WorkingHospitals: workingHospitals,
+            Password: Password,
+        };
+
+        console.log('Data to be sent:', data); // Log the data being sent
+
+        setLoading(true);
+        axios
+            .put(`http://localhost:5000/doctors/${id}`, data)
+            .then(() => {
+                setLoading(false);
+                navigate('/doctors/alldoctors'); // Navigate after successful update
+            })
+            .catch((error) => {
+                setLoading(false);
+                console.error('Error updating doctor:', error.response ? error.response.data : error);
+            });
     };
 
-    setLoading(true);
-    axios
-      .put(`http://localhost:5000/doctors/${id}`, data)
-      .then(() => {
-        setLoading(false);
-        Swal.fire('Success', 'Doctor updated successfully!', 'success');
-        navigate('/doctors/alldoctors'); // Navigate after successful update
-      })
-      .catch((error) => {
-        setLoading(false);
-        console.error('Error updating doctor:', error.response ? error.response.data : error);
-        Swal.fire('Error', 'Failed to update doctor. Please try again.', 'error');
-      });
-  };
-
-  const handleEditDoctor = () => {
     if (image) {
-      const storageRef = ref(storage, `doctor_images/${image.name}`);
-      const uploadTask = uploadBytesResumable(storageRef, image);
+        const storageRef = ref(storage, `doctor_images/${image.name}`);
+        const uploadTask = uploadBytesResumable(storageRef, image);
 
-      uploadTask.on(
-        "state_changed",
-        (snapshot) => { },
-        (error) => {
-          console.error(error);
-          setLoading(false);
-          Swal.fire('Error', 'Failed to upload image. Please try again.', 'error');
-        },
-        () => {
-          getDownloadURL(uploadTask.snapshot.ref).then(uploadImageAndSubmit);
-        }
-      );
+        uploadTask.on(
+            "state_changed",
+            (snapshot) => {},
+            (error) => {
+                console.error(error);
+                setLoading(false);
+                Swal.fire('Error', 'Failed to upload image. Please try again.', 'error');
+            },
+            () => {
+                getDownloadURL(uploadTask.snapshot.ref).then(uploadImageAndSubmit);
+            }
+        );
     } else {
-      uploadImageAndSubmit(null); // No image uploaded
+        uploadImageAndSubmit(null); // No image uploaded
     }
-  };
+};
+
 
   const addHospital = () => {
     setWorkingHospitals([...workingHospitals, { HospitalName: '', HospitalAddress: '' }]);
@@ -126,22 +127,16 @@ const EditDoctor = () => {
               value={name}
               onChange={(e) => setName(e.target.value)}
               className='border-2 border-gray-500 px-4 py-2 w-full'
-              required
             />
           </div>
           <div className="flex flex-wrap -mx-3 mb-6">
-            <div className="w-full px-3 mb-6">
-              <label className="block uppercase tracking-wide text-white text-xs font-bold mb-2" htmlFor="image">
-                Upload Image
-              </label>
-              <input 
-                className="appearance-none block w-full bg-gray-200 text-black border border-gray-200 rounded py-3 px-4 mb-3 leading-tight focus:outline-none focus:bg-white" 
-                id="image" 
-                type="file" 
-                onChange={(e) => setImage(e.target.files[0])} 
-              />
-            </div>
-          </div>
+                <div className="w-full px-3 mb-6">
+                  <label className="block uppercase tracking-wide text-white text-xs font-bold mb-2" htmlFor="image">
+                    Upload Image
+                  </label>
+                  <input className="appearance-none block w-full bg-gray-200 text-black border border-gray-200 rounded py-3 px-4 mb-3 leading-tight focus:outline-none focus:bg-white" id="image" type="file" onChange={(e) => setImage(e.target.files[0])} />
+                </div>
+              </div>
           <div className='my-4'>
             <label className='text-xl mr-4 text-gray-500'>Specialization</label>
             <input
@@ -149,7 +144,6 @@ const EditDoctor = () => {
               value={specialization}
               onChange={(e) => setSpecialization(e.target.value)}
               className='border-2 border-gray-500 px-4 py-2 w-full'
-              required
             />
           </div>
           <div className='my-4'>
@@ -159,7 +153,6 @@ const EditDoctor = () => {
               value={contactNo}
               onChange={(e) => setContactNo(e.target.value)}
               className='border-2 border-gray-500 px-4 py-2 w-full'
-              required
             />
           </div>
           <div className='my-4'>
@@ -169,7 +162,6 @@ const EditDoctor = () => {
               value={email}
               onChange={(e) => setEmail(e.target.value)}
               className='border-2 border-gray-500 px-4 py-2 w-full'
-              required
             />
           </div>
           <div className='my-4'>
@@ -179,7 +171,6 @@ const EditDoctor = () => {
               value={address}
               onChange={(e) => setAddress(e.target.value)}
               className='border-2 border-gray-500 px-4 py-2 w-full'
-              required
             />
           </div>
           <div className='my-4'>
@@ -189,7 +180,6 @@ const EditDoctor = () => {
               value={basicSalary}
               onChange={(e) => setBasicSalary(e.target.value)}
               className='border-2 border-gray-500 px-4 py-2 w-full'
-              required
             />
           </div>
           <div className='my-4'>
@@ -199,17 +189,15 @@ const EditDoctor = () => {
               value={description}
               onChange={(e) => setDescription(e.target.value)}
               className='border-2 border-gray-500 px-4 py-2 w-full'
-              required
             />
           </div>
           <div className='my-4'>
             <label className='text-xl mr-4 text-gray-500'>Password</label>
             <input
               type='password'
-              value={password}
+              value={Password}
               onChange={(e) => setPassword(e.target.value)}
               className='border-2 border-gray-500 px-4 py-2 w-full'
-              required
             />
           </div>
           <h2 className='text-2xl my-4'>Working Hospitals</h2>
@@ -221,7 +209,6 @@ const EditDoctor = () => {
                 value={hospital.HospitalName}
                 onChange={(e) => handleHospitalChange(index, 'HospitalName', e.target.value)}
                 className='border-2 border-gray-500 px-4 py-2 w-full'
-                required
               />
               <label className='text-xl mr-4 text-gray-500'>Hospital Address</label>
               <input
@@ -229,13 +216,24 @@ const EditDoctor = () => {
                 value={hospital.HospitalAddress}
                 onChange={(e) => handleHospitalChange(index, 'HospitalAddress', e.target.value)}
                 className='border-2 border-gray-500 px-4 py-2 w-full'
-                required
               />
-              <button type='button' onClick={() => removeHospital(index)} className='text-red-500'>Remove Hospital</button>
+              
+              <button
+                className='text-red-500 mt-2'
+                onClick={() => removeHospital(index)}
+              >
+                Remove Hospital
+              </button>
             </div>
+            
           ))}
-          <button type='button' onClick={addHospital} className='bg-blue-500 text-white px-4 py-2'>Add Hospital</button>
-          <button onClick={handleEditDoctor} className='bg-green-500 text-white px-4 py-2 mt-4'>Update Doctor</button>
+          <button className='text-blue-500' onClick={addHospital}>
+            Add Hospital
+          </button>
+
+          <button className='p-2 bg-sky-300 m-8' onClick={handleEditDoctor}>
+            Save
+          </button>
         </div>
       )}
     </div>

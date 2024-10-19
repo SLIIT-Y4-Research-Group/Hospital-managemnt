@@ -85,11 +85,11 @@ router.get('/:id', async (request, response) => {
 // Update doctor information
 router.put('/:id', async (req, res) => {
   try {
-      const { Image, Name, Specialization, ContactNo, Email, Address, BasicSalary, Description, WorkingHospitals, Password } = req.body;
+      const { image, Name, Specialization, ContactNo, Email, Address, BasicSalary, Description, WorkingHospitals, Password } = req.body;
 
       // Check for required fields
       if (
-          !Image || 
+          !image || 
           !Name ||
           !Specialization ||
           !ContactNo ||
