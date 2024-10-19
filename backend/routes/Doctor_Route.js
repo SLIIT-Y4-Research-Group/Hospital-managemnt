@@ -11,6 +11,8 @@ router.post('/', async (request, response) => {
 
       // Check if Email is present and valid
       if (
+
+          !request.body.image ||
           !request.body.Name ||
           !request.body.Specialization ||
           !request.body.ContactNo ||
@@ -28,6 +30,7 @@ router.post('/', async (request, response) => {
       }
 
       const newDoctor = {
+        image : request.body.image,
           Name: request.body.Name,
           Specialization: request.body.Specialization,
           ContactNo: request.body.ContactNo,
@@ -82,6 +85,7 @@ router.get('/:id', async (request, response) => {
 router.put('/:id', async (request, response) => {
     try {
         if (
+           !request.body.DoctorID ||  // Check if DoctorID is present and valid
             !request.body.Name ||
             !request.body.Specialization ||
             !request.body.ContactNo ||
