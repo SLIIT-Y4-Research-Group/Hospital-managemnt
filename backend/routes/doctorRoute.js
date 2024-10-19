@@ -30,6 +30,27 @@ router.get('/', async (req, res) => {
         res.status(500).json({ message: 'Failed to retrieve doctors', error: error.message });
     }
 });
+/*
+// Route for Get All Doctors with specialization count
+router.get('/specializations', async (request, response) => {
+    try {
+        const specializationCount = await Doctor.aggregate([
+            {
+                $group: {
+                    _id: "$specialization",
+                    count: { $sum: 1 }
+                }
+            }
+        ]);
+        return response.status(200).json({
+            count: specializationCount.length,
+            data: specializationCount,
+        });
+    } catch (error) {
+        console.log('Error:', error.message);
+        response.status(500).send({ message: error.message });
+    }
+});*/
 
 // Get a doctor by ID
 router.get('/:id', async (req, res) => {
