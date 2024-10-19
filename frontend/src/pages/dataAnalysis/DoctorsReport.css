@@ -1,0 +1,9 @@
+.doctors-report-container {
+    padding: 20px;
+    text-align: center;
+}
+
+#chart {
+    margin: 0 auto;
+    max-width: 600px;
+}
