@@ -1,14 +1,15 @@
 import React, { useEffect, useState } from 'react';
 import axios from 'axios';
 import UpdateAppointment from './UpdateAppointment'; // Import the UpdateAppointment component
-
+import { Link } from 'react-router-dom';
+import { useNavigate } from 'react-router-dom';
 const AppointmentsList = ({ userId }) => {
   const [appointments, setAppointments] = useState([]);
   const [loading, setLoading] = useState(true);
   const [isUpdating, setIsUpdating] = useState(false);
   const [currentAppointment, setCurrentAppointment] = useState(null);
   const [doctorNames, setDoctorNames] = useState({}); // Store doctor names by their IDs
-
+  const navigate = useNavigate();
   useEffect(() => {
     const fetchAppointments = async () => {
       try {
@@ -58,6 +59,13 @@ const AppointmentsList = ({ userId }) => {
     setIsUpdating(true);
   };
 
+  const makePayment = (appointmentId) => {
+    // Implement your payment logic here
+    console.log(`Initiating payment for appointment ID: ${appointmentId}`);
+    navigate(`/payment?appointmentId=${appointmentId}`);
+    // Redirect to payment page or handle payment logic
+  };
+
   if (loading) {
     return <p className="text-center text-gray-500">Loading appointments...</p>;
   }
@@ -90,6 +98,11 @@ const AppointmentsList = ({ userId }) => {
               <strong>Status:</strong> {appointment.status}
             </p>
             <div className="flex justify-end mt-4 space-x-4">
+              {appointment.status === 'Pending' && (
+                <button onClick={() => makePayment(appointment._id)} className="text-blue-500 hover:text-blue-600 font-medium">
+                  Go to Payment
+                </button>
+              )}
               <button
                 className="text-red-500 hover:text-red-600 font-medium"
                 onClick={() => handleDelete(appointment._id)}
