@@ -17,7 +17,7 @@ function Login() {
 
       if (userData) {
         localStorage.setItem('DoctorID', userData._id); // Store farmer ID in local storage
-        navigate(`/ReadOneHome/${DoctorID}`);
+        navigate(`/docHome/${userData._id}`);
         //navigate(`/farmers/details/${userData._id}`);
         alert(`Welcome back, ${userData.Name}!`);
       }

@@ -8,6 +8,7 @@ import { app } from "../../config/firebase";
 
 const EditDoctor = () => {
   const [image, setImage] = useState(null);
+  const [imageURL, setImageURL] = useState(''); // State for holding the image URL
 
   const [name, setName] = useState('');
   const [specialization, setSpecialization] = useState('');
@@ -17,7 +18,7 @@ const EditDoctor = () => {
   const [basicSalary, setBasicSalary] = useState('');
   const [description, setDescription] = useState('');
   const [workingHospitals, setWorkingHospitals] = useState([{ HospitalName: '', HospitalAddress: '' }]);
-  const [Password, setPassword] = useState(''); 
+  const [Password, setPassword] = useState('');
 
   const [loading, setLoading] = useState(false);
   const navigate = useNavigate();
@@ -29,8 +30,8 @@ const EditDoctor = () => {
     axios.get(`http://localhost:5000/doctors/${id}`)
       .then((response) => {
         const doctor = response.data;
-        setImage(doctor.Image || '');  // Set the initial image if provided
-        setName(doctor.Name || '');  // Default to an empty string if undefined
+        setImageURL(doctor.image);  // Set the initial image URL
+        setName(doctor.Name || '');
         setSpecialization(doctor.Specialization || '');
         setContactNo(doctor.ContactNo || '');
         setEmail(doctor.Email || '');
@@ -56,7 +57,7 @@ const EditDoctor = () => {
   const handleEditDoctor = () => {
     const uploadImageAndSubmit = (downloadURL) => {
         const data = {
-            image: downloadURL, // Ensure this matches your server's expected field name
+            image: downloadURL || imageURL, // Use existing image URL if no new image uploaded
             Name: name,
             Specialization: specialization,
             ContactNo: contactNo,
@@ -100,10 +101,9 @@ const EditDoctor = () => {
             }
         );
     } else {
-        uploadImageAndSubmit(null); // No image uploaded
+        uploadImageAndSubmit(null); // No new image uploaded
     }
-};
-
+  };
 
   const addHospital = () => {
     setWorkingHospitals([...workingHospitals, { HospitalName: '', HospitalAddress: '' }]);
@@ -121,13 +121,8 @@ const EditDoctor = () => {
       {loading ? <Spinner /> : (
         <div className='flex flex-col border-2 border-sky-400 rounded-xl w-[600px] p-4 mx-auto'>
           <div className='my-4'>
-            <label className='text-xl mr-4 text-gray-500'>Name</label>
-            <input
-              type='text'
-              value={name}
-              onChange={(e) => setName(e.target.value)}
-              className='border-2 border-gray-500 px-4 py-2 w-full'
-            />
+            <label className='text-xl mr-4 text-gray-500'>Current Image</label>
+            {imageURL && <img src={imageURL} alt="Doctor" className="w-32 h-32 object-cover mb-4" />} {/* Display the image */}
           </div>
           <div className="flex flex-wrap -mx-3 mb-6">
                 <div className="w-full px-3 mb-6">
@@ -137,6 +132,15 @@ const EditDoctor = () => {
                   <input className="appearance-none block w-full bg-gray-200 text-black border border-gray-200 rounded py-3 px-4 mb-3 leading-tight focus:outline-none focus:bg-white" id="image" type="file" onChange={(e) => setImage(e.target.files[0])} />
                 </div>
               </div>
+          <div className='my-4'>
+            <label className='text-xl mr-4 text-gray-500'>Name</label>
+            <input
+              type='text'
+              value={name}
+              onChange={(e) => setName(e.target.value)}
+              className='border-2 border-gray-500 px-4 py-2 w-full'
+            />
+          </div>
           <div className='my-4'>
             <label className='text-xl mr-4 text-gray-500'>Specialization</label>
             <input
@@ -184,55 +188,50 @@ const EditDoctor = () => {
           </div>
           <div className='my-4'>
             <label className='text-xl mr-4 text-gray-500'>Description</label>
-            <input
-              type='text'
+            <textarea
               value={description}
               onChange={(e) => setDescription(e.target.value)}
-              className='border-2 border-gray-500 px-4 py-2 w-full'
+              placeholder="Enter a detailed description here..."
+              rows={6}
+              className='border-2 border-gray-500 px-4 py-2 w-full rounded-md focus:outline-none focus:border-green-500 transition duration-200'
             />
           </div>
-          <div className='my-4'>
-            <label className='text-xl mr-4 text-gray-500'>Password</label>
-            <input
-              type='password'
-              value={Password}
-              onChange={(e) => setPassword(e.target.value)}
-              className='border-2 border-gray-500 px-4 py-2 w-full'
-            />
-          </div>
-          <h2 className='text-2xl my-4'>Working Hospitals</h2>
+          <h2 className='text-xl text-gray-500'>Working Hospitals</h2>
           {workingHospitals.map((hospital, index) => (
-            <div key={index} className='my-4'>
-              <label className='text-xl mr-4 text-gray-500'>Hospital Name</label>
+            <div key={index} className='flex mb-2'>
               <input
                 type='text'
                 value={hospital.HospitalName}
                 onChange={(e) => handleHospitalChange(index, 'HospitalName', e.target.value)}
-                className='border-2 border-gray-500 px-4 py-2 w-full'
+                placeholder='Hospital Name'
+                className='border-2 border-gray-500 px-4 py-2 w-1/2 mr-2'
               />
-              <label className='text-xl mr-4 text-gray-500'>Hospital Address</label>
               <input
                 type='text'
                 value={hospital.HospitalAddress}
                 onChange={(e) => handleHospitalChange(index, 'HospitalAddress', e.target.value)}
-                className='border-2 border-gray-500 px-4 py-2 w-full'
+                placeholder='Hospital Address'
+                className='border-2 border-gray-500 px-4 py-2 w-1/2'
               />
-              
               <button
-                className='text-red-500 mt-2'
                 onClick={() => removeHospital(index)}
+                className='ml-2 bg-red-500 text-white px-4 py-2 rounded'
               >
-                Remove Hospital
+                Remove
               </button>
             </div>
-            
           ))}
-          <button className='text-blue-500' onClick={addHospital}>
+          <button
+            onClick={addHospital}
+            className='bg-green-500 text-white px-4 py-2 rounded my-4'
+          >
             Add Hospital
           </button>
-
-          <button className='p-2 bg-sky-300 m-8' onClick={handleEditDoctor}>
-            Save
+          <button
+            onClick={handleEditDoctor}
+            className='bg-blue-500 text-white px-4 py-2 rounded'
+          >
+            Update Doctor
           </button>
         </div>
       )}
