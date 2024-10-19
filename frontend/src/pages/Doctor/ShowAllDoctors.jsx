@@ -73,6 +73,8 @@ const ShowDoctor = () => {
                     <thead>
                         <tr className='bg-green-100'>
                             <th className='p-4 border border-green-300'>Doctor ID</th>
+                            <th className='p-4 border border-green-300'>Profile Pic</th>
+
                             <th className='p-4 border border-green-300'>Doctor Name</th>
                             <th className='p-4 border border-green-300'>Specialization</th>
                             <th className='p-4 border border-green-300'>Contact No</th>
@@ -90,6 +92,9 @@ const ShowDoctor = () => {
                         {filteredDoctors.map((doctor) => (
                             <tr key={doctor._id} className='text-center bg-white even:bg-green-50'>
                                 <td className='p-4 border border-green-300'>{doctor.DoctorID}</td>
+                                <td className='p-4 border border-green-300'>
+                                    <img src={doctor.image} alt="Profile Pic" className="w-16 h-16 object-cover rounded-full" />
+                                </td>
                                 <td className='p-4 border border-green-300'>{doctor.Name}</td>
                                 <td className='p-4 border border-green-300'>{doctor.Specialization}</td>
                                 <td className='p-4 border border-green-300'>{doctor.ContactNo}</td>
