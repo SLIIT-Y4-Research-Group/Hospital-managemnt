@@ -27,6 +27,7 @@ import CreateDoctor from './pages/Doctor/CreateDoctor';
 import EditDoctor from './pages/Doctor/EditDoctor';
 import DeleteDoctor from './pages/Doctor/DeleteDoctor';
 import DoctorLogin from './components/DoctorLogin';
+
 import ReadOneHome from './pages/Doctor/ReadOneHome';
 
 import ReadOneDoctorAdmin from './pages/Doctor/ReadOneDoctorAdmin';
@@ -43,6 +44,7 @@ import MyAppoitments from './pages/Doctor/MyAppointments.jsx';
 import MyShedule from './pages/Doctor/MyShedule';
 import DocSignup from './pages/Doctor/DocSignup.jsx';
 
+
 import CreateHospital from './pages/Hospital/CreateHospital.jsx';
 import DeleteHospital from './pages/Hospital/DeleteHospital.jsx';
 import EditHospital from './pages/Hospital/EditHospital.jsx';
@@ -50,6 +52,8 @@ import ReadOneHospital from './pages/Hospital/ReadOneHospital';
 import ShowAllHospital from './pages/Hospital/ShowAllHospital';
 
 import AppointmentsTable from './pages/Appointment/AllAppointmentTable.jsx';
+
+import AppointmentReport from './pages/dataAnalysis/AppoinmentReport.jsx';
 
 
 import AddCrop from './pages/Medical/addCrop';
@@ -77,6 +81,7 @@ const App = () => {
         <Route path="/admin" element={<AdminDashboard />} />
         <Route path="/stockreport" element={<StockReport />} />
         <Route path="/addstock" element={<AddStocks />} />
+        <Route path="/apoinreport" element={<AppointmentReport />} />
         <Route path="/doctoreport" element={<DoctorsReport />} />
         <Route path="/admindash" element={<AdminDash />} />
 

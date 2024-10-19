@@ -13,10 +13,13 @@ const AdminDash = () => {
         <nav className="mt-10">
           <ul>
             <li className="hover:bg-gray-700">
-              <Link to="/stockreport" className="block px-4 py-2">Stock Report</Link>
+              <Link to="/stockreport" className="block px-4 py-2">Stock Reports</Link>
             </li>
             <li className="hover:bg-gray-700">
-              <Link to="/doctoreport" className="block px-4 py-2">Doctor Report</Link>
+              <Link to="/doctoreport" className="block px-4 py-2">Doctor Reports</Link>
+            </li>
+            <li className="hover:bg-gray-700">
+              <Link to="/apoinreport" className="block px-4 py-2">Apoinment Reports</Link>
             </li>
             <li className="hover:bg-gray-700">
               <Link to="/doctorShedules/alldoctorShedules" className="block px-4 py-2">All Doctor Shedules</Link>
