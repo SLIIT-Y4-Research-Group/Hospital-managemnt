@@ -4,7 +4,7 @@ import Appointment from '../models/AppointmentModel.js'; // Assuming the model i
 const addAppointment = async (req, res) => {
     try {
         const {
-            firstName, lastName, contactNumber, email, nic, dob, gender,
+            firstName, lastName, contactNumber, email, nic, hospital, gender,
             appointmentDate, appointmentTime, doctor, address, reasonForVisit, status, user_id
         } = req.body;
 
@@ -14,7 +14,7 @@ const addAppointment = async (req, res) => {
             contactNumber,
             email,
             nic,
-            dob,
+            hospital,
             gender,
             appointmentDate,
             appointmentTime,
@@ -22,11 +22,13 @@ const addAppointment = async (req, res) => {
             address,
             reasonForVisit,
             status,
-            user_id // Added user_id
+            user_id
         });
 
-        await newAppointment.save();
-        res.json('Appointment added successfully');
+        const savedAppointment = await newAppointment.save();
+        
+        // Include the saved appointment's ID in the response
+        res.json({ message: 'Appointment added successfully', appointmentId: savedAppointment._id });
     } catch (err) {
         res.status(400).json('Error: ' + err.message);
     }
@@ -59,6 +61,22 @@ const getAppointmentById = async (req, res) => {
     }
 };
 
+// Get appointments by user ID
+const getAppointmentsByUserId = async (req, res) => {
+    try {
+        const { userId } = req.params;
+        const appointments = await Appointment.find({ user_id: userId });
+
+        if (!appointments.length) {
+            return res.status(404).json('No appointments found for this user');
+        }
+
+        res.json(appointments);
+    } catch (err) {
+        res.status(400).json('Error: ' + err.message);
+    }
+};
+
 // Delete an appointment by ID
 const deleteAppointment = async (req, res) => {
     try {
@@ -80,7 +98,7 @@ const updateAppointment = async (req, res) => {
     try {
         const { id } = req.params;
         const {
-            firstName, lastName, contactNumber, email, nic, dob, gender,
+            firstName, lastName, contactNumber, email, nic, hospital, gender,
             appointmentDate, appointmentTime, doctor, address, reasonForVisit, status, user_id
         } = req.body;
 
@@ -95,7 +113,7 @@ const updateAppointment = async (req, res) => {
         if (contactNumber) appointment.contactNumber = contactNumber;
         if (email) appointment.email = email;
         if (nic) appointment.nic = nic;
-        if (dob) appointment.dob = dob;
+        if (hospital) appointment.hospital = hospital;
         if (gender) appointment.gender = gender;
         if (appointmentDate) appointment.appointmentDate = appointmentDate;
         if (appointmentTime) appointment.appointmentTime = appointmentTime;
@@ -116,6 +134,7 @@ export default {
     addAppointment,
     getAllAppointments,
     getAppointmentById,
+    getAppointmentsByUserId,
     deleteAppointment,
     updateAppointment
 };
