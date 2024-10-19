@@ -25,6 +25,9 @@ import DeleteDoctor from './pages/Doctor/DeleteDoctor';
 import DoctorLogin from './components/DoctorLogin';
 import ReadOneHome from './pages/Doctor/ReadOneHome';
 
+import AppointmentsTable from './pages/Appointment/AllAppointmentTable.jsx';
+
+
 
 const App = () => {
   const [user, setUser] = useState(null);
@@ -58,6 +61,8 @@ const App = () => {
         <Route path="/doctors" element={<DoctorDetails />} />
         <Route path="/all" element={<AllAppointments />} />
         <Route path="/admin" element={<AdminDashboard />} />
+        <Route path="/AppointmentsTable" element={<AppointmentsTable />} />
+
        
       </Routes>
     </BrowserRouter>
