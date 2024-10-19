@@ -7,9 +7,7 @@ const AppointmentsList = ({ userId }) => {
   const [loading, setLoading] = useState(true);
   const [isUpdating, setIsUpdating] = useState(false);
   const [currentAppointment, setCurrentAppointment] = useState(null);
-
   const [doctorNames, setDoctorNames] = useState({}); // Store doctor names by their IDs
-
 
   useEffect(() => {
     const fetchAppointments = async () => {
@@ -21,7 +19,7 @@ const AppointmentsList = ({ userId }) => {
         // Fetch doctor details for each appointment's doctorId
         const doctorIds = fetchedAppointments.map((appointment) => appointment.doctor);
         const doctorDetails = await Promise.all(
-          doctorIds.map((id) => axios.get(`http://localhost:5000/api/doctors/${id}`))
+          doctorIds.map((id) => axios.get(`http://localhost:5000/doctors/${id}`))
         );
 
         // Map doctor IDs to their names
@@ -34,10 +32,6 @@ const AppointmentsList = ({ userId }) => {
         setDoctorNames(namesMap);
       } catch (error) {
         console.error('Error fetching appointments or doctor details:', error);
-
-        setAppointments(response.data); // Assuming the data is an array of appointments
-      } catch (error) {
-        console.error('Error fetching appointments:', error);
       } finally {
         setLoading(false);
       }
@@ -47,7 +41,6 @@ const AppointmentsList = ({ userId }) => {
       fetchAppointments();
     }
   }, [userId]);
-
 
   const handleDelete = async (id) => {
     if (window.confirm('Are you sure you want to delete this appointment?')) {
@@ -85,11 +78,7 @@ const AppointmentsList = ({ userId }) => {
               <strong>Time:</strong> {appointment.appointmentTime}
             </p>
             <p className="text-gray-800 font-medium">
-
               <strong>Doctor:</strong> {doctorNames[appointment.doctor] || 'Loading...'}
-
-
-
             </p>
             <p className="text-gray-800 font-medium">
               <strong>Hospital:</strong> {appointment.hospital}
