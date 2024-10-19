@@ -62,7 +62,6 @@ const PaymentForm = () => {
             });
 
             alert('Appointment status updated to confirmed');
-
             navigate('/profile'); // Redirect to a list of appointments or success page.
         } catch (error) {
             console.error('Error processing payment:', error);
