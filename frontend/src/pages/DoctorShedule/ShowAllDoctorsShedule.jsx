@@ -6,38 +6,38 @@ import { AiOutlineEdit } from 'react-icons/ai';
 import { BsInfoCircle } from 'react-icons/bs';
 import { MdOutlineAddBox, MdOutlineDelete } from 'react-icons/md';
 
-const ShowDoctor = () => {
-    const [doctors, setDoctors] = useState([]);
+const ShowDoctorSchedule = () => {
+    const [doctorSchedules, setdoctorSchedules] = useState([]);
     const [loading, setLoading] = useState(true);
     const [error, setError] = useState(null);
     const [searchQuery, setSearchQuery] = useState("");
 
     useEffect(() => {
-        const fetchDoctors = async () => {
+        const fetchdoctorSchedules = async () => {
             try {
-                const response = await axios.get('http://localhost:5000/doctors'); // Adjust API endpoint if needed
+                const response = await axios.get('http://localhost:5000/doctorShedules'); // Adjust API endpoint if needed
                 if (response.data && Array.isArray(response.data.data)) {
-                    setDoctors(response.data.data); // Access the array of doctors here
+                    setdoctorSchedules(response.data.data); // Access the array of doctorSchedules here
                 } else {
                     console.error("Invalid data format:", response.data);
                 }
             } catch (error) {
-                console.error("Error fetching doctors:", error);
-                setError("Failed to fetch doctors.");
+                console.error("Error fetching doctorSchedules:", error);
+                setError("Failed to fetch doctorSchedules.");
             } finally {
                 setLoading(false);
             }
         };
     
-        fetchDoctors();
+        fetchdoctorSchedules();
     }, []);
     
     const handleSearchChange = (e) => {
         setSearchQuery(e.target.value.toLowerCase());
     };
 
-    const filteredDoctors = doctors.filter(doctor =>
-        Object.values(doctor).some(value =>
+    const filtereddoctorSchedules = doctorSchedules.filter(schedule =>
+        Object.values(schedule).some(value =>
             value.toString().toLowerCase().includes(searchQuery)
         )
     );
@@ -47,18 +47,18 @@ const ShowDoctor = () => {
             <li>
                 <Link to="/" className="text-green-800 hover:text-green-600">Home</Link>
             </li>
-            <h1 className="show-Doctors-title text-3xl my-4 text-green-800">Doctor's List</h1>
+            <h1 className="show-doctorSchedules-title text-3xl my-4 text-green-800">Doctor's Schedule List</h1>
             <div className='flex flex-col md:flex-row justify-between items-center mb-6'>
-                <label htmlFor="search" className="sr-only">Search doctors</label>
+                <label htmlFor="search" className="sr-only">Search doctorSchedules</label>
                 <input
                     id="search"
                     type="text"
-                    placeholder="Search doctors..."
+                    placeholder="Search doctorSchedules..."
                     className='text-lg my-4 p-2 border border-green-500 rounded-md focus:outline-none focus:ring-2 focus:ring-green-500'
                     onChange={handleSearchChange}
                 />
                 <div className="flex items-center space-x-4">
-                    <Link to='/doctors/create' className="flex items-center">
+                    <Link to='/doctorShedules/create' className="flex items-center">
                         <MdOutlineAddBox className='text-green-800 text-4xl' />
                     </Link>
                 </div>
@@ -72,51 +72,39 @@ const ShowDoctor = () => {
                 <table className='w-full border border-green-500 rounded-lg bg-white'>
                     <thead>
                         <tr className='bg-green-100'>
+                            <th className='p-4 border border-green-300'>Schedule ID</th>
                             <th className='p-4 border border-green-300'>Doctor ID</th>
-                            <th className='p-4 border border-green-300'>Profile Pic</th>
                             <th className='p-4 border border-green-300'>Doctor Name</th>
                             <th className='p-4 border border-green-300'>Specialization</th>
-                            <th className='p-4 border border-green-300'>Contact No</th>
-                            <th className='p-4 border border-green-300'>Email</th>
-                            <th className='p-4 border border-green-300'>Address</th>
-                            <th className='p-4 border border-green-300'>BasicSalary</th>
-                            <th className='p-4 border border-green-300'>Description</th>
-                            <th className='p-4 border border-green-300'>Password</th>
-                            <th className='p-4 border border-green-300'>Working Hospitals</th>
+                            <th className='p-4 border border-green-300'>Date</th>
+                            <th className='p-4 border border-green-300'>Time Slots</th>
+                            <th className='p-4 border border-green-300'>Max Appointments</th>
+                            <th className='p-4 border border-green-300'>Location</th>
                             <th className='p-4 border border-green-300'>Operations</th>
                         </tr>
                     </thead>
                     <tbody>
-                        {filteredDoctors.map((doctor) => (
-                            <tr key={doctor._id} className='text-center bg-white even:bg-green-50'>
-                                <td className='p-4 border border-green-300'>{doctor.DoctorID}</td>
+                        {filtereddoctorSchedules.map((schedule) => (
+                            <tr key={schedule._id} className='text-center bg-white even:bg-green-50'>
+                                <td className='p-4 border border-green-300'>{schedule.SheduleID}</td>
+                                <td className='p-4 border border-green-300'>{schedule.DoctorID}</td>
+                                <td className='p-4 border border-green-300'>{schedule.DoctorName}</td>
+                                <td className='p-4 border border-green-300'>{schedule.Specialization}</td>
+                                <td className='p-4 border border-green-300'>{schedule.Date}</td>
                                 <td className='p-4 border border-green-300'>
-                                    <img src={doctor.image} alt="Profile Pic" className="w-16 h-16 object-cover rounded-full" />
+                                    {schedule.TimeSlots && schedule.TimeSlots.length > 0 ? schedule.TimeSlots.join(', ') : 'No time slots available.'}
                                 </td>
-                                <td className='p-4 border border-green-300'>{doctor.Name}</td>
-                                <td className='p-4 border border-green-300'>{doctor.Specialization}</td>
-                                <td className='p-4 border border-green-300'>{doctor.ContactNo}</td>
-                                <td className='p-4 border border-green-300'>{doctor.Email}</td>
-                                <td className='p-4 border border-green-300'>{doctor.Address}</td>
-                                <td className='p-4 border border-green-300'>{doctor.BasicSalary}</td>
-                                <td className='p-4 border border-green-300'>
-                                    <div className="max-h-20 overflow-y-auto p-2">{doctor.Description}</div> {/* Scrollable description */}
-                                </td>
-                                <td className='p-4 border border-green-300'>{doctor.Password}</td>
-                                <td className='p-4 border border-green-300'>
-                                    {doctor.WorkingHospitals.map(hospital => 
-                                        `${hospital.HospitalName} (${hospital.HospitalAddress})`
-                                    ).join(', ')}
-                                </td>
+                                <td className='p-4 border border-green-300'>{schedule.MaxAppointments}</td>
+                                <td className='p-4 border border-green-300'>{schedule.Location}</td>
                                 <td className='p-4 border border-green-300'>
                                     <div className='flex justify-center gap-4'>
-                                        <Link to={`/doctors/details/${doctor._id}`}>
+                                        <Link to={`/doctorShedules/details/${schedule._id}`}>
                                             <BsInfoCircle className='text-2xl text-green-800 hover:text-green-600' />
                                         </Link>
-                                        <Link to={`/doctors/edit/${doctor._id}`}>
+                                        <Link to={`/doctorShedules/edit/${schedule._id}`}>
                                             <AiOutlineEdit className='text-2xl text-yellow-600 hover:text-yellow-500' />
                                         </Link>
-                                        <Link to={`/doctors/delete/${doctor._id}`}>
+                                        <Link to={`/doctorShedules/delete/${schedule._id}`}>
                                             <MdOutlineDelete className='text-2xl text-red-600 hover:text-red-500' />
                                         </Link>
                                     </div>
@@ -125,10 +113,9 @@ const ShowDoctor = () => {
                         ))}
                     </tbody>
                 </table>
-
             )}
         </div>
     );
 };
 
-export default ShowDoctor;
+export default ShowDoctorSchedule;
