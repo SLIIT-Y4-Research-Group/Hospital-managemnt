@@ -1,5 +1,6 @@
 import { useState } from 'react';
 import { BrowserRouter, Route, Routes } from 'react-router-dom';
+import { Toaster } from "react-hot-toast";
 import HomePage from './Home.jsx'; // Update the import statement
 import Signup from './components/Signup.jsx';
 import Login from './components/Login.jsx';
@@ -24,6 +25,15 @@ import EditDoctor from './pages/Doctor/EditDoctor';
 import DeleteDoctor from './pages/Doctor/DeleteDoctor';
 import DoctorLogin from './components/DoctorLogin';
 
+import AddCrop from './pages/Medical/addCrop';
+import MyCrops from './pages/Medical/myCrops';
+import AllCrops from './components/AllCrops';
+import EditItems from './components/UpdateCrop';
+import AddReport from './pages/Medical/addReport.jsx'
+import AddTreatment from './pages/Medical/addTreatment.jsx'
+import Users from './pages/Medical/users.jsx';
+import AllTreatment from './components/allTreatment.jsx';
+
 
 const App = () => {
   const [user, setUser] = useState(null);
@@ -31,6 +41,7 @@ const App = () => {
   return (
     <BrowserRouter>
       <Navbar user={user} />
+      <Toaster position="top-center" toastOptions={{ duration: 3000 }} />
       <Routes>
         <Route path='/' element={<HomePage user={user} />} />
         <Route path="/signup" element={<Signup />} />
@@ -56,7 +67,18 @@ const App = () => {
         <Route path="/doctors" element={<DoctorDetails />} />
         <Route path="/all" element={<AllAppointments />} />
         <Route path="/admin" element={<AdminDashboard />} />
-       
+
+        <Route path='/addCrop' element={<AddCrop />} />
+        <Route path='/myCrops' element={<MyCrops />} />
+        <Route path="/profile" element={<Profile />} />
+        <Route path='/allCrops' element={<AllCrops />} />
+        <Route path='/treatment' element={<AllTreatment />} />
+        <Route path='/updateCrop/:id' element={<EditItems />} />
+
+        <Route path='/addReport/:id' element={<AddReport />} />
+        <Route path='/addTreatment/:id' element={<AddTreatment />} />
+        <Route path='/users' element={<Users />} />
+
       </Routes>
     </BrowserRouter>
   );
