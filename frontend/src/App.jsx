@@ -28,6 +28,7 @@ import AdminDashboard from './pages/AdminDashBoard.jsx';
 
 import DoctorsReport from './pages/dataAnalysis/DoctorsReport.jsx';
 const App = () => {
+  
   const [user, setUser] = useState(null);
   
   return (
