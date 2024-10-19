@@ -60,6 +60,10 @@ const ShowDoctor = () => {
             <span>{doctor.Description}</span>
           </div>
           <div className='my-4'>
+            <span className='text-xl mr-4 text-gray-500'>Password</span>
+            <span>{doctor.Password}</span>
+          </div>
+          <div className='my-4'>
             <span className='text-xl mr-4 text-gray-500'>Working Hospitals</span>
             <ul>
               {doctor.WorkingHospitals && doctor.WorkingHospitals.length > 0 ? (

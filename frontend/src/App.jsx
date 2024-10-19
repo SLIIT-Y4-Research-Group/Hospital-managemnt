@@ -15,6 +15,7 @@ import ReadOneDoctor from './pages/Doctor/ReadOneDoctor';
 import CreateDoctor from './pages/Doctor/CreateDoctor';
 import EditDoctor from './pages/Doctor/EditDoctor';
 import DeleteDoctor from './pages/Doctor/DeleteDoctor';
+import DoctorLogin from './components/DoctorLogin';
 
 const App = () => {
   const [user, setUser] = useState(null);
@@ -34,6 +35,7 @@ const App = () => {
         <Route path='/doctors/create' element={<CreateDoctor />} />
         <Route path='/doctors/edit/:id' element={<EditDoctor />} />
         <Route path='/doctors/delete/:id' element={<DeleteDoctor />} />
+        <Route path='/doctorlogin' element={<DoctorLogin />} />
 
 
 

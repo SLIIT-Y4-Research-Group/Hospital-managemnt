@@ -13,6 +13,8 @@ const EditDoctor = () => {
   const [basicSalary, setBasicSalary] = useState('');
   const [description, setDescription] = useState('');
   const [workingHospitals, setWorkingHospitals] = useState([{ HospitalName: '', HospitalAddress: '' }]);
+  const [Password, setPassword] = useState(''); 
+
   const [loading, setLoading] = useState(false);
   const navigate = useNavigate();
   const { id } = useParams();
@@ -30,6 +32,7 @@ const EditDoctor = () => {
         setBasicSalary(doctor.BasicSalary || '');
         setDescription(doctor.Description || '');
         setWorkingHospitals(doctor.WorkingHospitals || [{ HospitalName: '', HospitalAddress: '' }]);
+        setPassword(doctor.Password || '');
         setLoading(false);
       })
       .catch((error) => {
@@ -54,6 +57,7 @@ const EditDoctor = () => {
       BasicSalary: basicSalary,
       Description: description,
       WorkingHospitals: workingHospitals,
+      Password: Password, 
     };
 
     setLoading(true);
@@ -147,7 +151,15 @@ const EditDoctor = () => {
               className='border-2 border-gray-500 px-4 py-2 w-full'
             />
           </div>
-          
+          <div className='my-4'>
+            <label className='text-xl mr-4 text-gray-500'>Password</label>
+            <input
+              type='password'
+              value={Password}
+              onChange={(e) => setPassword(e.target.value)}
+              className='border-2 border-gray-500 px-4 py-2 w-full'
+            />
+          </div>
           <h2 className='text-2xl my-4'>Working Hospitals</h2>
           {workingHospitals.map((hospital, index) => (
             <div key={index} className='my-4'>
