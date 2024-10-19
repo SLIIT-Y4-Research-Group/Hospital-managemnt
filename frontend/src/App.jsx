@@ -26,6 +26,7 @@ import DoctorLogin from './components/DoctorLogin';
 
 import AdminDashboard from './pages/AdminDashBoard.jsx';
 
+import DoctorsReport from './pages/dataAnalysis/DoctorsReport.jsx';
 const App = () => {
   const [user, setUser] = useState(null);
   
@@ -59,6 +60,7 @@ const App = () => {
         <Route path="/all" element={<AllAppointments />} />
         <Route path="/admin" element={<AdminDashboard />} />
       </Routes>
+        <Route path="/doctoreport" element={<DoctorsReport/>} />
 
     </BrowserRouter>
   );
