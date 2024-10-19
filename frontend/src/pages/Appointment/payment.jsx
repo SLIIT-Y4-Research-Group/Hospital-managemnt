@@ -48,12 +48,21 @@ const PaymentForm = () => {
     const handleSubmit = async (e) => {
         e.preventDefault();
         try {
-            const response = await axios.post('http://localhost:5000/payments/add', {
+            // Process the payment
+            const paymentResponse = await axios.post('http://localhost:5000/payments/add', {
                 ...formData,
                 appointmentId,
             });
             alert('Payment successful');
-            navigate('/appointments'); // Redirect to a list of appointments or success page.
+
+
+            // Update appointment status to "Confirmed"
+            await axios.put(`http://localhost:5000/appointments/${appointmentId}`, {
+                status: 'Confirmed', // Set the new status
+            });
+
+            alert('Appointment status updated to confirmed');
+            navigate('/profile'); // Redirect to a list of appointments or success page.
         } catch (error) {
             console.error('Error processing payment:', error);
             alert('Payment failed: ' + (error.response ? error.response.data : error.message));

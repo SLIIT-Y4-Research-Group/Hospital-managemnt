@@ -23,6 +23,7 @@ import CreateDoctor from './pages/Doctor/CreateDoctor';
 import EditDoctor from './pages/Doctor/EditDoctor';
 import DeleteDoctor from './pages/Doctor/DeleteDoctor';
 import DoctorLogin from './components/DoctorLogin';
+import AppointmentsTable from './pages/Appointment/AllAppointmentTable.jsx';
 
 
 const App = () => {
@@ -56,6 +57,8 @@ const App = () => {
         <Route path="/doctors" element={<DoctorDetails />} />
         <Route path="/all" element={<AllAppointments />} />
         <Route path="/admin" element={<AdminDashboard />} />
+        <Route path="/AppointmentsTable" element={<AppointmentsTable />} />
+
        
       </Routes>
     </BrowserRouter>

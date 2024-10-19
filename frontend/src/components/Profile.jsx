@@ -1,25 +1,32 @@
 import React, { useContext, useEffect, useState } from 'react';
-import { UserContext } from '../context/UserContext'; // Adjust the path as necessary
-import AppointmentsList from './Appointment/AllAppointments'; // Import the AppointmentsList component
-import defaultProfilePicture from '../assets/user-profile-icon.png'; // Adjust the path as needed
-import Sidebar from './verticalNavBar'; // Import the Sidebar component
-import backgroundImage from '../assets/background.png'; // Import your background image (adjust the path as necessary)
+import { UserContext } from '../context/UserContext';
+import { useNavigate } from 'react-router-dom'; // Use useNavigate instead of useHistory
+import AppointmentsList from './Appointment/AllAppointments';
+import defaultProfilePicture from '../assets/user-profile-icon.png';
+import Sidebar from './verticalNavBar';
+import backgroundImage from '../assets/background.png';
 
 const Profile = () => {
-  const { user } = useContext(UserContext);
+  const { user, setUser } = useContext(UserContext);
   const [profileData, setProfileData] = useState(null);
+  const navigate = useNavigate(); // Updated to useNavigate
 
   useEffect(() => {
-    // Check if user is logged in and set profile data
     if (user) {
-      setProfileData(user.user); // Assuming user contains the user object
+      setProfileData(user.user);
     } else {
       const storedUser = JSON.parse(localStorage.getItem('user'));
       if (storedUser) {
-        setProfileData(storedUser.user); // Assuming user contains the user object
+        setProfileData(storedUser.user);
       }
     }
   }, [user]);
+
+  const logout = () => {
+    localStorage.removeItem('user');
+    setUser(null);
+    navigate('/login'); // Redirect using navigate
+  };
 
   if (!profileData) {
     return <p className="text-center text-gray-500">Loading...</p>;
@@ -30,7 +37,6 @@ const Profile = () => {
       className="flex min-h-screen"
       style={{ backgroundImage: `url(${backgroundImage})`, backgroundSize: 'cover', backgroundPosition: 'center' }}
     >
-      {/* Fixed Sidebar */}
       <div className="fixed mt-20">
         <Sidebar />
       </div>
@@ -39,9 +45,9 @@ const Profile = () => {
         <h1 className="text-3xl font-bold text-center text-black-600 mb-6">Profile</h1>
         <div className="flex items-center mb-6 space-x-4">
           <img
-            src={profileData.profilePicture || defaultProfilePicture} // Fallback to local image
+            src={profileData.profilePicture || defaultProfilePicture}
             alt="Profile"
-            className="w-40 h-40 rounded-full border-4 border-blue-600 shadow-lg" // Increased size
+            className="w-40 h-40 rounded-full border-4 border-blue-600 shadow-lg"
           />
           <div className="bg-gray-100 p-4 rounded-lg shadow-inner">
             <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
@@ -54,9 +60,16 @@ const Profile = () => {
             </div>
           </div>
         </div>
+        
+        <button
+          className="bg-red-500 hover:bg-red-600 text-white font-bold py-2 px-4 rounded shadow-md mt-4"
+          onClick={logout}
+        >
+          Logout
+        </button>
+        
         <div className="mt-8 m-8">
           <h2 className="text-2xl font-bold text-blue-600 mb-4">My Appointments</h2>
-          {/* AppointmentsList component */}
           <AppointmentsList userId={profileData._id} />
         </div>
       </div>
