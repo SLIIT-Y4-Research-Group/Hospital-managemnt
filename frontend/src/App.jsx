@@ -23,7 +23,10 @@ import CreateDoctor from './pages/Doctor/CreateDoctor';
 import EditDoctor from './pages/Doctor/EditDoctor';
 import DeleteDoctor from './pages/Doctor/DeleteDoctor';
 import DoctorLogin from './components/DoctorLogin';
+import ReadOneHome from './pages/Doctor/ReadOneHome';
+
 import AppointmentsTable from './pages/Appointment/AllAppointmentTable.jsx';
+
 
 
 const App = () => {
@@ -50,6 +53,7 @@ const App = () => {
         <Route path='/doctors/edit/:id' element={<EditDoctor />} />
         <Route path='/doctors/delete/:id' element={<DeleteDoctor />} />
         <Route path='/doctorlogin' element={<DoctorLogin />} />
+        <Route path="/docHome/:id" element={<ReadOneHome />} />
 
         <Route path="/appointments" element={<CreateAppointment />} />
         <Route path="/payment" element={<Payment />} />

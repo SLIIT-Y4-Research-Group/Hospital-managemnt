@@ -31,19 +31,6 @@ const ShowDoctor = () => {
         <Spinner />
       ) : (
         <div className='flex flex-col border-2 border-sky-400 rounded-xl w-fit p-4'>
-          {/* Image Section */}
-          <div className='my-4'>
-            {doctor.ImageURL ? (
-              <img
-                src={doctor.ImageURL}
-                alt={`${doctor.Name}'s profile`}
-                className='w-32 h-32 object-cover rounded-full border-2 border-gray-300'
-              />
-            ) : (
-              <span>No image available.</span>
-            )}
-          </div>
-
           <div className='my-4'>
             <span className='text-xl mr-4 text-gray-500'>Doctor ID</span>
             <span>{doctor.DoctorID}</span>
