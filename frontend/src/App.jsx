@@ -17,6 +17,8 @@ import DoctorsReport from './pages/dataAnalysis/DoctorsReport.jsx'; // Only keep
 import AdminDash from './pages/dataAnalysis/AdminDash.jsx';
 import AdminDashboard from './pages/AdminDashBoard.jsx';
 
+import DoctorCards from './pages/Doctor/DoctorCards.jsx';
+import SpecializationCard from './pages/Doctor/SpecializationCard';
 import ShowAllDoctors from './pages/Doctor/ShowAllDoctors';
 import ReadOneDoctor from './pages/Doctor/ReadOneDoctor';
 import CreateDoctor from './pages/Doctor/CreateDoctor';
@@ -31,6 +33,8 @@ import EditDoctorSchedule from './pages/DoctorShedule/EditDoctorShedule.jsx';
 import ReadOneDoctorShedule from './pages/DoctorShedule/ReadOneDoctorShedule';
 import ShowAllDoctorsShedule from './pages/DoctorShedule/ShowAllDoctorsShedule';
 
+import MyAppoitments from './pages/Doctor/MyAppointments.jsx';
+import MyShedule from './pages/Doctor/MyShedule';
 import AppointmentsTable from './pages/Appointment/AllAppointmentTable.jsx';
 
 
@@ -53,6 +57,8 @@ const App = () => {
         <Route path="/admindash" element={<AdminDash />} />
 
         {/* Doctor Routes */}
+        <Route path='/doctors/cards' element={<DoctorCards />} />
+        <Route path='/SpecializationCard' element={<SpecializationCard />} />
         <Route path='/doctors/alldoctors' element={<ShowAllDoctors />} />
         <Route path='/doctors/details/:id' element={<ReadOneDoctor />} />
         <Route path='/doctors/create' element={<CreateDoctor />} />
@@ -67,6 +73,9 @@ const App = () => {
         <Route path='/doctorShedules/details/:id' element={<ReadOneDoctorShedule />} />
         <Route path='/doctorShedules/edit/:id' element={<EditDoctorSchedule />} />
         <Route path='/doctorShedules/delete/:id' element={<DeletedoctorShedule/>} />
+
+        <Route path='/myAppointments/:id' element={<MyAppoitments/>} />
+        <Route path='/myShedule/:doctorId' element={<MyShedule/>} />
 
         <Route path="/appointments" element={<CreateAppointment />} />
         <Route path="/payment" element={<Payment />} />

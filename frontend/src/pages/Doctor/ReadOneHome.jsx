@@ -30,9 +30,10 @@ const DoctorProfile = () => {
         <h2>Sidebar</h2>
         <ul>
           <li><Link to="/">Home</Link></li>
-          <li><Link to="/doctors">Doctors</Link></li>
-          <li><Link to="/appointments">Appointments</Link></li>
-          <li><Link to="/contact">Contact</Link></li>
+          <li><Link to="/doctors/cards">Doctor cards</Link></li>
+          <li><Link to={`/myAppointments/${id}`}>My Appointments</Link></li>
+          <li><Link to={`/myShedule/${doctor.DoctorID}`}>My Shedule</Link></li> 
+          <li><Link to="/SpecializationCard">SpecializationCard</Link></li>
         </ul>
       </div>
 
@@ -44,17 +45,18 @@ const DoctorProfile = () => {
             <div className="profile-header">
               <div className="doctor-info">
                 <h1>{doctor.Name}</h1>
+                <h1>{doctor.DoctorID}</h1>
                 <div className="flex justify-center gap-4 action-links">
-              <Link to={`/doctors/details/${doctor._id}`}>
-                <BsInfoCircle className='text-2xl text-green-800 hover:text-green-600' />
-              </Link>
-              <Link to={`/doctors/edit/${doctor._id}`}>
-                <AiOutlineEdit className='text-2xl text-yellow-600 hover:text-yellow-500' />
-              </Link>
-              <Link to={`/doctors/delete/${doctor._id}`}>
-                <MdOutlineDelete className='text-2xl text-red-600 hover:text-red-500' />
-              </Link>
-            </div>
+                  <Link to={`/doctors/details/${doctor._id}`}>
+                    <BsInfoCircle className='text-2xl text-green-800 hover:text-green-600' />
+                  </Link>
+                  <Link to={`/doctors/edit/${doctor._id}`}>
+                    <AiOutlineEdit className='text-2xl text-yellow-600 hover:text-yellow-500' />
+                  </Link>
+                  <Link to={`/doctors/delete/${doctor._id}`}>
+                    <MdOutlineDelete className='text-2xl text-red-600 hover:text-red-500' />
+                  </Link>
+                </div>
                 <h2>Specialist {doctor.Specialization}</h2>
                 <p className="rating">⭐⭐⭐⭐⭐</p>
               </div>
@@ -66,8 +68,6 @@ const DoctorProfile = () => {
                 />
               </div>
             </div>
-
-            
 
             <div className="profile-details">
               <h3>About Doctor</h3>
