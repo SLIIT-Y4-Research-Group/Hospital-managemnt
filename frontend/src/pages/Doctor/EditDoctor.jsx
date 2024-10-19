@@ -3,8 +3,12 @@ import BackButton from '../../components/BackButton';
 import Spinner from '../../components/Spinner';
 import axios from 'axios';
 import { useNavigate, useParams } from 'react-router-dom';
+import { getStorage, ref, uploadBytesResumable, getDownloadURL } from "firebase/storage";
+import { app } from "../../config/firebase";
 
 const EditDoctor = () => {
+  const [image, setImage] = useState(null);
+
   const [name, setName] = useState('');
   const [specialization, setSpecialization] = useState('');
   const [contactNo, setContactNo] = useState('');
@@ -18,12 +22,14 @@ const EditDoctor = () => {
   const [loading, setLoading] = useState(false);
   const navigate = useNavigate();
   const { id } = useParams();
+  const storage = getStorage(app);
 
   useEffect(() => {
     setLoading(true);
     axios.get(`http://localhost:5000/doctors/${id}`)
       .then((response) => {
         const doctor = response.data;
+        setImage(doctor.Image || '');  // Set the initial image if provided
         setName(doctor.Name || '');  // Default to an empty string if undefined
         setSpecialization(doctor.Specialization || '');
         setContactNo(doctor.ContactNo || '');
@@ -48,30 +54,56 @@ const EditDoctor = () => {
   };
 
   const handleEditDoctor = () => {
-    const data = {
-      Name: name,
-      Specialization: specialization,
-      ContactNo: contactNo, // Make sure this field is included
-      Email: email,
-      Address: address,
-      BasicSalary: basicSalary,
-      Description: description,
-      WorkingHospitals: workingHospitals,
-      Password: Password, 
+    const uploadImageAndSubmit = (downloadURL) => {
+        const data = {
+            image: downloadURL, // Ensure this matches your server's expected field name
+            Name: name,
+            Specialization: specialization,
+            ContactNo: contactNo,
+            Email: email,
+            Address: address,
+            BasicSalary: basicSalary,
+            Description: description,
+            WorkingHospitals: workingHospitals,
+            Password: Password,
+        };
+
+        console.log('Data to be sent:', data); // Log the data being sent
+
+        setLoading(true);
+        axios
+            .put(`http://localhost:5000/doctors/${id}`, data)
+            .then(() => {
+                setLoading(false);
+                navigate('/doctors/alldoctors'); // Navigate after successful update
+            })
+            .catch((error) => {
+                setLoading(false);
+                console.error('Error updating doctor:', error.response ? error.response.data : error);
+            });
     };
 
-    setLoading(true);
-    axios
-      .put(`http://localhost:5000/doctors/${id}`, data)
-      .then(() => {
-        setLoading(false);
-        navigate('/doctors/alldoctors'); // Navigate after successful update
-      })
-      .catch((error) => {
-        setLoading(false);
-        console.error('Error updating doctor:', error.response ? error.response.data : error);
-      });
-  };
+    if (image) {
+        const storageRef = ref(storage, `doctor_images/${image.name}`);
+        const uploadTask = uploadBytesResumable(storageRef, image);
+
+        uploadTask.on(
+            "state_changed",
+            (snapshot) => {},
+            (error) => {
+                console.error(error);
+                setLoading(false);
+                Swal.fire('Error', 'Failed to upload image. Please try again.', 'error');
+            },
+            () => {
+                getDownloadURL(uploadTask.snapshot.ref).then(uploadImageAndSubmit);
+            }
+        );
+    } else {
+        uploadImageAndSubmit(null); // No image uploaded
+    }
+};
+
 
   const addHospital = () => {
     setWorkingHospitals([...workingHospitals, { HospitalName: '', HospitalAddress: '' }]);
@@ -97,6 +129,14 @@ const EditDoctor = () => {
               className='border-2 border-gray-500 px-4 py-2 w-full'
             />
           </div>
+          <div className="flex flex-wrap -mx-3 mb-6">
+                <div className="w-full px-3 mb-6">
+                  <label className="block uppercase tracking-wide text-white text-xs font-bold mb-2" htmlFor="image">
+                    Upload Image
+                  </label>
+                  <input className="appearance-none block w-full bg-gray-200 text-black border border-gray-200 rounded py-3 px-4 mb-3 leading-tight focus:outline-none focus:bg-white" id="image" type="file" onChange={(e) => setImage(e.target.files[0])} />
+                </div>
+              </div>
           <div className='my-4'>
             <label className='text-xl mr-4 text-gray-500'>Specialization</label>
             <input
@@ -177,6 +217,7 @@ const EditDoctor = () => {
                 onChange={(e) => handleHospitalChange(index, 'HospitalAddress', e.target.value)}
                 className='border-2 border-gray-500 px-4 py-2 w-full'
               />
+              
               <button
                 className='text-red-500 mt-2'
                 onClick={() => removeHospital(index)}
@@ -184,6 +225,7 @@ const EditDoctor = () => {
                 Remove Hospital
               </button>
             </div>
+            
           ))}
           <button className='text-blue-500' onClick={addHospital}>
             Add Hospital
