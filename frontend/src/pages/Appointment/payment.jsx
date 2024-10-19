@@ -53,7 +53,7 @@ const PaymentForm = () => {
                 appointmentId,
             });
             alert('Payment successful');
-            navigate('/appointments'); // Redirect to a list of appointments or success page.
+            navigate('/profile'); // Redirect to a list of appointments or success page.
         } catch (error) {
             console.error('Error processing payment:', error);
             alert('Payment failed: ' + (error.response ? error.response.data : error.message));
