@@ -6,6 +6,9 @@ const DoctorSchema = mongoose.Schema(
             type: String,
             unique: true,
         },
+        image: {
+            type: String,
+        },
         Name: {
             type: String,
             required: true,

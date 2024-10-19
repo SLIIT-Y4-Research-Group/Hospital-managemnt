@@ -3,9 +3,14 @@ import BackButton from '../../components/BackButton';
 import Spinner from '../../components/Spinner';
 import axios from 'axios';
 import { useNavigate } from 'react-router-dom';
+import { getStorage, ref, uploadBytesResumable, getDownloadURL } from "firebase/storage";
+import { app } from "../../config/firebase";
+import Swal from 'sweetalert2';
 
 const CreateDoctor = () => {
+  const [image, setImage] = useState(null);
   const [name, setName] = useState('');
+  const [specialization, setSpecialization] = useState('');
   const [contactNo, setContactNo] = useState('');
   const [email, setEmail] = useState('');
   const [address, setAddress] = useState('');
@@ -15,6 +20,8 @@ const CreateDoctor = () => {
   const [Password, setPassword] = useState('');
   const [loading, setLoading] = useState(false);
   const navigate = useNavigate();
+
+  const storage = getStorage(app);
 
   const handleHospitalChange = (index, field, value) => {
     const updatedHospitals = [...workingHospitals];
@@ -26,9 +33,16 @@ const CreateDoctor = () => {
     setWorkingHospitals([...workingHospitals, { HospitalName: '', HospitalAddress: '' }]);
   };
 
+  
   const handleSaveDoctor = () => {
+    const uploadImageAndSubmit = (downloadURL) => {
+
     const data = {
+      image: downloadURL || null, // Set image to null if no image is uploaded
+
       Name: name,
+      Specialization: specialization,
+      
       ContactNo: contactNo,
       Email: email,
       Address: address,
@@ -50,6 +64,26 @@ const CreateDoctor = () => {
         console.log(error);
       });
   };
+  if (image) {
+    const storageRef = ref(storage, `doctor_images/${image.name}`);
+    const uploadTask = uploadBytesResumable(storageRef, image);
+
+    uploadTask.on(
+      "state_changed",
+      (snapshot) => { },
+      (error) => {
+        console.error(error);
+        setLoading(false);
+        Swal.fire('Error', 'Failed to upload image. Please try again.', 'error');
+      },
+      () => {
+        getDownloadURL(uploadTask.snapshot.ref).then(uploadImageAndSubmit);
+      }
+    );
+  } else {
+    uploadImageAndSubmit(null); // No image uploaded
+  }
+  }
 
   return (
     <div className='p-4'>
@@ -63,6 +97,15 @@ const CreateDoctor = () => {
             type='text'
             value={name}
             onChange={(e) => setName(e.target.value)}
+            className='border-2 border-gray-500 px-4 py-2 w-full'
+          />
+        </div>
+        <div className='my-4'>
+          <label className='text-xl mr-4 text-gray-500'>specialization</label>
+          <input
+            type='text'
+            value={specialization}
+            onChange={(e) => setSpecialization(e.target.value)}
             className='border-2 border-gray-500 px-4 py-2 w-full'
           />
         </div>
@@ -145,6 +188,14 @@ const CreateDoctor = () => {
           
           
         ))}
+        <div className="flex flex-wrap -mx-3 mb-6">
+                <div className="w-full px-3 mb-6">
+                  <label className="block uppercase tracking-wide text-white text-xs font-bold mb-2" htmlFor="image">
+                    Upload Image
+                  </label>
+                  <input className="appearance-none block w-full bg-gray-200 text-black border border-gray-200 rounded py-3 px-4 mb-3 leading-tight focus:outline-none focus:bg-white" id="image" type="file" onChange={(e) => setImage(e.target.files[0])} />
+                </div>
+              </div>
         <button
           onClick={handleAddHospital}
           className='p-2 bg-green-300 w-full mt-2'
