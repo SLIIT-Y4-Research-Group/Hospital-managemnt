@@ -79,6 +79,11 @@ const StockReport = () => {
         navigate('/addstock'); // Ensure this route exists in your app's routing configuration
     };
 
+    // Function to navigate to Doctors Report page
+    const handleDoctorsReport = () => {
+        navigate('/doctorsreport'); // Ensure this route exists in your app's routing configuration
+    };
+
     return (
         <div className="stock-report-container">
             <h1>Stock Report</h1>
@@ -91,11 +96,17 @@ const StockReport = () => {
                 {/* Space between chart and table */}
                 <div className="chart-space"></div>
 
+                {/* Action buttons */}
+                <div className="button-container">
+                    <button className="add-stock-button" onClick={handleAddStock}>
+                        + Add Stock
+                    </button>
+                    <button className="doctor-report-button" onClick={handleDoctorsReport}>
+                        View Doctors Report
+                    </button>
+                </div>
+
                 {/* Stock table */}
-                <button className="add-stock-button" onClick={handleAddStock}>
-                    + Add Stock
-                </button>
-                
                 <table className="stock-table">
                     <thead>
                         <tr>

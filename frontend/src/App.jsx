@@ -15,6 +15,7 @@ import Navbar from './components/Navbar.jsx';
 
 import StockReport from './pages/dataAnalysis/stockreport.jsx';
 import AddStocks from './pages/dataAnalysis/AddStocks.jsx';
+import DoctorsReport from './pages/dataAnalysis/DoctorsReport.jsx';
 
 import ShowAllDoctors from './pages/Doctor/ShowAllDoctors';
 import ReadOneDoctor from './pages/Doctor/ReadOneDoctor';
@@ -28,7 +29,7 @@ import AdminDashboard from './pages/AdminDashBoard.jsx';
 
 import DoctorsReport from './pages/dataAnalysis/DoctorsReport.jsx';
 const App = () => {
-  
+
   const [user, setUser] = useState(null);
   
   return (
@@ -44,6 +45,9 @@ const App = () => {
 
         <Route path="/stockreport" element={<StockReport/>} />
         <Route path="/addstock" element={<AddStocks/>} />
+        <Route path="doctoreport" element={<DoctorsReport/>} />
+
+
 
         {/* Doctor Routes */}
         <Route path='/doctors/alldoctors' element={<ShowAllDoctors />} />
