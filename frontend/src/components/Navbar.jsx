@@ -1,15 +1,9 @@
-// components/Navbar.jsx
-import React, { useState, useEffect } from 'react';
+import React, { useContext } from 'react';
 import { Link } from 'react-router-dom';
+import { UserContext } from '../context/UserContext'; // Adjust the path as needed
 
-const Navbar = ({ user }) => {
-  const [isLoggedIn, setIsLoggedIn] = useState(false);
-
-  useEffect(() => {
-    if (user) {
-      setIsLoggedIn(true);
-    }
-  }, [user]);
+const Navbar = () => {
+  const { user } = useContext(UserContext);
 
   return (
     <nav className="bg-blue-600 p-4 text-white">
@@ -20,7 +14,7 @@ const Navbar = ({ user }) => {
           <Link to="/appointments" className="hover:underline">Appointments</Link>
           <Link to="/doctors" className="hover:underline">Doctors</Link>
           <Link to="/services" className="hover:underline">Services</Link>
-          {isLoggedIn ? (
+          {user ? (
             <Link to="/profile" className="hover:underline">Profile</Link>
           ) : (
             <>
