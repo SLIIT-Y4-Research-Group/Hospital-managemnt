@@ -82,37 +82,39 @@ router.get('/:id', async (request, response) => {
 });
 
 // Route for Update a Doctor
-router.put('/:id', async (request, response) => {
-    try {
-        if (
-           !request.body.DoctorID ||  // Check if DoctorID is present and valid
-            !request.body.Name ||
-            !request.body.Specialization ||
-            !request.body.ContactNo ||
-            !request.body.Email ||
-            !request.body.Address ||
-            !request.body.BasicSalary ||
-            !request.body.Description ||
-            !request.body.WorkingHospitals ||
-            !request.body.Password
-        ) {
-            return response.status(400).send({
-                message: 'Send all required fields: Name, Specialization, ContactNo, Email, Address, BasicSalary, Description, WorkingHospitals, Password',
-            });
-        }
+// Update doctor information
+router.put('/:id', async (req, res) => {
+  try {
+      const { Image, Name, Specialization, ContactNo, Email, Address, BasicSalary, Description, WorkingHospitals, Password } = req.body;
 
-        const { id } = request.params;
-        const result = await Doctor.findByIdAndUpdate(id, request.body, { new: true });
+      // Check for required fields
+      if (
+          !Image || 
+          !Name ||
+          !Specialization ||
+          !ContactNo ||
+          !Email ||
+          !Address ||
+          !BasicSalary ||
+          !Description ||
+          !WorkingHospitals ||
+          !Password
+      ) {
+          return res.status(400).send({
+              message: 'Send all required fields: Name, Specialization, ContactNo, Email, Address, BasicSalary, Description, WorkingHospitals, Password',
+          });
+      }
 
-        if (!result) {
-            return response.status(404).json({ message: 'Doctor not found' });
-        }
-
-        return response.status(200).send({ message: 'Doctor updated successfully' });
-    } catch (error) {
-        console.log('Error:', error.message);
-        response.status(500).send({ message: error.message });
-    }
+      const updatedDoctor = await Doctor.findByIdAndUpdate(req.params.id, req.body, { new: true });
+      if (!updatedDoctor) {
+          return res.status(404).send({ message: 'Doctor not found' });
+      }
+      
+      res.status(200).send(updatedDoctor);
+  } catch (error) {
+      console.error('Error updating doctor:', error);
+      res.status(500).send({ message: 'Server error' });
+  }
 });
 
 // Route for Delete a Doctor
