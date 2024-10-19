@@ -55,12 +55,14 @@ const PaymentForm = () => {
             });
             alert('Payment successful');
 
+
             // Update appointment status to "Confirmed"
             await axios.put(`http://localhost:5000/appointments/${appointmentId}`, {
                 status: 'Confirmed', // Set the new status
             });
 
             alert('Appointment status updated to confirmed');
+
             navigate('/profile'); // Redirect to a list of appointments or success page.
         } catch (error) {
             console.error('Error processing payment:', error);
