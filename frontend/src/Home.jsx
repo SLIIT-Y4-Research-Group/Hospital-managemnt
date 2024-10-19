@@ -7,36 +7,7 @@ import 'tailwindcss/tailwind.css'; // Ensure Tailwind CSS is set up
 const HomePage = ({ user }) => {
   return (
     <div className="min-h-screen bg-gray-100">
-
-      {/* Navbar */}
-      <nav className="bg-blue-600 p-4 text-white">
-        <div className="container mx-auto flex justify-between">
-          <h1 className="text-2xl font-bold">Hospital Management System</h1>
-          <div className="space-x-4">
-            <Link to="/" className="hover:underline">Home</Link>
-            <Link to="/appointments" className="hover:underline">Appointments</Link>
-            <Link to="/doctors" className="hover:underline">Doctors</Link>
-            <Link to="/services" className="hover:underline">Services</Link>
-
-            
-            <Link to="/Profile" className="hover:underline">Profile</Link>
-            <Link to="/stockreport" className="hover:underline">Admin</Link>
-
-            {isLoggedIn ? (
-              <Link to="/profile" className="hover:underline">Profile</Link>
-            ) : (
-              <>
-                <Link to="/login" className="hover:underline">Login</Link>
-                <Link to="/signup" className="hover:underline">Signup</Link>
-              </>
-            )}
-
-          </div>
-        </div>
-      </nav>
       {/* Use the Navbar component */}
-
-  
 
       {/* Hero Section */}
       <header className="bg-blue-500 text-white py-20">

@@ -19,5 +19,5 @@ const doctorSchema = new mongoose.Schema({
     email: { type: String, required: true, unique: true },
 });
 
-const Doctor = mongoose.model('Doctor', doctorSchema);
+const Doctor = mongoose.model('DoctorAppointment', doctorSchema);
 export default Doctor;

@@ -7,14 +7,31 @@ const AppointmentsList = ({ userId }) => {
   const [loading, setLoading] = useState(true);
   const [isUpdating, setIsUpdating] = useState(false);
   const [currentAppointment, setCurrentAppointment] = useState(null);
+  const [doctorNames, setDoctorNames] = useState({}); // Store doctor names by their IDs
 
   useEffect(() => {
     const fetchAppointments = async () => {
       try {
         const response = await axios.get(`http://localhost:5000/appointments/user/${userId}`);
-        setAppointments(response.data); // Assuming the data is an array of appointments
+        const fetchedAppointments = response.data;
+        setAppointments(fetchedAppointments);
+        
+        // Fetch doctor details for each appointment's doctorId
+        const doctorIds = fetchedAppointments.map((appointment) => appointment.doctor);
+        const doctorDetails = await Promise.all(
+          doctorIds.map((id) => axios.get(`http://localhost:5000/api/doctors/${id}`))
+        );
+
+        // Map doctor IDs to their names
+        const namesMap = doctorDetails.reduce((acc, doctorResponse) => {
+          const { _id, name } = doctorResponse.data; // Assuming doctor data has _id and name
+          acc[_id] = name;
+          return acc;
+        }, {});
+
+        setDoctorNames(namesMap);
       } catch (error) {
-        console.error('Error fetching appointments:', error);
+        console.error('Error fetching appointments or doctor details:', error);
       } finally {
         setLoading(false);
       }
@@ -24,8 +41,6 @@ const AppointmentsList = ({ userId }) => {
       fetchAppointments();
     }
   }, [userId]);
-  
-
 
   const handleDelete = async (id) => {
     if (window.confirm('Are you sure you want to delete this appointment?')) {
@@ -53,7 +68,6 @@ const AppointmentsList = ({ userId }) => {
 
   return (
     <div className="mt-6">
-     
       <ul className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
         {appointments.map((appointment) => (
           <li key={appointment._id} className="border rounded-lg p-4 shadow-lg bg-white">
@@ -64,7 +78,7 @@ const AppointmentsList = ({ userId }) => {
               <strong>Time:</strong> {appointment.appointmentTime}
             </p>
             <p className="text-gray-800 font-medium">
-              <strong>Doctor:</strong> {appointment.doctor}
+              <strong>Doctor:</strong> {doctorNames[appointment.doctor] || 'Loading...'}
             </p>
             <p className="text-gray-800 font-medium">
               <strong>Hospital:</strong> {appointment.hospital}

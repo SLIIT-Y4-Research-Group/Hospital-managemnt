@@ -48,6 +48,7 @@ router.get('/:id', async (req, res) => {
     }
 });
 
+
 // Get doctors by specialization
 router.get('/specialization/:specialization', async (req, res) => {
     const { specialization } = req.params;

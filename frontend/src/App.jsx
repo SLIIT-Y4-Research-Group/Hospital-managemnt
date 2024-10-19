@@ -23,7 +23,7 @@ import DeleteDoctor from './pages/Doctor/DeleteDoctor';
 
 
 import AdminDashboard from './pages/AdminDashBoard.jsx';
- (appointment folder)
+
 const App = () => {
   const [user, setUser] = useState(null);
   

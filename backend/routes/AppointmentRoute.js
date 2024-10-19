@@ -10,4 +10,5 @@ router.route('/:id').get(AppointmentController.getAppointmentById); // Get an ap
 router.route('/:id').delete(AppointmentController.deleteAppointment); // Delete an appointment by ID
 router.route('/:id').put(AppointmentController.updateAppointment); // Update an appointment by ID
 router.get('/user/:userId', AppointmentController.getAppointmentsByUserId);
+
 export default router;
