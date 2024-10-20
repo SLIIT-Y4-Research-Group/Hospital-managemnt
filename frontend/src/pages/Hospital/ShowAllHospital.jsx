@@ -7,38 +7,38 @@ import { MdOutlineAddBox, MdOutlineDelete } from 'react-icons/md';
 import Spinner from "../../components/Spinner";
 import logo from './../../assets/logo.jpg'; // Adjust the path according to your structure
 
-const ShowDoctorSchedule = () => {
-    const [doctorSchedules, setDoctorSchedules] = useState([]);
+const ShowHospital = () => {
+    const [hospitals, setHospitals] = useState([]);
     const [loading, setLoading] = useState(true);
     const [error, setError] = useState(null);
     const [searchQuery, setSearchQuery] = useState("");
 
     useEffect(() => {
-        const fetchDoctorSchedules = async () => {
+        const fetchHospitals = async () => {
             try {
-                const response = await axios.get('http://localhost:5000/doctorShedules'); // Adjust API endpoint if needed
+                const response = await axios.get('http://localhost:5000/hospitals'); // Adjust API endpoint if needed
                 if (response.data && Array.isArray(response.data.data)) {
-                    setDoctorSchedules(response.data.data); // Access the array of doctorSchedules here
+                    setHospitals(response.data.data); // Access the array of hospitals here
                 } else {
                     console.error("Invalid data format:", response.data);
                 }
             } catch (error) {
-                console.error("Error fetching doctorSchedules:", error);
-                setError("Failed to fetch doctorSchedules.");
+                console.error("Error fetching hospitals:", error);
+                setError("Failed to fetch hospitals.");
             } finally {
                 setLoading(false);
             }
         };
     
-        fetchDoctorSchedules();
+        fetchHospitals();
     }, []);
     
     const handleSearchChange = (e) => {
         setSearchQuery(e.target.value.toLowerCase());
     };
 
-    const filteredDoctorSchedules = doctorSchedules.filter(schedule =>
-        Object.values(schedule).some(value =>
+    const filteredHospitals = hospitals.filter(hospital =>
+        Object.values(hospital).some(value =>
             value.toString().toLowerCase().includes(searchQuery)
         )
     );
@@ -66,7 +66,7 @@ const ShowDoctorSchedule = () => {
                         </li>
                         <li className="hover:bg-gray-700">
                             <Link to="/Hospital/allHospital" className="block px-4 py-2">All Hospitals</Link>
-                        </li>  
+                        </li>       
                     </ul>
                 </nav>
             </aside>
@@ -74,16 +74,16 @@ const ShowDoctorSchedule = () => {
             {/* Main Content */}
             <main className="flex-1 p-8 bg-gray-100 min-h-screen">
                 <div className="flex flex-col md:flex-row justify-between items-center mb-6">
-                    <h1 className="text-3xl my-4 text-blue-800">Doctor's Schedule List</h1>
+                    <h1 className="text-3xl my-4 text-blue-800">Hospital List</h1>
                     <input
                         id="search"
                         type="text"
-                        placeholder="Search doctorSchedules..."
+                        placeholder="Search hospitals..."
                         className="text-lg p-2 border border-blue-500 rounded-md focus:outline-none focus:ring-2 focus:ring-blue-500"
                         onChange={handleSearchChange}
                     />
                     <div className="flex items-center space-x-4 mt-4 md:mt-0">
-                        <Link to='/doctorShedules/create'>
+                        <Link to='/Hospital/create'>
                             <MdOutlineAddBox className='text-blue-800 text-4xl' />
                         </Link>
                     </div>
@@ -97,39 +97,35 @@ const ShowDoctorSchedule = () => {
                     <table className="w-full border border-blue-500 rounded-lg bg-white">
                         <thead>
                             <tr className="bg-blue-100">
-                                <th className="p-4 border border-blue-300">Schedule ID</th>
-                                <th className="p-4 border border-blue-300">Doctor ID</th>
-                                <th className="p-4 border border-blue-300">Doctor Name</th>
-                                <th className="p-4 border border-blue-300">Specialization</th>
-                                <th className="p-4 border border-blue-300">Date</th>
-                                <th className="p-4 border border-blue-300">Time Slots</th>
-                                <th className="p-4 border border-blue-300">Max Appointments</th>
-                                <th className="p-4 border border-blue-300">Location</th>
+                                <th className="p-4 border border-blue-300">Hospital ID</th>
+                                <th className="p-4 border border-blue-300">Name</th>
+                                <th className="p-4 border border-blue-300">Departments</th>
+                                <th className="p-4 border border-blue-300">Contact No</th>
+                                <th className="p-4 border border-blue-300">Email</th>
+                                <th className="p-4 border border-blue-300">Address</th>
+                                <th className="p-4 border border-blue-300">Doctors</th>
                                 <th className="p-4 border border-blue-300">Operations</th>
                             </tr>
                         </thead>
                         <tbody>
-                            {filteredDoctorSchedules.map((schedule) => (
-                                <tr key={schedule._id} className="text-center bg-white even:bg-blue-50">
-                                    <td className="p-4 border border-blue-300">{schedule.SheduleID}</td>
-                                    <td className="p-4 border border-blue-300">{schedule.DoctorID}</td>
-                                    <td className="p-4 border border-blue-300">{schedule.DoctorName}</td>
-                                    <td className="p-4 border border-blue-300">{schedule.Specialization}</td>
-                                    <td className="p-4 border border-blue-300">{schedule.Date}</td>
-                                    <td className="p-4 border border-blue-300">
-                                        {schedule.TimeSlots && schedule.TimeSlots.length > 0 ? schedule.TimeSlots.join(', ') : 'No time slots available.'}
-                                    </td>
-                                    <td className="p-4 border border-blue-300">{schedule.MaxAppointments}</td>
-                                    <td className="p-4 border border-blue-300">{schedule.Location}</td>
+                            {filteredHospitals.map((hospital) => (
+                                <tr key={hospital._id} className="text-center bg-white even:bg-blue-50">
+                                    <td className="p-4 border border-blue-300">{hospital.HospitalID}</td>
+                                    <td className="p-4 border border-blue-300">{hospital.Name}</td>
+                                    <td className="p-4 border border-blue-300">{hospital.Departments.join(', ')}</td>
+                                    <td className="p-4 border border-blue-300">{hospital.ContactNo.join(', ')}</td>
+                                    <td className="p-4 border border-blue-300">{hospital.Email}</td>
+                                    <td className="p-4 border border-blue-300">{hospital.Address}</td>
+                                    <td className="p-4 border border-blue-300">{hospital.Doctors.join(', ')}</td>
                                     <td className="p-4 border border-blue-300">
                                         <div className="flex justify-center gap-4">
-                                            <Link to={`/doctorShedules/details/${schedule._id}`}>
+                                            <Link to={`/Hospital/details/${hospital._id}`}>
                                                 <BsInfoCircle className="text-2xl text-blue-800 hover:text-blue-600" />
                                             </Link>
-                                            <Link to={`/doctorShedules/edit/${schedule._id}`}>
+                                            <Link to={`/Hospital/edit/${hospital._id}`}>
                                                 <AiOutlineEdit className="text-2xl text-yellow-600 hover:text-yellow-500" />
                                             </Link>
-                                            <Link to={`/doctorShedules/delete/${schedule._id}`}>
+                                            <Link to={`/Hospital/delete/${hospital._id}`}>
                                                 <MdOutlineDelete className="text-2xl text-red-600 hover:text-red-500" />
                                             </Link>
                                         </div>
@@ -144,4 +140,4 @@ const ShowDoctorSchedule = () => {
     );
 };
 
-export default ShowDoctorSchedule;
+export default ShowHospital;

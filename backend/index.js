@@ -13,6 +13,7 @@ import doctorRoutes from './routes/doctorRoute.js';
 import Email from './routes/AppointmentEmail.js';
 
 import DoctorShedule_Route from './routes/DoctorShedule_Route.js';
+import Hospital_Route from './routes/Hospital_Route.js';
 
 
 // Create an instance of the Express application
@@ -49,6 +50,7 @@ mongoose.connect(mongoDBURL)
   app.use('/stocks', StockRoute);
   app.use('/doctors', Doctor_Route);
   app.use('/doctorShedules', DoctorShedule_Route);
+  app.use('/hospitals', Hospital_Route);
 
   app.use('/payments', paymentRoutes);
   app.use('/api/doctors', doctorRoutes);
