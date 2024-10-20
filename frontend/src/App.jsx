@@ -28,6 +28,10 @@ import DeleteDoctor from './pages/Doctor/DeleteDoctor';
 import DoctorLogin from './components/DoctorLogin';
 import ReadOneHome from './pages/Doctor/ReadOneHome';
 
+import ReadOneDoctorAdmin from './pages/Doctor/ReadOneDoctorAdmin';
+import EditDoctorAdmin from './pages/Doctor/EditDoctorAdmin';
+import DeleteDoctorAdmin from './pages/Doctor/DeleteDoctorAdmin';
+
 import CreateDoctorSchedule from './pages/DoctorShedule/CreateDoctorShedule.jsx';
 import DeletedoctorShedule from './pages/DoctorShedule/DeleteDoctorShedule.jsx';
 import EditDoctorSchedule from './pages/DoctorShedule/EditDoctorShedule.jsx';
@@ -85,6 +89,9 @@ const App = () => {
         <Route path='/doctorlogin' element={<DoctorLogin />} />
         <Route path="/docHome/:id" element={<ReadOneHome />} />
 
+        <Route path='/doctorsAdmin/details/:id' element={<ReadOneDoctorAdmin />} />
+        <Route path='/doctorsAdmin/edit/:id' element={<EditDoctorAdmin />} />
+        <Route path='/doctorsAdmin/delete/:id' element={<DeleteDoctorAdmin />} />
 
         <Route path='/doctorShedules/alldoctorShedules' element={<ShowAllDoctorsShedule />} />
         <Route path='/doctorShedules/create' element={<CreateDoctorSchedule />} />

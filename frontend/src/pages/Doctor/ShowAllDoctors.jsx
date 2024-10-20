@@ -112,13 +112,13 @@ const ShowDoctor = () => {
                                 </td>
                                 <td className='p-4 border border-blue-300'>
                                     <div className='flex justify-center gap-4'>
-                                        <Link to={`/doctors/details/${doctor._id}`}>
+                                        <Link to={`/doctorsAdmin/details/${doctor._id}`}>
                                             <BsInfoCircle className='text-2xl text-blue-800 hover:text-blue-600' />
                                         </Link>
-                                        <Link to={`/doctors/edit/${doctor._id}`}>
+                                        <Link to={`/doctorsAdmin/edit/${doctor._id}`}>
                                             <AiOutlineEdit className='text-2xl text-yellow-600 hover:text-yellow-500' />
                                         </Link>
-                                        <Link to={`/doctors/delete/${doctor._id}`}>
+                                        <Link to={`/doctorsAdmin/delete/${doctor._id}`}>
                                             <MdOutlineDelete className='text-2xl text-red-600 hover:text-red-500' />
                                         </Link>
                                     </div>
