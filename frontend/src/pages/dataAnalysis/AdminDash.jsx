@@ -27,7 +27,10 @@ const AdminDash = () => {
             <li className="hover:bg-gray-700">
               <Link to="/Hospital/allHospital" className="block px-4 py-2">All Hospitals</Link>
             </li>
-            
+            <li className="hover:bg-gray-700">
+              <Link to="/users" className="block px-4 py-2">All Patients</Link>
+            </li>
+
           </ul>
         </nav>
       </aside>
@@ -35,7 +38,7 @@ const AdminDash = () => {
       {/* Main Content */}
       <main className="flex-1 p-8">
         <h1 className="text-2xl font-bold mb-6">Admin Dashboard</h1>
-        
+
         <div className="grid grid-cols-2 gap-4">
           {/* Doctor Reports Box */}
           <div className="bg-white p-6 rounded shadow">
