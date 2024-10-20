@@ -65,7 +65,6 @@ app.use('/api/auth', authRoutes);
 app.use('/appointments', AppointmentRoute);
 
 app.use('/api', DoctorShedule_Route);
-
 app.use('/stocks', StockRoute);
 app.use('/doctors', Doctor_Route);
 

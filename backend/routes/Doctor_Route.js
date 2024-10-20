@@ -178,5 +178,17 @@ router.put('/:identifier', async (req, res) => {
         res.status(400).send({ message: 'Error updating doctor: ' + error.message });
     }
 });
+router.get('/:doctorId', async (req, res) => {
+    try {
+        const doctor = await Doctor.findOne({ DoctorID: req.params.doctorId });
+        if (!doctor) {
+            return res.status(404).json({ message: 'Doctor not found' });
+        }
+        res.json(doctor);
+    } catch (error) {
+        console.error('Error fetching doctor details:', error); // Log the error for debugging
+        res.status(500).json({ message: 'Server error' });
+    }
+});
 
 export default router;

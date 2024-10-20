@@ -1,7 +1,3 @@
-import React, { useState, useEffect, useContext } from 'react';
-import axios from 'axios';
-import { UserContext } from '../../context/UserContext';
-
 const UserAppointments = () => {
     const { user } = useContext(UserContext); // Retrieve user info from context
     const [appointments, setAppointments] = useState([]);
@@ -17,12 +13,34 @@ const UserAppointments = () => {
             }
 
             try {
-                const response = await axios.get(`http://localhost:5000/appointments/user/${user.user._id}`); // Adjust the endpoint as necessary
-                setAppointments(response.data);
+                const response = await axios.get(`http://localhost:5000/appointments/user/${user.user._id}`);
+                const appointmentsData = response.data;
+
+                // Fetch doctor names for each appointment
+                const appointmentsWithDoctors = await Promise.all(
+                    appointmentsData.map(async (appointment) => {
+                        try {
+                            // Fetch by DoctorID
+                            const doctorResponse = await axios.get(`http://localhost:5000/api/doctors/${appointment.doctorId}`);
+                            return {
+                                ...appointment,
+                                doctorName: doctorResponse.data.Name, // Use the doctor's name from the response
+                            };
+                        } catch (error) {
+                            console.error('Error fetching doctor details:', error.message);
+                            return {
+                                ...appointment,
+                                doctorName: 'N/A',
+                            };
+                        }
+                    })
+                );
+
+                setAppointments(appointmentsWithDoctors);
                 setLoading(false);
             } catch (error) {
-                console.error('Error fetching appointments:', error);
-                setError('Failed to fetch appointments');
+                console.error('Error fetching appointments:', error.message);
+                setError('Failed to fetch appointments or doctor details');
                 setLoading(false);
             }
         };
@@ -40,7 +58,7 @@ const UserAppointments = () => {
                 <div className="space-y-4">
                     {appointments.map((appointment) => (
                         <div key={appointment._id} className="bg-white shadow-md rounded-lg p-4">
-                            <h2 className="text-xl font-semibold">Appointment with Dr. {appointment.doctor.name}</h2>
+                            <h2 className="text-xl font-semibold">Appointment with Dr. {appointment.doctorName}</h2>
                             <p><strong>Date:</strong> {new Date(appointment.appointmentDate).toLocaleDateString()}</p>
                             <p><strong>Time:</strong> {appointment.appointmentTime}</p>
                             <p><strong>Hospital:</strong> {appointment.hospital}</p>
