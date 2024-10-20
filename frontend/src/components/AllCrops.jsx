@@ -63,7 +63,7 @@ const AllCrops = () => {
                 <div className="mb-6">
                     <input
                         type="text"
-                        className="h-12 w-1/3 p-3 border-2 border-teal-500 shadow-md bg-slate-50 text-black rounded-md focus:outline-none focus:ring-2 focus:ring-teal-500"
+                        className="h-12 w-1/3 p-3 border-2 border-blue-500 shadow-md bg-slate-50 text-black rounded-md focus:outline-none focus:ring-2 focus:ring-blue-500"
                         onChange={filter}
                         placeholder="Search Record"
                     />
@@ -71,20 +71,20 @@ const AllCrops = () => {
                 <div className='grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6'>
                     {search.map((crop) => (
                         <div
-                            className="p-5 border-2 border-teal-500 shadow-md bg-teal-700 text-white rounded-lg transition-transform transform hover:scale-105"
+                            className="p-5 border-2 border-blue-800 shadow-md bg-blue-500 text-white rounded-lg transition-transform transform hover:scale-105"
                             key={crop._id}
                         >
                             <h3 className='font-bold text-xl mb-3'>{crop.CropName}</h3>
                             <p>Date: {new Date(crop.createdAt).toLocaleDateString()}</p>
                             <div className='mt-5'>
                                 <button
-                                    className="bg-white hover:bg-teal-500 text-black font-bold py-2 px-4 rounded inline-flex items-center transition-colors duration-300"
+                                    className="bg-white hover:bg-blue-400 text-black font-bold py-2 px-4 rounded inline-flex items-center transition-colors duration-300"
                                     onClick={() => togglePopupFretilizer(crop)} // Pass the crop to the function
                                 >
                                     <span>View</span>
                                 </button>
                                 <button
-                                    className="bg-red-500 ml-4 hover:bg-teal-500 text-black font-bold py-2 px-4 rounded inline-flex items-center transition-colors duration-300"
+                                    className="bg-red-500 ml-4 hover:bg-red-800 text-white font-bold py-2 px-4 rounded inline-flex items-center transition-colors duration-300"
                                     onClick={() => deleteCrop(crop._id)} // Pass the crop to the function
                                 >
                                     <span>Delete</span>
