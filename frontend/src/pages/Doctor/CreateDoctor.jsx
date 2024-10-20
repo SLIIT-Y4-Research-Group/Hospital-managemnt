@@ -8,7 +8,6 @@ import { app } from "../../config/firebase";
 import Swal from 'sweetalert2';
 import backgroundImage from '../../assets/background.png'; // Import your background image
 
-
 const CreateDoctor = () => {
   const [image, setImage] = useState(null);
   const [name, setName] = useState('');
@@ -40,65 +39,78 @@ const CreateDoctor = () => {
     setWorkingHospitals(updatedHospitals);
   };
 
-  const handleSaveDoctor = () => {
-    const uploadImageAndSubmit = (downloadURL) => {
+  const validateForm = () => {
+    if (!name || !specialization || !contactNo || !email || !address || !basicSalary || !description || !Password) {
+      Swal.fire('Error', 'Please fill in all required fields.', 'error');
+      return false;
+    }
 
-    const data = {
-      image: downloadURL || null, // Set image to null if no image is uploaded
-      Name: name,
-      Specialization: specialization,
-      ContactNo: contactNo,
-      Email: email,
-      Address: address,
-      BasicSalary: basicSalary,
-      Description: description,
-      WorkingHospitals: workingHospitals,
-      Password: Password, 
-    };
-
-    setLoading(true);
-    axios
-      .post('http://localhost:5000/doctors', data)
-      .then(() => {
-        setLoading(false);
-        navigate('/');
-      })
-      .catch((error) => {
-        setLoading(false);
-        console.log(error);
-      });
+    // Additional validation can be added here (e.g., email format, password strength)
+    return true;
   };
 
-  if (image) {
-    const storageRef = ref(storage, `doctor_images/${image.name}`);
-    const uploadTask = uploadBytesResumable(storageRef, image);
+  const handleSaveDoctor = () => {
+    if (!validateForm()) return; // Only proceed if validation is successful
 
-    uploadTask.on(
-      "state_changed",
-      (snapshot) => { },
-      (error) => {
-        console.error(error);
-        setLoading(false);
-        Swal.fire('Error', 'Failed to upload image. Please try again.', 'error');
-      },
-      () => {
-        getDownloadURL(uploadTask.snapshot.ref).then(uploadImageAndSubmit);
-      }
-    );
-  } else {
-    uploadImageAndSubmit(null);
-  }
-};
+    const uploadImageAndSubmit = (downloadURL) => {
+      const data = {
+        image: downloadURL || null, // Set image to null if no image is uploaded
+        Name: name,
+        Specialization: specialization,
+        ContactNo: contactNo,
+        Email: email,
+        Address: address,
+        BasicSalary: basicSalary,
+        Description: description,
+        WorkingHospitals: workingHospitals,
+        Password: Password,
+      };
+
+      setLoading(true);
+      axios
+        .post('http://localhost:5000/doctors', data)
+        .then(() => {
+          setLoading(false);
+          Swal.fire('Success', 'Doctor created successfully!', 'success');
+          navigate('/');
+        })
+        .catch((error) => {
+          setLoading(false);
+          console.log(error);
+          Swal.fire('Error', 'Failed to create doctor. Please try again.', 'error');
+        });
+    };
+
+    if (image) {
+      const storageRef = ref(storage, `doctor_images/${image.name}`);
+      const uploadTask = uploadBytesResumable(storageRef, image);
+
+      uploadTask.on(
+        "state_changed",
+        (snapshot) => { },
+        (error) => {
+          console.error(error);
+          setLoading(false);
+          Swal.fire('Error', 'Failed to upload image. Please try again.', 'error');
+        },
+        () => {
+          getDownloadURL(uploadTask.snapshot.ref).then(uploadImageAndSubmit);
+        }
+      );
+    } else {
+      uploadImageAndSubmit(null);
+    }
+  };
 
   return (
     <div
-            className="flex items-center justify-center min-h-screen"
-            style={{ backgroundImage: `url(${backgroundImage})`, backgroundSize: 'cover', backgroundPosition: 'center' }}
-        >
+      className="flex items-center justify-center min-h-screen"
+      style={{ backgroundImage: `url(${backgroundImage})`, backgroundSize: 'cover', backgroundPosition: 'center' }}
+    >
       <div className="bg-white bg-opacity-90 shadow-md rounded-lg p-8 w-11/12 mt-5 mb-6 md:w-1/2">
         <h1 className="text-3xl font-bold text-center mb-6 text-blue-600">Create Doctor</h1>
         {loading ? <Spinner /> : (
-          <form className="space-y-4" onSubmit={handleSaveDoctor}>
+          <form className="space-y-4" onSubmit={(e) => { e.preventDefault(); handleSaveDoctor(); }}>
             <input 
               type="file" 
               onChange={(e) => setImage(e.target.files[0])} 

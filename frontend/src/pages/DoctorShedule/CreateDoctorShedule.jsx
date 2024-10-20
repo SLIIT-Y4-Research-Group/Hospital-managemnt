@@ -1,5 +1,4 @@
 import React, { useState, useEffect } from 'react';
-// import BackButton from '../../components/BackButton';
 import Spinner from '../../components/Spinner';
 import axios from 'axios';
 import { useNavigate } from 'react-router-dom';
@@ -27,7 +26,7 @@ const CreateDoctorSchedule = () => {
   const [timeSlots, setTimeSlots] = useState(['']);
   const [maxAppointments, setMaxAppointments] = useState('');
   const [location, setLocation] = useState('');
-  const [appointmentFee, setAppointmentFee] = useState(''); // New state for appointment fee
+  const [appointmentFee, setAppointmentFee] = useState('');
   const [loading, setLoading] = useState(false);
   const [doctors, setDoctors] = useState([]);
   const navigate = useNavigate();
@@ -77,14 +76,44 @@ const CreateDoctorSchedule = () => {
     setTimeSlots(updatedSlots);
   };
 
+  const validateForm = () => {
+    if (!doctorID) {
+      Swal.fire('Validation Error', 'Please select a doctor.', 'error');
+      return false;
+    }
+    if (!date) {
+      Swal.fire('Validation Error', 'Please select a date.', 'error');
+      return false;
+    }
+    if (!timeSlots.every(slot => slot)) {
+      Swal.fire('Validation Error', 'Please select all time slots.', 'error');
+      return false;
+    }
+    if (!maxAppointments) {
+      Swal.fire('Validation Error', 'Please enter the maximum number of appointments.', 'error');
+      return false;
+    }
+    if (!location) {
+      Swal.fire('Validation Error', 'Please enter the location.', 'error');
+      return false;
+    }
+    if (!appointmentFee) {
+      Swal.fire('Validation Error', 'Please enter the appointment fee.', 'error');
+      return false;
+    }
+    return true;
+  };
+
   const handleSaveSchedule = () => {
+    if (!validateForm()) return; // Stop if validation fails
+
     const data = {
       DoctorID: doctorID,
       DoctorName: doctorName,
       Specialization: specialization,
       Date: date,
       TimeSlots: timeSlots,
-      AppointmentFee: appointmentFee, // Include the appointment fee
+      AppointmentFee: appointmentFee,
       MaxAppointments: maxAppointments,
       Location: location,
     };
@@ -103,15 +132,12 @@ const CreateDoctorSchedule = () => {
       });
   };
 
-  console.log("Doctors state:", doctors); // Log doctors state before rendering
-
   return (
     <div
       className="flex items-center justify-center min-h-screen"
       style={{ backgroundImage: `url(${backgroundImage})`, backgroundSize: 'cover', backgroundPosition: 'center' }}
     >
       <div className="bg-white bg-opacity-90 shadow-md rounded-lg p-8 w-11/12 mt-5 mb-6 md:w-1/2">
-        {/* <BackButton destination='/doctorShedules/alldoctorShedules' /> */}
         <h1 className="text-3xl font-bold text-center mb-6 text-blue-600">Create Doctor Schedule</h1>
         {loading && <Spinner />}
         <div className="flex flex-col">
@@ -212,17 +238,16 @@ const CreateDoctorSchedule = () => {
           <div className="my-4">
             <label className="text-xl mr-4 text-gray-500">Appointment Fee</label>
             <input
-              type='text'
+              type='number'
               value={appointmentFee}
-              onChange={(e) => setAppointmentFee(e.target.value)} // Update appointment fee state
+              onChange={(e) => setAppointmentFee(e.target.value)}
               className="border-2 border-gray-300 rounded-md p-2 focus:outline-none focus:ring-2 focus:ring-blue-400 w-full"
-              placeholder="Enter Appointment Fee"
             />
           </div>
 
           <button
             onClick={handleSaveSchedule}
-            className="bg-blue-500 text-white py-2 rounded-md hover:bg-blue-600 transition"
+            className="bg-blue-600 text-white font-bold py-2 rounded-md hover:bg-blue-700 transition"
           >
             Save Schedule
           </button>
