@@ -124,7 +124,6 @@ const AllTreatment = () => {
                     </div>
                 )}
 
-                <PDF crops={treatments} />
             </div>
         </div>
     );

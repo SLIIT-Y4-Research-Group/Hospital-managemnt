@@ -123,7 +123,6 @@ const AllCrops = () => {
                     </div>
                 )}
 
-                <PDF crops={crops} />
             </div>
         </div>
     );
