@@ -68,6 +68,7 @@ import AddTreatment from './pages/Medical/addTreatment.jsx'
 import Users from './pages/Medical/users.jsx';
 import AllTreatment from './components/allTreatment.jsx';
 
+import HospitalReport from './pages/dataAnalysis/HospitalReport.jsx';
 
 const App = () => {
   const [user, setUser] = useState(null);
@@ -121,6 +122,11 @@ const App = () => {
         <Route path='/Hospital/details/:id' element={<ReadOneHospital />} />
         <Route path='/Hospital/edit/:id' element={<EditHospital />} />
         <Route path='/Hospital/delete/:id' element={<DeleteHospital />} />
+        
+        <Route path='/hospitalreport' element={<HospitalReport />} />
+        
+
+
 
         <Route path="/appointments" element={<CreateAppointment />} />
         <Route path="/payment" element={<Payment />} />
