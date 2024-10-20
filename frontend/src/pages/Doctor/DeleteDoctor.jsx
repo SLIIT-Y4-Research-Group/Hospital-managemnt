@@ -1,8 +1,10 @@
 import React, { useState } from 'react';
-import BackButton from '../../components/BackButton';
+// import BackButton from '../../components/BackButton';
 import Spinner from '../../components/Spinner';
 import axios from 'axios';
 import { useNavigate, useParams } from 'react-router-dom';
+import backgroundImage from '../../assets/background.png'; // Import your background image
+
 
 const DeleteDoctor = () => {
   const [loading, setLoading] = useState(false);
@@ -25,11 +27,19 @@ const DeleteDoctor = () => {
   };
   
   return (
-    <div className='p-4'>
-      <BackButton destination='/doctors/alldoctors' />
-      <h1 className='text-3xl my-4'>Delete Doctor</h1>
+      <div
+            className="flex items-center justify-center min-h-screen"
+            style={{
+                backgroundImage: `url(${backgroundImage})`,
+                backgroundSize: 'cover',
+                backgroundPosition: 'center',
+            }}
+        >      
+        {/* <BackButton destination='/doctors/alldoctors' /> */}
       {loading ? <Spinner /> : ''}
       <div className='flex flex-col items-center border-2 border-sky-400 rounded-xl w-[600px] p-8 mx-auto'>
+      <h1 className='text-3xl my-4'>Delete Doctor</h1>
+
         <h3 className='text-2xl'>Are You Sure You want to delete this Doctor?</h3>
 
         <button

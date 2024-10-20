@@ -1,9 +1,11 @@
 import React, { useState, useEffect } from 'react';
-import BackButton from '../../components/BackButton';
+// import BackButton from '../../components/BackButton';
 import Spinner from '../../components/Spinner';
 import axios from 'axios';
 import { useNavigate } from 'react-router-dom';
 import Swal from 'sweetalert2';
+import backgroundImage from '../../assets/background.png'; // Import your background image
+
 
 const timeOptions = [
   "09:00-10:00",
@@ -27,16 +29,14 @@ const CreateDoctorSchedule = () => {
   const [maxAppointments, setMaxAppointments] = useState('');
   const [location, setLocation] = useState('');
   const [loading, setLoading] = useState(false);
-  const [doctors, setDoctors] = useState([]); // Initialize as an empty array
+  const [doctors, setDoctors] = useState([]);
   const navigate = useNavigate();
 
   useEffect(() => {
     const fetchDoctors = async () => {
       try {
         const response = await axios.get('http://localhost:5000/doctors');
-        console.log("Doctors response:", response.data); // Log the response
-
-        // Extract doctors array from response
+        console.log("Doctors response:", response.data);
         setDoctors(Array.isArray(response.data.data) ? response.data.data : []);
       } catch (error) {
         console.error("Error fetching doctors:", error);
@@ -105,108 +105,113 @@ const CreateDoctorSchedule = () => {
   console.log("Doctors state:", doctors); // Log doctors state before rendering
 
   return (
-    <div className='p-4'>
-      <BackButton destination='/doctorShedules/alldoctorShedules' />
-      <h1 className='text-3xl my-4'>Create Doctor Schedule</h1>
-      {loading && <Spinner />}
-      <div className='flex flex-col border-2 border-sky-400 rounded-xl w-[600px] p-4 mx-auto'>
-        <div className='my-4'>
-          <label className='text-xl mr-4 text-gray-500'>Select Doctor</label>
-          <select
-            value={doctorID}
-            onChange={handleDoctorChange}
-            className='border-2 border-gray-500 px-4 py-2 w-full'
-          >
-            <option value="">Select a Doctor</option>
-            {doctors.length === 0 ? (
-              <option value="">No Doctors Available</option>
-            ) : (
-              doctors.map((doctor) => (
-                <option key={doctor.DoctorID} value={doctor.DoctorID}>
-                  {doctor.Name}
-                </option>
-              ))
-            )}
-          </select>
-        </div>
-        <div className='my-4'>
-          <label className='text-xl mr-4 text-gray-500'>Doctor Name</label>
-          <input
-            type='text'
-            value={doctorName}
-            readOnly
-            className='border-2 border-gray-500 px-4 py-2 w-full'
-          />
-        </div>
-        <div className='my-4'>
-          <label className='text-xl mr-4 text-gray-500'>Specialization</label>
-          <input
-            type='text'
-            value={specialization}
-            readOnly
-            className='border-2 border-gray-500 px-4 py-2 w-full'
-          />
-        </div>
-        <div className='my-4'>
-          <label className='text-xl mr-4 text-gray-500'>Date</label>
-          <input
-            type='date'
-            value={date}
-            onChange={(e) => setDate(e.target.value)}
-            className='border-2 border-gray-500 px-4 py-2 w-full'
-          />
-        </div>
-        <h3 className='text-xl text-gray-500 mb-4'>Time Slots</h3>
-        {timeSlots.map((slot, index) => (
-          <div key={index} className='my-4'>
-            <select
-              value={slot}
-              onChange={(e) => handleTimeSlotChange(index, e.target.value)}
-              className='border-2 border-gray-500 px-4 py-2 w-full'
-            >
-              <option value="">Select a Time Slot</option>
-              {timeOptions.map((time, i) => (
-                <option key={i} value={time}>{time}</option>
-              ))}
-            </select>
-            <button
-              onClick={() => handleRemoveTimeSlot(index)}
-              className='p-2 bg-red-300 w-full mt-2'
-            >
-              Remove
-            </button>
-          </div>
-        ))}
-        <button
-          onClick={handleAddTimeSlot}
-          className='p-2 bg-green-300 w-full mt-2'
+    <div
+            className="flex items-center justify-center min-h-screen"
+            style={{ backgroundImage: `url(${backgroundImage})`, backgroundSize: 'cover', backgroundPosition: 'center' }}
         >
-          Add Another Time Slot
-        </button>
+      <div className="bg-white bg-opacity-90 shadow-md rounded-lg p-8 w-11/12 mt-5 mb-6 md:w-1/2">
+        {/* <BackButton destination='/doctorShedules/alldoctorShedules' /> */}
+        <h1 className="text-3xl font-bold text-center mb-6">Create Doctor Schedule</h1>
+        {loading && <Spinner />}
+        <div className="flex flex-col">
+          <div className="my-4">
+            <label className="text-xl mr-4 text-gray-500">Select Doctor</label>
+            <select
+              value={doctorID}
+              onChange={handleDoctorChange}
+              className="border-2 border-gray-300 rounded-md p-2 focus:outline-none focus:ring-2 focus:ring-blue-400"
+            >
+              <option value="">Select a Doctor</option>
+              {doctors.length === 0 ? (
+                <option value="">No Doctors Available</option>
+              ) : (
+                doctors.map((doctor) => (
+                  <option key={doctor.DoctorID} value={doctor.DoctorID}>
+                    {doctor.Name}
+                  </option>
+                ))
+              )}
+            </select>
+          </div>
+          <div className="my-4">
+            <label className="text-xl mr-4 text-gray-500">Doctor Name</label>
+            <input
+              type='text'
+              value={doctorName}
+              readOnly
+              className="border-2 border-gray-300 rounded-md p-2 focus:outline-none focus:ring-2 focus:ring-blue-400 w-full"
+            />
+          </div>
+          <div className="my-4">
+            <label className="text-xl mr-4 text-gray-500">Specialization</label>
+            <input
+              type='text'
+              value={specialization}
+              readOnly
+              className="border-2 border-gray-300 rounded-md p-2 focus:outline-none focus:ring-2 focus:ring-blue-400 w-full"
+            />
+          </div>
+          <div className="my-4">
+            <label className="text-xl mr-4 text-gray-500">Date</label>
+            <input
+              type='date'
+              value={date}
+              onChange={(e) => setDate(e.target.value)}
+              className="border-2 border-gray-300 rounded-md p-2 focus:outline-none focus:ring-2 focus:ring-blue-400 w-full"
+            />
+          </div>
+          <h3 className="text-xl text-gray-500 mb-4">Time Slots</h3>
+          {timeSlots.map((slot, index) => (
+            <div key={index} className="my-4">
+              <select
+                value={slot}
+                onChange={(e) => handleTimeSlotChange(index, e.target.value)}
+                className="border-2 border-gray-300 rounded-md p-2 focus:outline-none focus:ring-2 focus:ring-blue-400 w-full"
+              >
+                <option value="">Select a Time Slot</option>
+                {timeOptions.map((time, i) => (
+                  <option key={i} value={time}>{time}</option>
+                ))}
+              </select>
+              <button
+                onClick={() => handleRemoveTimeSlot(index)}
+                className="p-2 bg-red-300 w-full mt-2 rounded-md hover:bg-red-400 transition"
+              >
+                Remove
+              </button>
+            </div>
+          ))}
+          <button
+            onClick={handleAddTimeSlot}
+            className="p-2 bg-green-300 w-full mt-2 rounded-md hover:bg-green-400 transition"
+          >
+            Add Another Time Slot
+          </button>
 
-        <div className='my-4'>
-          <label className='text-xl mr-4 text-gray-500'>Max Appointments</label>
-          <input
-            type='number'
-            value={maxAppointments}
-            onChange={(e) => setMaxAppointments(e.target.value)}
-            className='border-2 border-gray-500 px-4 py-2 w-full'
-          />
+          <div className="my-4">
+            <label className="text-xl mr-4 text-gray-500">Max Appointments</label>
+            <input
+              type='number'
+              value={maxAppointments}
+              onChange={(e) => setMaxAppointments(e.target.value)}
+              className="border-2 border-gray-300 rounded-md p-2 focus:outline-none focus:ring-2 focus:ring-blue-400 w-full"
+            />
+          </div>
+
+          <div className="my-4">
+            <label className="text-xl mr-4 text-gray-500">Location</label>
+            <input
+              type='text'
+              value={location}
+              onChange={(e) => setLocation(e.target.value)}
+              className="border-2 border-gray-300 rounded-md p-2 focus:outline-none focus:ring-2 focus:ring-blue-400 w-full"
+            />
+          </div>
+
+          <button className="p-2 bg-sky-300 w-full mt-4 rounded-md hover:bg-sky-400 transition" onClick={handleSaveSchedule}>
+            Create Schedule
+          </button>
         </div>
-
-        <div className='my-4'>
-          <label className='text-xl mr-4 text-gray-500'>Location</label>
-          <input
-            type='text'
-            value={location}
-            onChange={(e) => setLocation(e.target.value)}
-            className='border-2 border-gray-500 px-4 py-2 w-full'
-          />
-        </div>
-
-        <button className='p-2 bg-sky-300 m-8' onClick={handleSaveSchedule}>
-          Create Schedule
-        </button>
       </div>
     </div>
   );

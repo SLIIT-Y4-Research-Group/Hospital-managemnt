@@ -18,6 +18,12 @@ const AdminDash = () => {
             <li className="hover:bg-gray-700">
               <Link to="/doctoreport" className="block px-4 py-2">Doctor Report</Link>
             </li>
+            <li className="hover:bg-gray-700">
+              <Link to="/doctorShedules/alldoctorShedules" className="block px-4 py-2">All Doctor Shedules</Link>
+            </li>
+            <li className="hover:bg-gray-700">
+              <Link to="/doctors/alldoctors" className="block px-4 py-2">All Doctors</Link>
+            </li>
           </ul>
         </nav>
       </aside>

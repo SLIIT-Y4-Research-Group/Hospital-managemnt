@@ -80,7 +80,7 @@ const DoctorProfile = () => {
               </div>
 
               <div className="salary">
-                <h3>Basic Salary</h3>
+                <h3>Appointment Fee</h3>
                 <p>{doctor.BasicSalary}</p>
               </div>
 
