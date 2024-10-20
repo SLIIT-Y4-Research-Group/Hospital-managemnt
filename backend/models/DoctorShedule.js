@@ -25,6 +25,10 @@ const DoctorSheduleSchema = mongoose.Schema(
             type: [String], // Updated to be an array of strings
             required: true,
         },
+        AppointmentFee : {
+            type: String,
+            required: true,
+        },
         MaxAppointments : {
             type: String,
             required: true,

@@ -20,7 +20,7 @@ const AppointmentsList = ({ userId }) => {
         // Fetch doctor details for each appointment's doctorId
         const doctorIds = fetchedAppointments.map((appointment) => appointment.doctor);
         const doctorDetails = await Promise.all(
-          doctorIds.map((id) => axios.get(`http://localhost:5000/api/doctors/${id}`))
+          doctorIds.map((id) => axios.get(`http://localhost:5000/doctors/${id}`))
         );
 
         // Map doctor IDs to their names
