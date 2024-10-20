@@ -3,6 +3,9 @@ import React from 'react';
 
 import { Link } from 'react-router-dom';
 import 'tailwindcss/tailwind.css'; // Ensure Tailwind CSS is set up
+import doctorImage from './assets/medical-team.png';
+import talk from './assets/conversation.png';
+import appointment from './assets/appointment.png';
 
 const HomePage = ({ user }) => {
   return (
@@ -34,7 +37,7 @@ const HomePage = ({ user }) => {
           <div className="grid grid-cols-1 md:grid-cols-3 gap-8">
             <div className="bg-white p-6 rounded-lg shadow-lg text-center">
               <img
-                src="/images/doctor.png"
+                src={doctorImage}
                 alt="Doctors"
                 className="w-24 h-24 mx-auto mb-4"
               />
@@ -43,7 +46,7 @@ const HomePage = ({ user }) => {
             </div>
             <div className="bg-white p-6 rounded-lg shadow-lg text-center">
               <img
-                src="/images/appointment.png"
+                src={appointment}
                 alt="Appointments"
                 className="w-24 h-24 mx-auto mb-4"
               />
@@ -52,7 +55,7 @@ const HomePage = ({ user }) => {
             </div>
             <div className="bg-white p-6 rounded-lg shadow-lg text-center">
               <img
-                src="/images/consultation.png"
+                src={talk}
                 alt="Consultation"
                 className="w-24 h-24 mx-auto mb-4"
               />
