@@ -20,7 +20,7 @@ const AllTreatment = () => {
         }).catch((err) => {
             console.log(err);
         });
-    }, []);
+    }, [treatments]);
 
     const togglePopupFertilizer = (treatment) => {
         setSelectedTreatment(treatment); // Set the selected treatment
@@ -28,7 +28,7 @@ const AllTreatment = () => {
 
     const deleteTreatment = async (id) => {
         try {
-            await axios.delete('http://localhost:5000/Report/delete/' + id);
+            await axios.delete('http://localhost:5000/Treatment/delete/' + id);
         } catch (error) {
             console.log(error);
         }
@@ -83,6 +83,12 @@ const AllTreatment = () => {
                                 >
                                     <span>View</span>
                                 </button>
+                                <button
+                                    className="bg-red-500 ml-4 hover:bg-teal-500 text-black font-bold py-2 px-4 rounded inline-flex items-center transition-colors duration-300"
+                                    onClick={() => deleteTreatment(treatment._id)} // Pass the crop to the function
+                                >
+                                    <span>Delete</span>
+                                </button>
                             </div>
                         </div>
                     ))}
@@ -101,15 +107,16 @@ const AllTreatment = () => {
                                 </div>
                             </div>
                             <div className="modal_info">
-                                <h2 className='mb-4 border-b-2 text-xl'>Treatment Record</h2>
+                                <h2 className='mb-4 border-b-2 text-xl'>Treatment Plan</h2>
                                 <div className='info'>
                                     <h6>Id: <span className='text-gray-700'>{selectedTreatment._id}</span></h6>
                                     <h6>Patient Name: <span className='text-gray-700'>{selectedTreatment.CropArea}</span></h6>
-                                    <h6>Test Type: <span className='text-gray-700'>{selectedTreatment.CropName}</span></h6>
-                                    <h6>Test Name: <span className='text-gray-700'>{selectedTreatment.ScientificName}</span></h6>
-                                    <h6>Result: <span className='text-gray-700'>{selectedTreatment.Location}</span></h6>
-                                    <h6>Date: <span className='text-gray-700'>{selectedTreatment.GrowthStage}</span></h6>
-                                    <h6>Comment: <span className='text-gray-700'>{selectedTreatment.SoilpHLevel}</span></h6>
+                                    <h6>Treatment Name: <span className='text-gray-700'>{selectedTreatment.CropName}</span></h6>
+                                    <h6>Doctor Name: <span className='text-gray-700'>{selectedTreatment.ScientificName}</span></h6>
+                                    <h6>Start Date: <span className='text-gray-700'>{selectedTreatment.Location}</span></h6>
+                                    <h6>End Date: <span className='text-gray-700'>{selectedTreatment.GrowthStage}</span></h6>
+                                    <h6>Medication: <span className='text-gray-700'>{selectedTreatment.SoilpHLevel}</span></h6>
+                                    <h6>Frequency: <span className='text-gray-700'>{selectedTreatment.IrrigationType}</span></h6>
                                 </div>
                             </div>
                             <button className="mt-4 bg-teal-500 text-white py-2 px-4 rounded hover:bg-teal-600" onClick={() => setSelectedTreatment(null)}>Close</button>

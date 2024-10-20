@@ -61,51 +61,50 @@ function AddReport() {
         <>
             <div className="bg-[url('/bg.jpg')] bg-cover h-screen">
                 <div className="pt-12">
-                    <div className="flex justify-center bg-primary w-2/5 m-auto pt-8 pb-8 rounded-lg opacity-95">
+                    <div className="flex justify-center bg-slate-300 w-2/5 m-auto pt-8 pb-8 rounded-lg opacity-95">
                         <form className="w-full max-w-lg" onSubmit={handlesubmit}>
                             <div className="flex flex-wrap -mx-3 mb-6">
                                 <div className="w-full md:w-1/2 px-3 mb-6 md:mb-0">
-                                    <label className="block uppercase tracking-wide text-white text-xs font-bold mb-2" htmlFor="grid-first-name">
-                                        Crop Name
+                                    <label className="block uppercase tracking-wide text-black text-xs font-bold mb-2" htmlFor="grid-first-name">
+                                        Test Type
                                     </label>
-                                    <input className="appearance-none block w-full bg-gray-200 text-black border border-gray-200 rounded py-3 px-4 mb-3 leading-tight focus:outline-none focus:bg-white" id="grid-first-name" type="text" placeholder="Crop Name" onChange={(e) => setCropName(e.target.value)} required />
+                                    <input className="appearance-none block w-full bg-gray-200 text-black border border-gray-200 rounded py-3 px-4 mb-3 leading-tight focus:outline-none focus:bg-white" id="grid-first-name" type="text" onChange={(e) => setCropName(e.target.value)} required />
                                 </div>
                                 <div className="w-full md:w-1/2 px-3 mb-6 md:mb-0">
-                                    <label className="block uppercase tracking-wide text-white text-xs font-bold mb-2" htmlFor="grid-first-name">
-                                        Sciencetific Name
+                                    <label className="block uppercase tracking-wide text-black text-xs font-bold mb-2" htmlFor="grid-first-name">
+                                        Test Name
                                     </label>
-                                    <input className="appearance-none block w-full bg-gray-200 text-black border border-gray-200 rounded py-3 px-4 mb-3 leading-tight focus:outline-none focus:bg-white" id="grid-first-name" type="text" placeholder="Sciencetific Name" onChange={(e) => setScientificName(e.target.value)} />
+                                    <input className="appearance-none block w-full bg-gray-200 text-black border border-gray-200 rounded py-3 px-4 mb-3 leading-tight focus:outline-none focus:bg-white" id="grid-first-name" type="text" onChange={(e) => setScientificName(e.target.value)} />
+                                </div>
+                                <div className="w-full  px-3 mb-6 md:mb-0">
+                                    <label className="block uppercase tracking-wide text-black text-xs font-bold mb-2" htmlFor="grid-first-name">
+                                        Patient Name
+                                    </label>
+                                    <input className="appearance-none block w-full bg-gray-200 text-black border border-gray-200 rounded py-3 px-4 mb-3 leading-tight focus:outline-none focus:bg-white" id="grid-first-name" type="text" onChange={(e) => setSoilType(e.target.value)} />
                                 </div>
                                 <div className="w-full md:w-1/2 px-3 mb-6 md:mb-0">
-                                    <label className="block uppercase tracking-wide text-white text-xs font-bold mb-2" htmlFor="grid-first-name">
-                                        Location
+                                    <label className="block uppercase tracking-wide text-black text-xs font-bold mb-2" htmlFor="grid-first-name">
+                                        Result
                                     </label>
-                                    <input className="appearance-none block w-full bg-gray-200 text-black border border-gray-200 rounded py-3 px-4 mb-3 leading-tight focus:outline-none focus:bg-white" id="grid-first-name" type="text" placeholder="Location" onChange={(e) => setLocation(e.target.value)} required />
+                                    <input className="appearance-none block w-full bg-gray-200 text-black border border-gray-200 rounded py-3 px-4 mb-3 leading-tight focus:outline-none focus:bg-white" id="grid-first-name" type="text" onChange={(e) => setLocation(e.target.value)} required />
                                 </div>
                                 <div className="w-full md:w-1/2 px-3">
-                                    <label className="block uppercase tracking-wide text-white text-xs font-bold mb-2" htmlFor="grid-last-name">
-                                        Growth Stage
+                                    <label className="block uppercase tracking-wide text-black text-xs font-bold mb-2" htmlFor="grid-last-name">
+                                        Date
                                     </label>
-                                    <input className="appearance-none block w-full bg-gray-200 text-black border border-gray-200 rounded py-3 px-4 leading-tight focus:outline-none focus:bg-white focus:border-gray-500" id="grid-last-name" type="date" placeholder="Growth Stage" onChange={(e) => setGrowthStage(e.target.value)} required />
+                                    <input className="appearance-none block w-full bg-gray-200 text-black border border-gray-200 rounded py-3 px-4 leading-tight focus:outline-none focus:bg-white focus:border-gray-500" id="grid-last-name" type="date" onChange={(e) => setGrowthStage(e.target.value)} required />
                                 </div>
                             </div>
                             <div className="flex flex-wrap -mx-3 mb-6">
-                                <div className="w-full md:w-1/3 px-3 mb-6 md:mb-0">
-                                    <label className="block uppercase tracking-wide text-white text-xs font-bold mb-2" htmlFor="grid-city">
-                                        Soil pH Level
+                                <div className="w-full px-3 mb-6 md:mb-0">
+                                    <label className="block uppercase tracking-wide text-black text-xs font-bold mb-2" htmlFor="grid-city">
+                                        Comment
                                     </label>
-                                    <input className="appearance-none block w-full bg-gray-200 text-black border border-gray-200 rounded py-3 px-4 leading-tight focus:outline-none focus:bg-white focus:border-gray-500" id="grid-city" type="text" placeholder="Soil pH Level" onChange={(e) => setSoilpHLevel(e.target.value)} />
-                                </div>
-                                <div className="w-full md:w-2/3 px-3">
-                                    <label className="block uppercase tracking-wide text-white text-xs font-bold mb-2" htmlFor="grid-password">
-                                        Soil Type
-                                    </label>
-                                    <input className="appearance-none block w-full bg-gray-200 text-black border border-gray-200 rounded py-3 px-4 mb-3 leading-tight focus:outline-none focus:bg-white focus:border-gray-500" id="grid-password" type="text" placeholder="Soil Type" onChange={(e) => setSoilType(e.target.value)} required />
-                                    <p className="text-stone-300 text-xs italic">Make it as long and as crazy as you'd like</p>
+                                    <input className="appearance-none block w-full bg-gray-200 text-black border border-gray-200 rounded py-3 px-4 leading-tight focus:outline-none focus:bg-white focus:border-gray-500" id="grid-city" type="text" onChange={(e) => setSoilpHLevel(e.target.value)} />
                                 </div>
                             </div>
-                            <button className="w-full bg-secondary hover:bg-lime-500 text-grey-300 font-bold py-2 px-4 border-b-4 border-lime-800 hover:border-lime-900 rounded" type="submit">
-                                Add Crop
+                            <button className="w-full bg-teal-700 hover:bg-teal-500 text-white font-bold py-2 px-4 border-b-4 border-lime-800 hover:border-lime-900 rounded" type="submit">
+                                Add Report
                             </button>
                         </form>
                     </div>

@@ -143,7 +143,7 @@ function AddCrop() {
                                     <input className="appearance-none block w-full bg-gray-200 text-black border border-gray-200 rounded py-3 px-4 leading-tight focus:outline-none focus:bg-white focus:border-gray-500" id="grid-zip" type="text" placeholder="Irrigation Type" onChange={(e) => setIrrigationType(e.target.value)} required />
                                 </div>
                             </div>
-                            <button className="w-full bg-secondary hover:bg-lime-500 text-grey-300 font-bold py-2 px-4 border-b-4 border-lime-800 hover:border-lime-900 rounded" type="submit">
+                            <button className="w-full bg-teal-700 hover:bg-teal-500 text-grey-300 font-bold py-2 px-4 border-b-4 border-teal-800 hover:border-lime-900 rounded" type="submit">
                                 Add Crop
                             </button>
                         </form>

@@ -20,7 +20,7 @@ const AllCrops = () => {
         }).catch((err) => {
             console.log(err);
         });
-    }, []);
+    }, [crops]);
 
     const togglePopupFretilizer = (crop) => {
         setSelectedCrop(crop); // Set the selected crop
@@ -82,6 +82,12 @@ const AllCrops = () => {
                                     onClick={() => togglePopupFretilizer(crop)} // Pass the crop to the function
                                 >
                                     <span>View</span>
+                                </button>
+                                <button
+                                    className="bg-red-500 ml-4 hover:bg-teal-500 text-black font-bold py-2 px-4 rounded inline-flex items-center transition-colors duration-300"
+                                    onClick={() => deleteCrop(crop._id)} // Pass the crop to the function
+                                >
+                                    <span>Delete</span>
                                 </button>
                             </div>
                         </div>

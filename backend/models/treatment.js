@@ -5,6 +5,8 @@ const treatmentSchema = new mongoose.Schema({
     user_id: String,
     CropName: String,
     ScientificName: String,
+    RainFall: String,
+    Temperature: String,
     Location: String,
     CropArea: String,
     SoilpHLevel: String,

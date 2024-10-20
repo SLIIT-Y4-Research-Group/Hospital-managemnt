@@ -63,9 +63,9 @@ const EditItems = () => {
                 <div className="fixed mt-20">
                     <Sidebar />
                 </div>
-                <div className="flex-1 ml-64 p-6 bg-white bg-opacity-90 rounded-xl shadow-md mt-10 mr-10">
-                    <div className='pt-12'>
-                        <div className="flex justify-center bg-primary w-2/5 m-auto pt-8 pb-8 rounded-lg opacity-95">
+                <div className="flex-1 ml-72 p-6 bg-white bg-opacity-90 rounded-xl shadow-md mt-10 mr-10">
+                    <div className='pt-4'>
+                        <div className="flex justify-center bg-slate-300 w-2/5 m-auto p-8 rounded-lg opacity-95">
                             <form className="w-full max-w-lg" onSubmit={handleUpdate}>
                                 <div className="flex flex-wrap -mx-3 mb-6">
                                     <div className="w-full md:w-1/2 px-3 mb-6 md:mb-0">
@@ -87,7 +87,7 @@ const EditItems = () => {
                                             Blood Type
                                         </label>
                                         <select className="appearance-none block w-full bg-gray-200 text-black border border-slate-700 rounded py-3 px-4 leading-tight focus:outline-none focus:bg-white focus:border-gray-500"
-                                            name="BloodType" id="blood-type" onChange={handleOnChange} value={cropData.SoilpHLevel} required>
+                                            name="IrrigationType" id="blood-type" onChange={handleOnChange} value={cropData.IrrigationType} required>
                                             <option value="">Select Blood Type</option>
                                             <option value="A+">A+</option>
                                             <option value="A-">A-</option>
