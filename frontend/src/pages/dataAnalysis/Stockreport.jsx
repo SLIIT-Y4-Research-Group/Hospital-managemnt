@@ -205,7 +205,7 @@ const StockReport = () => {
                                             </button>
                                             <button
                                                 className="update-button"
-                                                onClick={() => navigate(`/stocks/update/${stock._id}`)}
+                                                onClick={() => navigate(`/stocks/${stock._id}`)}
                                             >
                                                 Update
                                             </button>
