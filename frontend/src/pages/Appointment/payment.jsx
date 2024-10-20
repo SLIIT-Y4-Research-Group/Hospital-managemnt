@@ -28,7 +28,7 @@ const PaymentForm = () => {
         try {
             const response = await axios.get(`http://localhost:5000/appointments/${appointmentId}`);
             const { doctor } = response.data; // Assuming the appointment object contains a reference to the doctor
-            const doctorResponse = await axios.get(`http://localhost:5000/api/doctors/${doctor}`); // Fetch the doctor details by ID
+            const doctorResponse = await axios.get(`http://localhost:5000/doctors/${doctor}`); // Fetch the doctor details by ID
             setDoctorSalary(doctorResponse.data.BasicSalary); // Assuming the doctor object has a 'BasicSalary' property
             setFormData((prevData) => ({
                 ...prevData,
