@@ -10,7 +10,7 @@ const PaymentForm = () => {
         cvv: '',
         amount: '',
     });
-    const [doctorSalary, setDoctorSalary] = useState(0); // State for storing the doctor's salary
+    const [doctorFee, setDoctorFee] = useState(0); // State for storing the doctor's fee
     const navigate = useNavigate();
     const location = useLocation();
     const [appointmentId, setAppointmentId] = useState('');
@@ -20,26 +20,31 @@ const PaymentForm = () => {
         const id = params.get('appointmentId');
         if (id) {
             setAppointmentId(id);
-            fetchDoctorSalary(id); // Fetch the doctor's salary when the appointment ID is available
+            fetchDoctorFee(id); // Fetch the doctor's fee when the appointment ID is available
         }
     }, [location]);
 
-    const fetchDoctorSalary = async (appointmentId) => {
+    const fetchDoctorFee = async (appointmentId) => {
         try {
             const response = await axios.get(`http://localhost:5000/appointments/${appointmentId}`);
-            const { doctor } = response.data; // Assuming the appointment object contains a reference to the doctor
-            const doctorResponse = await axios.get(`http://localhost:5000/api/doctors/${doctor}`); // Fetch the doctor details by ID
-            setDoctorSalary(doctorResponse.data.BasicSalary); // Assuming the doctor object has a 'BasicSalary' property
+
+            const { doctor } = response.data; // Ensure this exists
+            console.log('Doctor ID:', doctor); // Add this line to see the doctor ID
+            
+            // Fetch the doctor's fee using DoctorID
+            const doctorResponse = await axios.get(`http://localhost:5000/api/appointment-fee/${doctor}`);
+            setDoctorFee(doctorResponse.data.fee);
+
             setFormData((prevData) => ({
                 ...prevData,
-                amount: doctorResponse.data.BasicSalary, // Set the amount field to the doctor's salary
+                amount: doctorResponse.data.fee,
             }));
         } catch (error) {
-            console.error('Error fetching doctor salary:', error);
-            alert('Failed to fetch doctor salary: ' + (error.response ? error.response.data : error.message));
+            console.error('Error fetching doctor fee:', error);
+            alert('Failed to fetch doctor fee: ' + (error.response ? error.response.data.message : error.message));
         }
     };
-
+    
     const handleChange = (e) => {
         const { name, value } = e.target;
         setFormData({ ...formData, [name]: value });
@@ -57,14 +62,14 @@ const PaymentForm = () => {
 
             // Update appointment status to "Confirmed"
             await axios.put(`http://localhost:5000/appointments/${appointmentId}`, {
-                status: 'Confirmed',
+                status: 'Confirmed', // Set the new status
             });
 
             alert('Appointment status updated to confirmed');
             navigate('/profile'); // Redirect to a list of appointments or success page.
         } catch (error) {
             console.error('Error processing payment:', error);
-            alert('Payment failed: ' + (error.response ? error.response.data : error.message));
+            alert('Payment failed: ' + (error.response ? error.response.data.message : error.message));
         }
     };
 
@@ -73,8 +78,8 @@ const PaymentForm = () => {
             <h1 className="text-3xl font-bold text-center mb-6">Payment</h1>
             <form onSubmit={handleSubmit} className="bg-white shadow-md rounded-lg p-8 space-y-4">
                 <div className="mb-4">
-                    <label className="block text-gray-700">Doctor's Salary:</label>
-                    <p className="text-lg font-semibold text-gray-800">${doctorSalary}</p>
+                    <label className="block text-gray-700">Doctor's Fee:</label>
+                    <p className="text-lg font-semibold text-gray-800">${doctorFee}</p>
                 </div>
                 <input
                     type="text"
