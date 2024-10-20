@@ -1,69 +1,101 @@
-import { useState } from 'react';
+import React, { useState } from 'react';
 import axios from 'axios';
-import { useNavigate } from 'react-router-dom';
+import { Link } from 'react-router-dom'; // Import Link for navigation
+import Spinner from "./Spinner";
+import backgroundImage from '../assets/background3.jpg'; // Import your background image
 
-const Login = ({ setUser }) => {
-  const [formData, setFormData] = useState({ email: '', password: '' });
-  const navigate = useNavigate(); // Initialize the navigate function
+const Login = () => {
+    const [email, setEmail] = useState('');
+    const [password, setPassword] = useState('');
+    const [loading, setLoading] = useState(false);
+    const [error, setError] = useState('');
 
-  const handleChange = (e) => setFormData({ ...formData, [e.target.name]: e.target.value });
+    const handleSubmit = async (e) => {
+        e.preventDefault();
+        setLoading(true);
+        setError('');
 
-  const handleSubmit = async (e) => {
-    e.preventDefault();
-    const { email, password } = formData; // Destructure email and password from formData
-    try {
-        const response = await axios.post('http://localhost:5000/api/auth/login', { email, password });
-        const userData = response.data;
+        try {
+            const response = await axios.post('http://localhost:5000/login', { email, password });
+            // Handle successful login (e.g., redirect to dashboard)
+            console.log(response.data);
+        } catch (error) {
+            console.error("Login failed:", error);
+            setError("Invalid email or password.");
+        } finally {
+            setLoading(false);
+        }
+    };
 
-        // Save user to localStorage
-        localStorage.setItem('user', JSON.stringify(userData));
-
-        // Update the user context
-        setUser(userData);
-
-        // Navigate to the appointments page or dashboard
-        navigate('/');
-    } catch (error) {
-        console.error('Login failed', error);
-        alert('Login failed');
-    }
-};
-
-
-  
-  return (
-    <div className="max-w-md mx-auto mt-10">
-      <form onSubmit={handleSubmit} className="bg-white shadow-md rounded px-8 pt-6 pb-8 mb-4">
-        <h2 className="text-2xl font-bold mb-4 text-center">Login</h2>
-        <div className="mb-4">
-          <input
-            type="email"
-            name="email"
-            placeholder="Email"
-            onChange={handleChange}
-            required
-            className="shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline"
-          />
-        </div>
-        <div className="mb-6">
-          <input
-            type="password"
-            name="password"
-            placeholder="Password"
-            onChange={handleChange}
-            required
-            className="shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline"
-          />
-        </div>
-        <button
-          type="submit"
-          className="bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded focus:outline-none focus:shadow-outline w-full"
+    return (
+        <div
+            className="flex items-center justify-center min-h-screen p-6"
+            style={{
+                backgroundImage: `url(${backgroundImage})`,
+                backgroundSize: 'cover',
+                backgroundPosition: 'center',
+                filter: 'brightness(0.8)', // Slightly darken background
+            }}
         >
-          Login
-        </button>
-      </form>
-    </div>
-  );
+            <div className="bg-white rounded-lg shadow-lg p-8 max-w-md w-full">
+                <h1 className="text-3xl font-extrabold text-center text-blue-900 mb-6">Login</h1>
+
+                {loading && <Spinner />}
+
+                {error && <div className="text-red-600 text-center mb-4">{error}</div>}
+
+                <form onSubmit={handleSubmit}>
+                    <div className="mb-4">
+                        <label className="block text-gray-700 text-sm font-bold mb-2" htmlFor="email">
+                            Email
+                        </label>
+                        <input
+                            type="email"
+                            id="email"
+                            value={email}
+                            onChange={(e) => setEmail(e.target.value)}
+                            required
+                            className="shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline"
+                        />
+                    </div>
+
+                    <div className="mb-6">
+                        <label className="block text-gray-700 text-sm font-bold mb-2" htmlFor="password">
+                            Password
+                        </label>
+                        <input
+                            type="password"
+                            id="password"
+                            value={password}
+                            onChange={(e) => setPassword(e.target.value)}
+                            required
+                            className="shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline"
+                        />
+                    </div>
+
+                    <div className="mb-6">
+                        <input
+                            type="submit"
+                            name="submit"
+                            value="Log In"
+                            className="w-full py-2 px-4 bg-blue-500 text-white font-semibold rounded-md shadow-sm hover:bg-blue-600 focus:outline-none focus:ring-2 focus:ring-blue-500 focus:ring-opacity-50"
+                        />
+                    </div>
+                
+                <div className="text-center text-gray-600">
+                    <span>Don't have an account? <a href="/docSignup" className="text-blue-500 hover:underline">Sign up</a></span>
+                </div>
+                </form>
+
+                {/* Link to the doctor login page */}
+                <div className="mt-4 text-center">
+                    <Link to="/doctorLogin" className="text-blue-600 hover:underline text-sm">
+                        Go to Doctor Login
+                    </Link>
+                </div>
+            </div>
+        </div>
+    );
 };
 
 export default Login;

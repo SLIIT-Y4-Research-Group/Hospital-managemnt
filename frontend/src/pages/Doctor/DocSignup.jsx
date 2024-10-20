@@ -39,22 +39,22 @@ const CreateDoctor = () => {
     setWorkingHospitals(updatedHospitals);
   };
 
-  const validateForm = () => {
+  const validateInputs = () => {
     if (!name || !specialization || !contactNo || !email || !address || !basicSalary || !description || !Password) {
-      Swal.fire('Error', 'Please fill in all required fields.', 'error');
+      Swal.fire('Validation Error', 'All fields are required!', 'error');
       return false;
     }
 
-    // Additional validation can be added here (e.g., email format, password strength)
+    // Additional validation checks can be added here
     return true;
   };
 
   const handleSaveDoctor = () => {
-    if (!validateForm()) return; // Only proceed if validation is successful
+    if (!validateInputs()) return; // Only proceed if validation passes
 
     const uploadImageAndSubmit = (downloadURL) => {
       const data = {
-        image: downloadURL || null, // Set image to null if no image is uploaded
+        image: downloadURL || null,
         Name: name,
         Specialization: specialization,
         ContactNo: contactNo,
@@ -71,13 +71,11 @@ const CreateDoctor = () => {
         .post('http://localhost:5000/doctors', data)
         .then(() => {
           setLoading(false);
-          Swal.fire('Success', 'Doctor created successfully!', 'success');
-          navigate('/');
+          navigate('/doctorLogin');
         })
         .catch((error) => {
           setLoading(false);
           console.log(error);
-          Swal.fire('Error', 'Failed to create doctor. Please try again.', 'error');
         });
     };
 
