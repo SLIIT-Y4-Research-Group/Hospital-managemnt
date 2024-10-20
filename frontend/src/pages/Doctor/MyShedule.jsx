@@ -59,7 +59,7 @@ const ShowDoctorSchedule = () => {
             </div>
 
             <div className="schedule-content">
-                <h1 className="show-doctorSchedules-title text-3xl my-4 text-blue-800">Doctor's Schedule List</h1>
+                <h1 className="show-doctorSchedules-title text-3xl my-4 ">Doctor's Schedule List</h1>
                 <div className='flex flex-col md:flex-row justify-between items-center mb-6'>
                     <label htmlFor="search" className="sr-only">Search doctorSchedules</label>
                     <input
