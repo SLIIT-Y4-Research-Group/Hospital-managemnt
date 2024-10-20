@@ -1,7 +1,6 @@
 import React, { useEffect, useState } from 'react';
 import axios from 'axios';
 import { useParams } from 'react-router-dom';
-import BackButton from '../../components/BackButton';
 import Spinner from '../../components/Spinner';
 import backgroundImage from '../../assets/background.png'; // Import your background image
 
@@ -30,8 +29,7 @@ const ShowDoctor = () => {
             style={{ backgroundImage: `url(${backgroundImage})`, backgroundSize: 'cover', backgroundPosition: 'center' }}
         >
             <div className="bg-white bg-opacity-90 shadow-md rounded-lg p-8 w-11/12 mt-5 mb-6 md:w-1/2">
-                <BackButton destination="/doctors/alldoctors" />
-                <h1 className="text-3xl my-4 text-center">Show Doctor</h1>
+                <h1 className="text-3xl my-4 text-center text-blue-600">Show Doctor</h1>
                 {loading ? (
                     <Spinner />
                 ) : (

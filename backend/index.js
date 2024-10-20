@@ -20,6 +20,9 @@ import cropRoutesF from "./routes/cropRoute.js";
 import reportRoutes from "./routes/reportRoute.js";
 import treatmentRoutes from "./routes/treatmentRoute.js";
 import userRoute from "./routes/userRoute.js";
+
+import db from './db.js';
+// Import the singleton instance
 // Create an instance of the Express application
 const app = express();
 
@@ -37,16 +40,19 @@ app.get('/', (req, res) => {
 
 
 // Connecting to the MongoDB database
-mongoose.connect(mongoDBURL)
-  .then(() => {
-    console.log('App connected to database');
-    app.listen(PORT, () => {
-      console.log(`App is listening on port: ${PORT}`);
-    });
-  })
-  .catch((error) => {
-    console.log(error);
-  });
+// mongoose.connect(mongoDBURL)
+//   .then(() => {
+//     console.log('App connected to database');
+//     app.listen(PORT, () => {
+//       console.log(`App is listening on port: ${PORT}`);
+//     });
+//   })
+//   .catch((error) => {
+//     console.log(error);
+//   });
+app.listen(PORT, () => {
+  console.log(`App is listening on port: ${PORT}`);
+});
 
 app.use('/api/auth', authRoutes);
 app.use('/appointments', AppointmentRoute);

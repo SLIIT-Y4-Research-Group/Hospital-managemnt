@@ -19,6 +19,7 @@ import AdminDash from './pages/dataAnalysis/AdminDash.jsx';
 import AdminDashboard from './pages/AdminDashBoard.jsx';
 
 import DoctorCards from './pages/Doctor/DoctorCards.jsx';
+import DoctorSchedule  from './pages/Doctor/DoctorSchedule';
 import SpecializationCard from './pages/Doctor/SpecializationCard';
 import ShowAllDoctors from './pages/Doctor/ShowAllDoctors';
 import ReadOneDoctor from './pages/Doctor/ReadOneDoctor';
@@ -27,6 +28,10 @@ import EditDoctor from './pages/Doctor/EditDoctor';
 import DeleteDoctor from './pages/Doctor/DeleteDoctor';
 import DoctorLogin from './components/DoctorLogin';
 import ReadOneHome from './pages/Doctor/ReadOneHome';
+
+import ReadOneDoctorAdmin from './pages/Doctor/ReadOneDoctorAdmin';
+import EditDoctorAdmin from './pages/Doctor/EditDoctorAdmin';
+import DeleteDoctorAdmin from './pages/Doctor/DeleteDoctorAdmin';
 
 import CreateDoctorSchedule from './pages/DoctorShedule/CreateDoctorShedule.jsx';
 import DeletedoctorShedule from './pages/DoctorShedule/DeleteDoctorShedule.jsx';
@@ -76,6 +81,7 @@ const App = () => {
 
         {/* Doctor Routes */}
         <Route path='/doctors/cards' element={<DoctorCards />} />
+        <Route path='/DoctorSchedule/:doctorId' element={<DoctorSchedule />} />
         <Route path='/SpecializationCard' element={<SpecializationCard />} />
         <Route path='/doctors/alldoctors' element={<ShowAllDoctors />} />
         <Route path='/doctors/details/:id' element={<ReadOneDoctor />} />
@@ -85,6 +91,9 @@ const App = () => {
         <Route path='/doctorlogin' element={<DoctorLogin />} />
         <Route path="/docHome/:id" element={<ReadOneHome />} />
 
+        <Route path='/doctorsAdmin/details/:id' element={<ReadOneDoctorAdmin />} />
+        <Route path='/doctorsAdmin/edit/:id' element={<EditDoctorAdmin />} />
+        <Route path='/doctorsAdmin/delete/:id' element={<DeleteDoctorAdmin />} />
 
         <Route path='/doctorShedules/alldoctorShedules' element={<ShowAllDoctorsShedule />} />
         <Route path='/doctorShedules/create' element={<CreateDoctorSchedule />} />

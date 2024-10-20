@@ -63,7 +63,7 @@ const AllTreatment = () => {
                 <div className="mb-6">
                     <input
                         type="text"
-                        className="h-12 w-1/3 p-3 border-2 border-teal-500 shadow-md bg-slate-50 text-black rounded-md focus:outline-none focus:ring-2 focus:ring-teal-500"
+                        className="h-12 w-1/3 p-3 border-2 border-blue-500 shadow-md bg-slate-50 text-black rounded-md focus:outline-none focus:ring-2 focus:ring-teal-500"
                         onChange={filter}
                         placeholder="Search Record"
                     />
@@ -71,20 +71,20 @@ const AllTreatment = () => {
                 <div className='grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6'>
                     {search.map((treatment) => (
                         <div
-                            className="p-5 border-2 border-teal-500 shadow-md bg-teal-700 text-white rounded-lg transition-transform transform hover:scale-105"
+                            className="p-5 border-2 border-blue-700 shadow-md bg-blue-500 text-white rounded-lg transition-transform transform hover:scale-105"
                             key={treatment._id}
                         >
                             <h3 className='font-bold text-xl mb-3'>{treatment.CropName}</h3>
                             <p>Date: {new Date(treatment.createdAt).toLocaleDateString()}</p>
                             <div className='mt-5'>
                                 <button
-                                    className="bg-white hover:bg-teal-500 text-black font-bold py-2 px-4 rounded inline-flex items-center transition-colors duration-300"
+                                    className="bg-white hover:bg-blue-500 text-black font-bold py-2 px-4 rounded inline-flex items-center transition-colors duration-300"
                                     onClick={() => togglePopupFertilizer(treatment)} // Pass the treatment to the function
                                 >
                                     <span>View</span>
                                 </button>
                                 <button
-                                    className="bg-red-500 ml-4 hover:bg-teal-500 text-black font-bold py-2 px-4 rounded inline-flex items-center transition-colors duration-300"
+                                    className="bg-red-500 ml-4 hover:bg-red-800 text-white font-bold py-2 px-4 rounded inline-flex items-center transition-colors duration-300"
                                     onClick={() => deleteTreatment(treatment._id)} // Pass the crop to the function
                                 >
                                     <span>Delete</span>
@@ -113,8 +113,8 @@ const AllTreatment = () => {
                                     <h6>Patient Name: <span className='text-gray-700'>{selectedTreatment.CropArea}</span></h6>
                                     <h6>Treatment Name: <span className='text-gray-700'>{selectedTreatment.CropName}</span></h6>
                                     <h6>Doctor Name: <span className='text-gray-700'>{selectedTreatment.ScientificName}</span></h6>
-                                    <h6>Start Date: <span className='text-gray-700'>{selectedTreatment.Location}</span></h6>
-                                    <h6>End Date: <span className='text-gray-700'>{selectedTreatment.GrowthStage}</span></h6>
+                                    <h6>Start Date: <span className='text-gray-700'>{selectedTreatment.RainFall}</span></h6>
+                                    <h6>End Date: <span className='text-gray-700'>{selectedTreatment.Temperature}</span></h6>
                                     <h6>Medication: <span className='text-gray-700'>{selectedTreatment.SoilpHLevel}</span></h6>
                                     <h6>Frequency: <span className='text-gray-700'>{selectedTreatment.IrrigationType}</span></h6>
                                 </div>

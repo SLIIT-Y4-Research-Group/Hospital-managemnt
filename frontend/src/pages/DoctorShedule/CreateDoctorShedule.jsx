@@ -112,7 +112,7 @@ const CreateDoctorSchedule = () => {
     >
       <div className="bg-white bg-opacity-90 shadow-md rounded-lg p-8 w-11/12 mt-5 mb-6 md:w-1/2">
         {/* <BackButton destination='/doctorShedules/alldoctorShedules' /> */}
-        <h1 className="text-3xl font-bold text-center mb-6">Create Doctor Schedule</h1>
+        <h1 className="text-3xl font-bold text-center mb-6 text-blue-600">Create Doctor Schedule</h1>
         {loading && <Spinner />}
         <div className="flex flex-col">
           <div className="my-4">

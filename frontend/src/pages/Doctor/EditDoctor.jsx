@@ -76,7 +76,7 @@ const EditDoctor = () => {
         .put(`http://localhost:5000/doctors/${id}`, data)
         .then(() => {
           setLoading(false);
-          navigate('/doctors/alldoctors'); // Navigate after successful update
+          navigate(`/docHome/${id}`); // Navigate after successful update
         })
         .catch((error) => {
           setLoading(false);
@@ -121,7 +121,7 @@ const EditDoctor = () => {
     >
       <div className='bg-white bg-opacity-90 shadow-md rounded-lg p-8 w-11/12 mt-5 mb-6 md:w-1/2'>
         {/* <BackButton destination='/doctors/alldoctors' /> */}
-        <h1 className='text-3xl font-bold text-center my-4'>Edit Doctor</h1>
+        <h1 className='text-3xl font-bold text-center my-4 text-blue-600'>Edit Doctor</h1>
         {loading ? <Spinner /> : (
           <div className='flex flex-col'>
             <div className='my-4'>
