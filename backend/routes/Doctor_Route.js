@@ -64,6 +64,9 @@ router.get('/', async (request, response) => {
     }
 });
 
+
+
+
 // Route for Get One Doctor from database by id
 router.get('/:id', async (request, response) => {
     try {

@@ -14,10 +14,10 @@ import Navbar from './components/Navbar.jsx';
 
 import StockReport from './pages/dataAnalysis/stockreport.jsx';
 import AddStocks from './pages/dataAnalysis/AddStocks.jsx';
-import DoctorsReport from './pages/dataAnalysis/DoctorsReport.jsx'; // Only keep this one
+import DoctorReport from './pages/dataAnalysis/DoctorReport.jsx'; // Only keep this one
 import AdminDash from './pages/dataAnalysis/AdminDash.jsx';
 import AdminDashboard from './pages/AdminDashBoard.jsx';
-
+import ViewStocks from './pages/dataAnalysis/ViewStocks.jsx';
 import DoctorCards from './pages/Doctor/DoctorCards.jsx';
 import DoctorSchedule  from './pages/Doctor/DoctorSchedule';
 import SpecializationCard from './pages/Doctor/SpecializationCard';
@@ -27,6 +27,7 @@ import CreateDoctor from './pages/Doctor/CreateDoctor';
 import EditDoctor from './pages/Doctor/EditDoctor';
 import DeleteDoctor from './pages/Doctor/DeleteDoctor';
 import DoctorLogin from './components/DoctorLogin';
+
 import ReadOneHome from './pages/Doctor/ReadOneHome';
 
 import ReadOneDoctorAdmin from './pages/Doctor/ReadOneDoctorAdmin';
@@ -43,6 +44,7 @@ import MyAppoitments from './pages/Doctor/MyAppointments.jsx';
 import MyShedule from './pages/Doctor/MyShedule';
 import DocSignup from './pages/Doctor/DocSignup.jsx';
 
+
 import CreateHospital from './pages/Hospital/CreateHospital.jsx';
 import DeleteHospital from './pages/Hospital/DeleteHospital.jsx';
 import EditHospital from './pages/Hospital/EditHospital.jsx';
@@ -50,6 +52,11 @@ import ReadOneHospital from './pages/Hospital/ReadOneHospital';
 import ShowAllHospital from './pages/Hospital/ShowAllHospital';
 
 import AppointmentsTable from './pages/Appointment/AllAppointmentTable.jsx';
+
+import AppointmentReport from './pages/dataAnalysis/AppoinmentReport.jsx';
+import DoctorPdf from './pages/dataAnalysis/DoctorPdf.jsx';
+import "slick-carousel/slick/slick.css"; 
+import "slick-carousel/slick/slick-theme.css";
 
 
 import AddCrop from './pages/Medical/addCrop';
@@ -61,6 +68,7 @@ import AddTreatment from './pages/Medical/addTreatment.jsx'
 import Users from './pages/Medical/users.jsx';
 import AllTreatment from './components/allTreatment.jsx';
 
+import HospitalReport from './pages/dataAnalysis/HospitalReport.jsx';
 
 const App = () => {
   const [user, setUser] = useState(null);
@@ -77,8 +85,11 @@ const App = () => {
         <Route path="/admin" element={<AdminDashboard />} />
         <Route path="/stockreport" element={<StockReport />} />
         <Route path="/addstock" element={<AddStocks />} />
-        <Route path="/doctoreport" element={<DoctorsReport />} />
+        <Route path="/apoinreport" element={<AppointmentReport />} />
+        <Route path="/doctoreport" element={<DoctorReport />} />
+        <Route path="/doctorpdf" element={<DoctorPdf />} />
         <Route path="/admindash" element={<AdminDash />} />
+        <Route path="/viewstock" element={<ViewStocks />} />
 
         {/* Doctor Routes */}
         <Route path='/doctors/cards' element={<DoctorCards />} />
@@ -111,6 +122,11 @@ const App = () => {
         <Route path='/Hospital/details/:id' element={<ReadOneHospital />} />
         <Route path='/Hospital/edit/:id' element={<EditHospital />} />
         <Route path='/Hospital/delete/:id' element={<DeleteHospital />} />
+        
+        <Route path='/hospitalreport' element={<HospitalReport />} />
+        
+
+
 
         <Route path="/appointments" element={<CreateAppointment />} />
         <Route path="/payment" element={<Payment />} />

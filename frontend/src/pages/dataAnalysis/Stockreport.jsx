@@ -16,22 +16,22 @@ const StockReport = () => {
                 const stockItems = response.data;
                 setStocks(stockItems);
 
-                // Calculate total stock count for chart
+                // Calculate total stock count for pie chart
                 const totalStock = stockItems.reduce((total, item) => total + item.quantity, 0);
 
-                // Map data for chart
+                // Data for pie chart
                 const drugNames = stockItems.map(item => item.drugName); // Extract drug names
                 const percentages = stockItems.map(item => (item.quantity / totalStock) * 100); // Calculate percentage
 
-                // Prepare chart options
-                const options = {
+                // Prepare pie chart options
+                const pieOptions = {
                     series: percentages,
                     chart: {
-                        width: '70%', // Reduce the width
-                        height: '70%', // Reduce the height
+                        width: '100%', // Make pie chart responsive
+                        height: '350px', // Fixed height for better readability
                         type: 'pie',
                     },
-                    labels: drugNames,  // Use drug names as labels
+                    labels: drugNames,
                     theme: {
                         monochrome: {
                             enabled: true,
@@ -42,14 +42,6 @@ const StockReport = () => {
                             dataLabels: {
                                 offset: -5,
                             },
-                        },
-                    },
-                    grid: {
-                        padding: {
-                            top: 0,
-                            bottom: 0,
-                            left: 0,
-                            right: 0,
                         },
                     },
                     dataLabels: {
@@ -63,9 +55,53 @@ const StockReport = () => {
                     },
                 };
 
-                // Render chart with updated options
-                const chart = new ApexCharts(document.querySelector("#chart"), options);
-                chart.render();
+                // Render pie chart
+                const pieChart = new ApexCharts(document.querySelector("#pie-chart"), pieOptions);
+                pieChart.render();
+
+                // Data for range bar chart (drug lifetime from manufacturing date to expiry date)
+                const rangeBarSeries = stockItems.map(item => ({
+                    name: item.drugName,
+                    data: [
+                        {
+                            x: item.drugName,
+                            y: [
+                                new Date(item.manfDate).getTime(),
+                                new Date(item.expireDate).getTime(),
+                            ],
+                        },
+                    ],
+                }));
+
+                // Prepare range bar chart options
+                const rangeBarOptions = {
+                    series: rangeBarSeries,
+                    chart: {
+                        width: '100%', // Make range bar chart responsive
+                        height: '350px', // Fixed height for better readability
+                        type: 'rangeBar',
+                    },
+                    plotOptions: {
+                        bar: {
+                            horizontal: true,
+                        },
+                    },
+                    xaxis: {
+                        type: 'datetime',
+                        title: {
+                            text: 'Date',
+                        },
+                    },
+                    yaxis: {
+                        title: {
+                            text: 'Drug Name',
+                        },
+                    },
+                };
+
+                // Render range bar chart
+                const rangeBarChart = new ApexCharts(document.querySelector("#range-bar-chart"), rangeBarOptions);
+                rangeBarChart.render();
             } catch (error) {
                 console.error("Error fetching stock data:", error);
             }
@@ -84,17 +120,34 @@ const StockReport = () => {
         navigate('/doctorsreport'); // Ensure this route exists in your app's routing configuration
     };
 
+    // Function to delete a stock item
+    const handleDeleteStock = async (id) => {
+        try {
+            await axios.delete(`http://localhost:5000/stocks/${id}`);
+            setStocks(stocks.filter(stock => stock._id !== id)); // Remove the deleted stock from the list
+        } catch (error) {
+            console.error("Error deleting stock item:", error);
+        }
+    };
+
+    // Get the current date
+    const currentDate = new Date();
+
     return (
-        <div className="stock-report-container">
-            <h1>Stock Report</h1>
+        <div className="stock-report-container" >
+             <h1 className="show-Doctors-title text-4xl my-4 text-blue-800">Stock Report</h1>
+            
 
             {/* Container with white background for the chart and table */}
             <div className="report-content">
-                {/* Pie Chart */}
-                <div id="chart" className="chart-container"></div>
+                {/* Charts side by side */}
+                <div className="charts-container">
+                    {/* Pie Chart */}
+                    <div id="pie-chart" className="chart-container"></div>
 
-                {/* Space between chart and table */}
-                <div className="chart-space"></div>
+                    {/* Range Bar Chart */}
+                    <div id="range-bar-chart" className="chart-container"></div>
+                </div>
 
                 {/* Action buttons */}
                 <div className="button-container">
@@ -115,23 +168,57 @@ const StockReport = () => {
                             <th>Expiry Date</th>
                             <th>Price</th>
                             <th>Quantity</th>
+                            <th>Actions</th> {/* New actions column */}
                         </tr>
                     </thead>
                     <tbody>
                         {stocks.length === 0 ? (
                             <tr>
-                                <td colSpan="5">No stock details available</td>
+                                <td colSpan="6">No stock details available</td>
                             </tr>
                         ) : (
-                            stocks.map(stock => (
-                                <tr key={stock._id}>
-                                    <td>{stock.drugName}</td>
-                                    <td>{new Date(stock.manfDate).toLocaleDateString()}</td>
-                                    <td>{new Date(stock.expireDate).toLocaleDateString()}</td>
-                                    <td>{stock.price}</td>
-                                    <td>{stock.quantity}</td>
-                                </tr>
-                            ))
+                            stocks.map(stock => {
+                                const expireDate = new Date(stock.expireDate);
+                                const daysToExpiry = (expireDate - currentDate) / (1000 * 60 * 60 * 24); // Days until expiry
+
+                                // Determine row color based on expiry status
+                                let rowClass = '';
+                                if (daysToExpiry < 0) {
+                                    rowClass = 'expired'; // Red for expired
+                                } else if (daysToExpiry <= 5) {
+                                    rowClass = 'expiring-soon'; // Yellow for soon-to-expire
+                                }
+
+                                return (
+                                    <tr key={stock._id} className={rowClass}>
+                                        <td>{stock.drugName}</td>
+                                        <td>{new Date(stock.manfDate).toLocaleDateString()}</td>
+                                        <td>{expireDate.toLocaleDateString()}</td>
+                                        <td>{stock.price}</td>
+                                        <td>{stock.quantity}</td>
+                                        <td>
+                                        <button
+                                                className="view-button"
+                                                onClick={() => navigate(`/stocks/viewstock/${stock._id}`)}
+                                            >
+                                                View
+                                            </button>
+                                            <button
+                                                className="update-button"
+                                                onClick={() => navigate(`/stocks/${stock._id}`)}
+                                            >
+                                                Update
+                                            </button>
+                                            <button
+                                                className="delete-button"
+                                                onClick={() => handleDeleteStock(stock._id)}
+                                            >
+                                                Delete
+                                            </button>
+                                        </td>
+                                    </tr>
+                                );
+                            })
                         )}
                     </tbody>
                 </table>

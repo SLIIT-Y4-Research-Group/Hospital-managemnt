@@ -1,90 +1,138 @@
-/* Background Image for the Page */
+/* StockReport.css */
+
+/* Add background image from assets */
 .stock-report-container {
+    padding: 20px;
+    background-image: url('/assets/blue_bg.jpg'); /* Make sure the path is correct relative to your project structure */
+    background-size: cover;
+    background-position: center;
+    min-height: 100vh;
+    font-family: Arial, sans-serif;
+}
+
+h1 {
+    text-align: center;
+    margin-bottom: 20px;
+    color: #333;
+}
+
+.report-content {
     display: flex;
     flex-direction: column;
     align-items: center;
-    padding: 20px;
-    background-image: url('../assets/blue_bg.jpg'); /* Replace with the actual path to your background image */
-    background-size: cover;
-    background-position: center;
-    height: 100vh; /* Ensure the background image covers the entire viewport */
-    width: 100%;
-}
-
-/* White Background Container for the Chart and Table */
-.report-content {
-    background-color: rgba(255, 255, 255, 0.9); /* White with slight transparency for the container */
+    background-color: lightblue; /* White background with slight transparency */
     padding: 20px;
     border-radius: 10px;
-    box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1); /* Subtle shadow for container */
-    width: 90%; /* Adjust the width */
-    max-width: 1200px; /* Limit the maximum width */
-    margin-top: 30px; /* Space from the top */
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+    max-width: 1200px;
+    margin: 0 auto;
 }
 
-/* Chart Container */
-.chart-container {
+/* Flexbox layout for side-by-side charts */
+.charts-container {
     display: flex;
-    justify-content: center; /* Center the chart */
+    justify-content: space-between;
+    margin-bottom: 20px;
     width: 100%;
-    height: 300px; /* Reduced chart height */
 }
 
-/* Space between Chart and Table */
-.chart-space {
-    margin-bottom: 20px; /* Space between the chart and the table */
+.chart-container {
+    width: 70%; /* Increased chart size to take up more space */
+    padding: 30px; /* Added more padding for larger charts */
+    background-color: white;
+    border-radius: 8px;
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
 }
 
-/* Button Styles */
-.add-stock-button {
-    margin-bottom: 20px; /* Space between the button and the table */
-    background-color: #250b99; /* Button color */
-    color: white;
+/* Button styles */
+.button-container {
+    display: flex;
+    justify-content: center;
+    gap: 10px;
+    margin-bottom: 20px;
+}
+
+.add-stock-button,
+.doctor-report-button {
     padding: 10px 20px;
+    font-size: 16px;
     border: none;
     border-radius: 5px;
     cursor: pointer;
-    transition: background-color 0.3s;
+    transition: background-color 0.3s ease;
+}
+
+.add-stock-button {
+    background-color: #4caf50;
+    color: white;
 }
 
 .add-stock-button:hover {
-    background-color: #3c3ce1; /* Darker green on hover */
+    background-color: #45a049;
 }
 
-/* Stock Table Styling */
+.doctor-report-button {
+    background-color: #2196f3;
+    color: white;
+}
+
+.doctor-report-button:hover {
+    background-color: #1976d2;
+}
+
+/* Stock table styling */
 .stock-table {
     width: 100%;
+    max-width: 900px;
     border-collapse: collapse;
-    margin-top: 10px;
+    margin-top: 20px;
 }
 
-.stock-table th, .stock-table td {
+.stock-table th,
+.stock-table td {
     border: 1px solid #ddd;
-    padding: 8px;
+    padding: 12px;
+    text-align: center;
 }
 
 .stock-table th {
-    background-color: #3c3ce1;
+    background-color: #f2f2f2;
+}
+
+.expired {
+    background-color: #ffcccc; /* Red background for expired items */
+}
+
+.expiring-soon {
+    background-color: #fff3cd; /* Yellow background for soon-to-expire items */
+}
+.view-button, .update-button, .delete-button {
+    margin-right: 8px;
+    padding: 6px 12px;
+    border-radius: 5px;
+    font-size: 14px;
+    cursor: pointer;
+}
+
+.view-button {
+    background-color: #4CAF50;
     color: white;
-    text-align: left;
 }
 
-.stock-table td {
-    text-align: left;
+.update-button {
+    background-color: #008CBA;
+    color: white;
 }
 
-/* Responsive Adjustments */
-@media (max-width: 768px) {
-    .report-content {
-        padding: 15px;
-        width: 100%;
-    }
+.delete-button {
+    background-color: #f44336;
+    color: white;
+}
 
-    .chart-container {
-        height: 250px; /* Reduce chart size for smaller screens */
-    }
+.expired {
+    background-color: #ffcccc; /* Red background for expired stocks */
+}
 
-    .add-stock-button {
-        width: 100%; /* Full-width button on small screens */
-    }
+.expiring-soon {
+    background-color: #fff3cd; /* Yellow background for soon-to-expire stocks */
 }
