@@ -67,6 +67,37 @@ const CreateHospital = () => {
   };
 
   const handleSaveHospital = () => {
+    // Validation
+    if (!hospitalName.trim()) {
+      Swal.fire('Validation Error', 'Hospital name is required.', 'error');
+      return;
+    }
+    
+    if (departments.filter(dept => dept.trim() !== '').length === 0) {
+      Swal.fire('Validation Error', 'At least one department is required.', 'error');
+      return;
+    }
+
+    if (contactNo.filter(contact => contact.trim() !== '').length === 0) {
+      Swal.fire('Validation Error', 'At least one contact number is required.', 'error');
+      return;
+    }
+
+    if (!email.trim()) {
+      Swal.fire('Validation Error', 'Email is required.', 'error');
+      return;
+    }
+
+    if (!address.trim()) {
+      Swal.fire('Validation Error', 'Address is required.', 'error');
+      return;
+    }
+
+    if (selectedDoctors.length === 0) {
+      Swal.fire('Validation Error', 'At least one doctor must be selected.', 'error');
+      return;
+    }
+
     const data = {
       Name: hospitalName,
       Departments: departments.filter(department => department.trim() !== ''),

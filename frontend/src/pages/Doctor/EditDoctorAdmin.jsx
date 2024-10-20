@@ -5,6 +5,7 @@ import axios from 'axios';
 import { useNavigate, useParams } from 'react-router-dom';
 import { getStorage, ref, uploadBytesResumable, getDownloadURL } from "firebase/storage";
 import { app } from "../../config/firebase";
+import Swal from 'sweetalert2'; // Import SweetAlert2
 import backgroundImage from '../../assets/background.png'; // Import your background image
 
 const EditDoctor = () => {
@@ -54,7 +55,17 @@ const EditDoctor = () => {
     setWorkingHospitals(newHospitals);
   };
 
+  const validateForm = () => {
+    if (!name || !specialization || !contactNo || !email || !address || !basicSalary || !description) {
+      Swal.fire('Error', 'Please fill out all required fields.', 'error');
+      return false;
+    }
+    return true;
+  };
+
   const handleEditDoctor = () => {
+    if (!validateForm()) return; // Stop execution if validation fails
+
     const uploadImageAndSubmit = (downloadURL) => {
       const data = {
         image: downloadURL || imageURL, // Use existing image URL if no new image uploaded
@@ -195,49 +206,35 @@ const EditDoctor = () => {
               <textarea
                 value={description}
                 onChange={(e) => setDescription(e.target.value)}
-                placeholder="Enter a detailed description here..."
-                rows={6}
-                className='border border-gray-300 rounded-md p-2 w-full focus:outline-none focus:ring-2 focus:ring-blue-400 resize-none'
+                className='border border-gray-300 rounded-md p-2 w-full focus:outline-none focus:ring-2 focus:ring-blue-400'
               />
             </div>
-            <button 
-              type="button" 
-              onClick={addHospital} 
-              className="w-full bg-blue-600 text-white p-2 rounded hover:bg-blue-700"
-            >
-              Add Working Hospital
-            </button>
-            {workingHospitals.map((hospital, index) => (
-              <div key={index} className='flex my-4'>
-                <input
-                  type='text'
-                  value={hospital.HospitalName}
-                  onChange={(e) => handleHospitalChange(index, 'HospitalName', e.target.value)}
-                  placeholder='Hospital Name'
-                  className='border border-gray-300 rounded-md p-2 mr-2 w-1/2 focus:outline-none focus:ring-2 focus:ring-blue-400'
-                />
-                <input
-                  type='text'
-                  value={hospital.HospitalAddress}
-                  onChange={(e) => handleHospitalChange(index, 'HospitalAddress', e.target.value)}
-                  placeholder='Hospital Address'
-                  className='border border-gray-300 rounded-md p-2 mr-2 w-1/2 focus:outline-none focus:ring-2 focus:ring-blue-400'
-                />
-                <button 
-                  type="button" 
-                  onClick={() => removeHospital(index)} 
-                  className="text-red-600 hover:text-red-800"
-                >
-                  Remove
-                </button>
-              </div>
-            ))}
-            <button 
-              onClick={handleEditDoctor} 
-              className="w-full bg-green-600 text-white p-2 rounded hover:bg-green-700 mt-4"
-            >
-              Update Doctor
-            </button>
+            <div>
+              <h2 className='text-lg font-bold text-gray-600 mb-2'>Working Hospitals</h2>
+              {workingHospitals.map((hospital, index) => (
+                <div key={index} className="flex mb-4">
+                  <input
+                    type="text"
+                    value={hospital.HospitalName}
+                    onChange={(e) => handleHospitalChange(index, 'HospitalName', e.target.value)}
+                    placeholder="Hospital Name"
+                    className="border border-gray-300 rounded-md p-2 w-1/2 mr-2 focus:outline-none focus:ring-2 focus:ring-blue-400"
+                  />
+                  <input
+                    type="text"
+                    value={hospital.HospitalAddress}
+                    onChange={(e) => handleHospitalChange(index, 'HospitalAddress', e.target.value)}
+                    placeholder="Hospital Address"
+                    className="border border-gray-300 rounded-md p-2 w-1/2 focus:outline-none focus:ring-2 focus:ring-blue-400"
+                  />
+                  <button onClick={() => removeHospital(index)} className="ml-2 text-red-500">Remove</button>
+                </div>
+              ))}
+              <button onClick={addHospital} className="bg-blue-500 text-white rounded-md px-4 py-2">Add Hospital</button>
+            </div>
+            <div className="flex justify-center mt-6">
+              <button onClick={handleEditDoctor} className="bg-blue-600 text-white rounded-md px-4 py-2">Update Doctor</button>
+            </div>
           </div>
         )}
       </div>

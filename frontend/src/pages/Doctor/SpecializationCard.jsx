@@ -2,6 +2,7 @@ import React, { useEffect, useState } from 'react';
 import axios from 'axios';
 import Spinner from "../../components/Spinner";
 import { Link, useNavigate } from 'react-router-dom';
+import backgroundImage from '../../assets/background3.jpg'; // Import your background image
 
 const ShowDoctor = () => {
     const [doctors, setDoctors] = useState([]);
@@ -42,32 +43,36 @@ const ShowDoctor = () => {
         ? doctors.filter(doctor => doctor.Specialization === selectedSpecialization) 
         : doctors;
 
-    // Update handleDoctorClick to pass doctor.DoctorID
     const handleDoctorClick = (doctorId) => {
-        navigate(`/DoctorSchedule/${doctorId}`); // Use doctor.DoctorID when navigating
+        navigate(`/DoctorSchedule/${doctorId}`);
     };
 
     return (
-        <div className='p-6 bg-gray-100 min-h-screen'>
-            <li>
-                <Link to="/" className="text-green-800 hover:text-green-600">Home</Link>
-            </li>
-            <h1 className="show-Doctors-title text-3xl my-4 text-green-800">Doctor's List</h1>
+        <div
+            className="flex flex-col items-center justify-center min-h-screen p-6"
+            style={{
+                backgroundImage: `url(${backgroundImage})`,
+                backgroundSize: 'cover',
+                backgroundPosition: 'center',
+                filter: 'brightness(0.8)', // Slightly darken background
+            }}
+        >
+            <h1 className="text-4xl font-extrabold my-4 text-blue-900 shadow-md">Doctor's List</h1>
 
-            <h2 className="text-2xl my-4 text-green-800">Select Specialization</h2>
+            <h2 className="text-2xl my-4 text-white-900">Select Specialization</h2>
             <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-6 mb-6">
                 {specializations.map((specialization, index) => (
                     <div 
                         key={index} 
-                        className="bg-green-500 text-white rounded-lg p-4 cursor-pointer hover:bg-green-600"
+                        className="bg-blue-600 text-white rounded-lg p-4 cursor-pointer transition-transform transform hover:scale-105"
                         onClick={() => setSelectedSpecialization(specialization)}
                     >
-                        <h3 className="text-xl text-center">{specialization}</h3>
+                        <h3 className="text-xl text-center font-semibold">{specialization}</h3>
                     </div>
                 ))}
             </div>
 
-            <h2 className="text-2xl my-4 text-green-800">Doctors with {selectedSpecialization ? selectedSpecialization : "all specializations"}</h2>
+            <h2 className="text-2xl my-4 text-white-900">Doctors with {selectedSpecialization || "all specializations"}</h2>
 
             {loading ? (
                 <Spinner />
@@ -78,18 +83,17 @@ const ShowDoctor = () => {
                     {filteredDoctors.map((doctor) => (
                         <div 
                             key={doctor._id} 
-                            className="bg-white rounded-lg shadow-md p-4 flex flex-col cursor-pointer"
-                            onClick={() => handleDoctorClick(doctor.DoctorID)} // Pass doctor.DoctorID here
+                            className="bg-white rounded-lg shadow-lg p-4 flex flex-col cursor-pointer transition-shadow duration-200 hover:shadow-xl"
+                            onClick={() => handleDoctorClick(doctor.DoctorID)}
                         >
-                            <img src={doctor.image} alt="Profile Pic" className="w-32 h-32 object-cover rounded-full mx-auto" />
-                            <h2 className="text-xl font-bold text-center text-green-800 mt-2">{doctor.Name}</h2>
+                            <img src={doctor.image} alt="Profile Pic" className="w-32 h-32 object-cover rounded-full mx-auto border-4 border-blue-300 mb-4" />
+                            <h2 className="text-xl font-bold text-center text-blue-800">{doctor.Name}</h2>
                             <p className="text-center text-gray-600">{doctor.DoctorID}</p>
                             <p className="text-center text-gray-600">{doctor.Specialization}</p>
                             <p className="text-center text-gray-500">Contact: {doctor.ContactNo}</p>
                             <p className="text-center text-gray-500">Email: {doctor.Email}</p>
                             <p className="text-center text-gray-500">Address: {doctor.Address}</p>
-                            <p className="text-center text-gray-500">BasicSalary: {doctor.BasicSalary}</p>
-
+                            <p className="text-center text-gray-500">Basic Salary: {doctor.BasicSalary}</p>
                         </div>
                     ))}
                 </div>

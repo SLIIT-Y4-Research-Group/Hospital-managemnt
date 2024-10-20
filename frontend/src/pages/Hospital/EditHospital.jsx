@@ -1,8 +1,8 @@
 import React, { useState, useEffect } from 'react';
-import Spinner from '../../components/Spinner';
+import { useParams, useNavigate } from 'react-router-dom';
 import axios from 'axios';
-import { useNavigate, useParams } from 'react-router-dom';
 import Swal from 'sweetalert2';
+import Spinner from '../../components/Spinner';
 import backgroundImage from '../../assets/background.png'; // Import your background image
 
 const EditHospital = () => {
@@ -86,7 +86,35 @@ const EditHospital = () => {
     setSelectedDoctors(selected);
   };
 
+  const validateInputs = () => {
+    if (!hospitalName.trim()) {
+      Swal.fire('Validation Error', 'Hospital Name is required.', 'warning');
+      return false;
+    }
+    if (departments.length === 0 || departments.some(dept => dept.trim() === '')) {
+      Swal.fire('Validation Error', 'At least one Department is required.', 'warning');
+      return false;
+    }
+    if (contactNo.length === 0 || contactNo.some(contact => contact.trim() === '')) {
+      Swal.fire('Validation Error', 'At least one Contact Number is required.', 'warning');
+      return false;
+    }
+    if (!email.trim() || !/\S+@\S+\.\S+/.test(email)) {
+      Swal.fire('Validation Error', 'Valid Email is required.', 'warning');
+      return false;
+    }
+    if (!address.trim()) {
+      Swal.fire('Validation Error', 'Address is required.', 'warning');
+      return false;
+    }
+    return true;
+  };
+
   const handleSaveHospital = () => {
+    if (!validateInputs()) {
+      return; // Stop if validation fails
+    }
+
     const data = {
       Name: hospitalName,
       Departments: departments.filter(department => department.trim() !== ''),

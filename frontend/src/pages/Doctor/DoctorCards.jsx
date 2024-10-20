@@ -44,9 +44,7 @@ const ShowDoctor = () => {
 
     return (
         <div className='p-6 bg-gray-100 min-h-screen'>
-            <li>
-                <Link to="/" className="text-green-800 hover:text-green-600">Home</Link>
-            </li>
+           
             <h1 className="show-Doctors-title text-3xl my-4 text-green-800">Doctor's List</h1>
             <div className='flex flex-col md:flex-row justify-between items-center mb-6'>
                 <label htmlFor="search" className="sr-only">Search doctors</label>
