@@ -14,7 +14,7 @@ import Navbar from './components/Navbar.jsx';
 
 import StockReport from './pages/dataAnalysis/stockreport.jsx';
 import AddStocks from './pages/dataAnalysis/AddStocks.jsx';
-import DoctorsReport from './pages/dataAnalysis/DoctorsReport.jsx'; // Only keep this one
+import DoctorReport from './pages/dataAnalysis/DoctorReport.jsx'; // Only keep this one
 import AdminDash from './pages/dataAnalysis/AdminDash.jsx';
 import AdminDashboard from './pages/AdminDashBoard.jsx';
 
@@ -82,7 +82,7 @@ const App = () => {
         <Route path="/stockreport" element={<StockReport />} />
         <Route path="/addstock" element={<AddStocks />} />
         <Route path="/apoinreport" element={<AppointmentReport />} />
-        <Route path="/doctoreport" element={<DoctorsReport />} />
+        <Route path="/doctoreport" element={<DoctorReport />} />
         <Route path="/admindash" element={<AdminDash />} />
 
         {/* Doctor Routes */}
