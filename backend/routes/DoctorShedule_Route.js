@@ -125,6 +125,7 @@ router.get('/appointment-fee/:DoctorID', async (req, res) => {
 
 
 
+
 router.get('/doctors/:doctorId', async (req, res) => {
   try {
       console.log('Received request for doctor ID:', req.params.doctorId); // Log the doctorId received
@@ -147,7 +148,6 @@ router.get('/doctors/:doctorId', async (req, res) => {
       res.status(500).json({ message: 'Server error' });
   }
 });
-
 
 
 
