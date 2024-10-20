@@ -68,7 +68,7 @@ router.get('/:id', async (req, res) => {
         res.status(500).json({ message: 'Failed to retrieve doctor', error: error.message });
     }
 });
-
+/*
 // Get doctors by specialization
 router.get('/specialization/:specialization', async (req, res) => {
     const { specialization } = req.params;
@@ -84,7 +84,7 @@ router.get('/specialization/:specialization', async (req, res) => {
     } catch (error) {
         res.status(500).json({ message: 'Failed to retrieve doctors', error: error.message });
     }
-});
+});*/
 
 // Get doctors by name
 router.get('/name/:name', async (req, res) => {
