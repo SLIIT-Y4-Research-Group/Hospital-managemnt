@@ -10,7 +10,7 @@ const PaymentForm = () => {
         cvv: '',
         amount: '',
     });
-    const [doctorFee, setDoctorFee] = useState(0); // State for storing the doctor's fee
+    const [doctorSalary, setDoctorSalary] = useState(0); // State for storing the doctor's salary
     const navigate = useNavigate();
     const location = useLocation();
     const [appointmentId, setAppointmentId] = useState('');
@@ -20,23 +20,23 @@ const PaymentForm = () => {
         const id = params.get('appointmentId');
         if (id) {
             setAppointmentId(id);
-            fetchDoctorFee(id); // Fetch the doctor's fee when the appointment ID is available
+            fetchDoctorSalary(id); // Fetch the doctor's salary when the appointment ID is available
         }
     }, [location]);
 
-    const fetchDoctorFee = async (appointmentId) => {
+    const fetchDoctorSalary = async (appointmentId) => {
         try {
             const response = await axios.get(`http://localhost:5000/appointments/${appointmentId}`);
             const { doctor } = response.data; // Assuming the appointment object contains a reference to the doctor
             const doctorResponse = await axios.get(`http://localhost:5000/api/doctors/${doctor}`); // Fetch the doctor details by ID
-            setDoctorFee(doctorResponse.data.fee); // Assuming the doctor object has a 'fee' property
+            setDoctorSalary(doctorResponse.data.BasicSalary); // Assuming the doctor object has a 'BasicSalary' property
             setFormData((prevData) => ({
                 ...prevData,
-                amount: doctorResponse.data.fee, // Set the amount field to the doctor's fee
+                amount: doctorResponse.data.BasicSalary, // Set the amount field to the doctor's salary
             }));
         } catch (error) {
-            console.error('Error fetching doctor fee:', error);
-            alert('Failed to fetch doctor fee: ' + (error.response ? error.response.data : error.message));
+            console.error('Error fetching doctor salary:', error);
+            alert('Failed to fetch doctor salary: ' + (error.response ? error.response.data : error.message));
         }
     };
 
@@ -55,10 +55,9 @@ const PaymentForm = () => {
             });
             alert('Payment successful');
 
-
             // Update appointment status to "Confirmed"
             await axios.put(`http://localhost:5000/appointments/${appointmentId}`, {
-                status: 'Confirmed', // Set the new status
+                status: 'Confirmed',
             });
 
             alert('Appointment status updated to confirmed');
@@ -74,8 +73,8 @@ const PaymentForm = () => {
             <h1 className="text-3xl font-bold text-center mb-6">Payment</h1>
             <form onSubmit={handleSubmit} className="bg-white shadow-md rounded-lg p-8 space-y-4">
                 <div className="mb-4">
-                    <label className="block text-gray-700">Doctor's Fee:</label>
-                    <p className="text-lg font-semibold text-gray-800">${doctorFee}</p>
+                    <label className="block text-gray-700">Doctor's Salary:</label>
+                    <p className="text-lg font-semibold text-gray-800">${doctorSalary}</p>
                 </div>
                 <input
                     type="text"

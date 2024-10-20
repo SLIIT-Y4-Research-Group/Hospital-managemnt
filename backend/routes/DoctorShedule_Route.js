@@ -6,7 +6,7 @@ const router = express.Router();
 // Route to create a new Doctor Schedule
 router.post('/', async (req, res) => {
   try {
-    const { DoctorID, DoctorName, Specialization, Date, TimeSlots, MaxAppointments, Location } = req.body;
+    const { DoctorID, DoctorName, Specialization, Date, TimeSlots,AppointmentFee, MaxAppointments, Location } = req.body;
 
     // Validate required fields
     if (
@@ -15,6 +15,7 @@ router.post('/', async (req, res) => {
       !Specialization || 
       !Date || 
       !TimeSlots || 
+      !AppointmentFee||
       !MaxAppointments || 
       !Location
     ) {
@@ -27,6 +28,7 @@ router.post('/', async (req, res) => {
       Specialization,
       Date,
       TimeSlots,
+      AppointmentFee,
       MaxAppointments,
       Location,
     };
