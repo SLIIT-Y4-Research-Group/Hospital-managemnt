@@ -16,6 +16,7 @@ import DoctorShedule_Route from './routes/DoctorShedule_Route.js';
 import Hospital_Route from './routes/Hospital_Route.js';
 
 
+import Email from './routes/AppointmentEmail.js';
 // Create an instance of the Express application
 const app = express();
 
