@@ -24,6 +24,10 @@ const AdminDash = () => {
             <li className="hover:bg-gray-700">
               <Link to="/doctors/alldoctors" className="block px-4 py-2">All Doctors</Link>
             </li>
+            <li className="hover:bg-gray-700">
+              <Link to="/Hospital/allHospital" className="block px-4 py-2">All Hospitals</Link>
+            </li>
+            
           </ul>
         </nav>
       </aside>

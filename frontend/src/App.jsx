@@ -35,6 +35,13 @@ import ShowAllDoctorsShedule from './pages/DoctorShedule/ShowAllDoctorsShedule';
 
 import MyAppoitments from './pages/Doctor/MyAppointments.jsx';
 import MyShedule from './pages/Doctor/MyShedule';
+
+import CreateHospital from './pages/Hospital/CreateHospital.jsx';
+import DeleteHospital from './pages/Hospital/DeleteHospital.jsx';
+import EditHospital from './pages/Hospital/EditHospital.jsx';
+import ReadOneHospital from './pages/Hospital/ReadOneHospital';
+import ShowAllHospital from './pages/Hospital/ShowAllHospital';
+
 import AppointmentsTable from './pages/Appointment/AllAppointmentTable.jsx';
 
 
@@ -76,6 +83,12 @@ const App = () => {
 
         <Route path='/myAppointments/:id' element={<MyAppoitments/>} />
         <Route path='/myShedule/:doctorId' element={<MyShedule/>} />
+
+        <Route path='/Hospital/allHospital' element={<ShowAllHospital/>} />
+        <Route path='/Hospital/create' element={<CreateHospital/>} />
+        <Route path='/Hospital/details/:id' element={<ReadOneHospital />} />
+        <Route path='/Hospital/edit/:id' element={<EditHospital />} />
+        <Route path='/Hospital/delete/:id' element={<DeleteHospital/>} />
 
         <Route path="/appointments" element={<CreateAppointment />} />
         <Route path="/payment" element={<Payment />} />

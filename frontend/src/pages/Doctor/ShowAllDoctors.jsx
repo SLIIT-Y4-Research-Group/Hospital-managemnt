@@ -47,6 +47,7 @@ const ShowDoctor = () => {
             <li>
                 <Link to="/admindash" className="text-blue-800 hover:text-blue-600">Admin dashboard</Link>
             </li>
+            
             <h1 className="show-Doctors-title text-3xl my-4 text-blue-800">Doctor's List</h1>
             <div className='flex flex-col md:flex-row justify-between items-center mb-6'>
                 <label htmlFor="search" className="sr-only">Search doctors</label>
