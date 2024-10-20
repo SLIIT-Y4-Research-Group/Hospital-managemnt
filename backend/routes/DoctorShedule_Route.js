@@ -106,4 +106,23 @@ router.delete('/:id', async (req, res) => {
   }
 });
 
+// Example route definition
+router.get('/appointment-fee/:DoctorID', async (req, res) => {
+  try {
+      const { DoctorID } = req.params; // Ensure the parameter name matches the route
+      const schedule = await DoctorShedule.findOne({ DoctorID }); // Use the variable directly
+
+      if (!schedule) {
+          return res.status(404).json({ message: 'Schedule not found for this DoctorID' });
+      }
+
+      return res.status(200).json({ fee: schedule.AppointmentFee });
+  } catch (error) {
+      console.error('Error fetching appointment fee:', error.message);
+      res.status(500).send({ message: error.message });
+  }
+});
+
+
+
 export default router;
