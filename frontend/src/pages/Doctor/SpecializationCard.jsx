@@ -1,7 +1,7 @@
 import React, { useEffect, useState } from 'react';
 import axios from 'axios';
 import Spinner from "../../components/Spinner";
-import { Link } from 'react-router-dom';
+import { Link, useNavigate } from 'react-router-dom';
 
 const ShowDoctor = () => {
     const [doctors, setDoctors] = useState([]);
@@ -10,26 +10,18 @@ const ShowDoctor = () => {
     const [specializations, setSpecializations] = useState([]);
     const [selectedSpecialization, setSelectedSpecialization] = useState("");
 
+    const navigate = useNavigate(); // For programmatic navigation
+
     useEffect(() => {
         const fetchDoctors = async () => {
             try {
                 const response = await axios.get('http://localhost:5000/doctors');
                 if (response.data && Array.isArray(response.data.data)) {
                     setDoctors(response.data.data);
-                    // Hardcoded specializations
                     const hardcodedSpecializations = [
-                        'Cardiology',
-                        'Neurology',
-                        'Pediatrics',
-                        'Dermatology',
-                        'Oncology',
-                        'Orthopedics',
-                        'Psychiatry',
-                        'Gastroenterology',
-                        'Endocrinology',
-                        'General Practice',
+                        'Cardiology', 'Neurology', 'Pediatrics', 'Dermatology', 'Oncology',
+                        'Orthopedics', 'Psychiatry', 'Gastroenterology', 'Endocrinology', 'General Practice'
                     ];
-                    // Combine fetched specializations with hardcoded ones
                     const uniqueSpecializations = [...new Set([...hardcodedSpecializations, ...response.data.data.map(doctor => doctor.Specialization)])];
                     setSpecializations(uniqueSpecializations);
                 } else {
@@ -42,7 +34,7 @@ const ShowDoctor = () => {
                 setLoading(false);
             }
         };
-    
+
         fetchDoctors();
     }, []);
 
@@ -50,8 +42,9 @@ const ShowDoctor = () => {
         ? doctors.filter(doctor => doctor.Specialization === selectedSpecialization) 
         : doctors;
 
-    const handleSpecializationClick = (specialization) => {
-        setSelectedSpecialization(specialization);
+    // Update handleDoctorClick to pass doctor.DoctorID
+    const handleDoctorClick = (doctorId) => {
+        navigate(`/DoctorSchedule/${doctorId}`); // Use doctor.DoctorID when navigating
     };
 
     return (
@@ -67,14 +60,14 @@ const ShowDoctor = () => {
                     <div 
                         key={index} 
                         className="bg-green-500 text-white rounded-lg p-4 cursor-pointer hover:bg-green-600"
-                        onClick={() => handleSpecializationClick(specialization)}
+                        onClick={() => setSelectedSpecialization(specialization)}
                     >
                         <h3 className="text-xl text-center">{specialization}</h3>
                     </div>
                 ))}
             </div>
 
-            <h2 className="text-2xl my-4 text-green-800">Doctors with {selectedSpecialization ? selectedSpecialization : " all specializations"}</h2>
+            <h2 className="text-2xl my-4 text-green-800">Doctors with {selectedSpecialization ? selectedSpecialization : "all specializations"}</h2>
 
             {loading ? (
                 <Spinner />
@@ -83,13 +76,20 @@ const ShowDoctor = () => {
             ) : (
                 <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-6">
                     {filteredDoctors.map((doctor) => (
-                        <div key={doctor._id} className="bg-white rounded-lg shadow-md p-4 flex flex-col">
+                        <div 
+                            key={doctor._id} 
+                            className="bg-white rounded-lg shadow-md p-4 flex flex-col cursor-pointer"
+                            onClick={() => handleDoctorClick(doctor.DoctorID)} // Pass doctor.DoctorID here
+                        >
                             <img src={doctor.image} alt="Profile Pic" className="w-32 h-32 object-cover rounded-full mx-auto" />
                             <h2 className="text-xl font-bold text-center text-green-800 mt-2">{doctor.Name}</h2>
+                            <p className="text-center text-gray-600">{doctor.DoctorID}</p>
                             <p className="text-center text-gray-600">{doctor.Specialization}</p>
                             <p className="text-center text-gray-500">Contact: {doctor.ContactNo}</p>
                             <p className="text-center text-gray-500">Email: {doctor.Email}</p>
                             <p className="text-center text-gray-500">Address: {doctor.Address}</p>
+                            <p className="text-center text-gray-500">BasicSalary: {doctor.BasicSalary}</p>
+
                         </div>
                     ))}
                 </div>
