@@ -10,8 +10,6 @@ import Doctor_Route from './routes/Doctor_Route.js';
 import paymentRoutes from './routes/PaymentRoute.js';
 import doctorRoutes from './routes/doctorRoute.js';
 
-import Email from './routes/AppointmentEmail.js';
-
 import DoctorShedule_Route from './routes/DoctorShedule_Route.js';
 import Hospital_Route from './routes/Hospital_Route.js';
 
