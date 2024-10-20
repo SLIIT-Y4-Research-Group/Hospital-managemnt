@@ -20,6 +20,10 @@ const AdminDash = () => {
               <Link to="/AppointmentsTable" className="block px-4 py-2">Appointment Reports</Link>
             </li>
             <li className="hover:bg-gray-700">
+              <Link to="/hospitalreport" className="block px-4 py-2">Hospital Reports</Link>
+            </li>
+            
+            <li className="hover:bg-gray-700">
               <Link to="/doctoreport" className="block px-4 py-2">Doctor Reports</Link>
             </li>
             <li className="hover:bg-gray-700">
