@@ -125,4 +125,32 @@ router.get('/appointment-fee/:DoctorID', async (req, res) => {
 
 
 
+
+router.get('/doctors/:doctorId', async (req, res) => {
+  try {
+      console.log('Received request for doctor ID:', req.params.doctorId); // Log the doctorId received
+
+      // Query by DoctorID, not by the default _id
+      const doctor = await DoctorShedule.findOne({ DoctorID: req.params.doctorId });
+
+      if (!doctor) {
+          console.log('Doctor not found for ID:', req.params.doctorId); // Log if doctor is not found
+          return res.status(404).json({ message: 'Doctor not found' });
+      }
+
+      // Log the found doctor details (excluding sensitive information if any)
+      console.log('Doctor found:', doctor); // Log the doctor object
+
+      // Return only the name of the doctor
+      res.json({ Name: doctor.Name });
+  } catch (error) {
+      console.error('Error fetching doctor details:', error); // Log the error for debugging
+      res.status(500).json({ message: 'Server error' });
+  }
+});
+
+
+
+
+
 export default router;
