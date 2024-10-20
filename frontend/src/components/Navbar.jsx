@@ -13,8 +13,8 @@ const Navbar = () => {
           <Link to="/" className="hover:underline">Home</Link>
           <Link to="/appointments" className="hover:underline">Appointments</Link>
           <Link to="/doctors/cards" className="hover:underline">Doctors</Link>
-          <Link to="/admindash" className="hover:underline">Admin Dashboard</Link>
-          <Link to="/services" className="hover:underline">Services</Link>
+          {/* <Link to="/admindash" className="hover:underline">Admin Dashboard</Link>
+          <Link to="/services" className="hover:underline">Services</Link> */}
           {user ? (
             <Link to="/profile" className="hover:underline">Profile</Link>
           ) : (
