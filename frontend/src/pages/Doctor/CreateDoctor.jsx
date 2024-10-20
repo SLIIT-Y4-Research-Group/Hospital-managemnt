@@ -6,6 +6,8 @@ import { useNavigate } from 'react-router-dom';
 import { getStorage, ref, uploadBytesResumable, getDownloadURL } from "firebase/storage";
 import { app } from "../../config/firebase";
 import Swal from 'sweetalert2';
+import backgroundImage from '../../assets/background.png'; // Import your background image
+
 
 const CreateDoctor = () => {
   const [image, setImage] = useState(null);
@@ -33,16 +35,18 @@ const CreateDoctor = () => {
     setWorkingHospitals([...workingHospitals, { HospitalName: '', HospitalAddress: '' }]);
   };
 
-  
+  const handleRemoveHospital = (index) => {
+    const updatedHospitals = workingHospitals.filter((_, i) => i !== index);
+    setWorkingHospitals(updatedHospitals);
+  };
+
   const handleSaveDoctor = () => {
     const uploadImageAndSubmit = (downloadURL) => {
 
     const data = {
       image: downloadURL || null, // Set image to null if no image is uploaded
-
       Name: name,
       Specialization: specialization,
-      
       ContactNo: contactNo,
       Email: email,
       Address: address,
@@ -64,6 +68,7 @@ const CreateDoctor = () => {
         console.log(error);
       });
   };
+
   if (image) {
     const storageRef = ref(storage, `doctor_images/${image.name}`);
     const uploadTask = uploadBytesResumable(storageRef, image);
@@ -81,130 +86,129 @@ const CreateDoctor = () => {
       }
     );
   } else {
-    uploadImageAndSubmit(null); // No image uploaded
+    uploadImageAndSubmit(null);
   }
-  }
+};
 
   return (
-    <div className='p-4'>
-      <BackButton destination='/doctors/alldoctors' />
-      <h1 className='text-3xl my-4'>Create Doctor</h1>
-      {loading ? <Spinner /> : ''}
-      <div className='flex flex-col border-2 border-sky-400 rounded-xl w-[600px] p-4 mx-auto'>
-        <div className='my-4'>
-          <label className='text-xl mr-4 text-gray-500'>Name</label>
-          <input
-            type='text'
-            value={name}
-            onChange={(e) => setName(e.target.value)}
-            className='border-2 border-gray-500 px-4 py-2 w-full'
-          />
-        </div>
-        <div className='my-4'>
-          <label className='text-xl mr-4 text-gray-500'>specialization</label>
-          <input
-            type='text'
-            value={specialization}
-            onChange={(e) => setSpecialization(e.target.value)}
-            className='border-2 border-gray-500 px-4 py-2 w-full'
-          />
-        </div>
-        <div className='my-4'>
-          <label className='text-xl mr-4 text-gray-500'>Contact No</label>
-          <input
-            type='text'
-            value={contactNo}
-            onChange={(e) => setContactNo(e.target.value)}
-            className='border-2 border-gray-500 px-4 py-2 w-full'
-          />
-        </div>
-        <div className='my-4'>
-          <label className='text-xl mr-4 text-gray-500'>Email</label>
-          <input
-            type='email'
-            value={email}
-            onChange={(e) => setEmail(e.target.value)}
-            className='border-2 border-gray-500 px-4 py-2 w-full'
-          />
-        </div>
-        <div className='my-4'>
-          <label className='text-xl mr-4 text-gray-500'>Address</label>
-          <input
-            type='text'
-            value={address}
-            onChange={(e) => setAddress(e.target.value)}
-            className='border-2 border-gray-500 px-4 py-2 w-full'
-          />
-        </div>
-        <div className='my-4'>
-          <label className='text-xl mr-4 text-gray-500'>Basic Salary</label>
-          <input
-            type='number'
-            value={basicSalary}
-            onChange={(e) => setBasicSalary(e.target.value)}
-            className='border-2 border-gray-500 px-4 py-2 w-full'
-          />
-        </div>
-        <div className='my-4'>
-          <label className='text-xl mr-4 text-gray-500'>Description</label>
-          <textarea
-            value={description}
-            onChange={(e) => setDescription(e.target.value)}
-            className='border-2 border-gray-500 px-4 py-2 w-full'
-          />
-          <div className='my-4'>
-          <label className='text-xl mr-4 text-gray-500'>Password</label>
-          <input
-            type='number'
-            value={Password}
-            onChange={(e) => setPassword(e.target.value)}
-            className='border-2 border-gray-500 px-4 py-2 w-full'
-          />
-        </div>
-        </div>
-        <h3 className='text-xl text-gray-500 mb-4'>Working Hospitals</h3>
-        {workingHospitals.map((hospital, index) => (
-          <div key={index} className='my-4'>
-            <div>
-              <label className='text-l mr-4 text-gray-500'>Hospital Name</label>
-              <input
-                type='text'
-                value={hospital.HospitalName}
-                onChange={(e) => handleHospitalChange(index, 'HospitalName', e.target.value)}
-                className='border-2 border-gray-500 px-4 py-2 w-full'
-              />
-            </div>
-            <div className='my-4'>
-              <label className='text-l mr-4 text-gray-500'>Hospital Address</label>
-              <input
-                type='text'
-                value={hospital.HospitalAddress}
-                onChange={(e) => handleHospitalChange(index, 'HospitalAddress', e.target.value)}
-                className='border-2 border-gray-500 px-4 py-2 w-full'
-              />
-            </div>
-          </div>
-          
-          
-          
-        ))}
-        <div className="flex flex-wrap -mx-3 mb-6">
-                <div className="w-full px-3 mb-6">
-                  <label className="block uppercase tracking-wide text-white text-xs font-bold mb-2" htmlFor="image">
-                    Upload Image
-                  </label>
-                  <input className="appearance-none block w-full bg-gray-200 text-black border border-gray-200 rounded py-3 px-4 mb-3 leading-tight focus:outline-none focus:bg-white" id="image" type="file" onChange={(e) => setImage(e.target.files[0])} />
-                </div>
-              </div>
-        <button
-          onClick={handleAddHospital}
-          className='p-2 bg-green-300 w-full mt-2'
+    <div
+            className="flex items-center justify-center min-h-screen"
+            style={{ backgroundImage: `url(${backgroundImage})`, backgroundSize: 'cover', backgroundPosition: 'center' }}
         >
-          Add Another Hospital
-        </button>
-        <button className='p-2 bg-sky-300 m-8' onClick={handleSaveDoctor}>
-          Save
-        </button>
+      <div className="bg-white bg-opacity-90 shadow-md rounded-lg p-8 w-11/12 mt-5 mb-6 md:w-1/2">
+        <h1 className="text-3xl font-bold text-center mb-6 ">Create Doctor</h1>
+        {loading ? <Spinner /> : (
+          <form className="space-y-4" onSubmit={handleSaveDoctor}>
+            <input 
+              type="file" 
+              onChange={(e) => setImage(e.target.files[0])} 
+              className="border border-gray-300 rounded-md p-2 w-full"
+            />
+            <input 
+              type="text" 
+              placeholder="Name" 
+              value={name} 
+              onChange={(e) => setName(e.target.value)} 
+              className="border border-gray-300 rounded-md p-2 w-full"
+              required
+            />
+            <input 
+              type="text" 
+              placeholder="Specialization" 
+              value={specialization} 
+              onChange={(e) => setSpecialization(e.target.value)} 
+              className="border border-gray-300 rounded-md p-2 w-full"
+              required
+            />
+            <input 
+              type="text" 
+              placeholder="Contact No" 
+              value={contactNo} 
+              onChange={(e) => setContactNo(e.target.value)} 
+              className="border border-gray-300 rounded-md p-2 w-full"
+              required
+            />
+            <input 
+              type="email" 
+              placeholder="Email" 
+              value={email} 
+              onChange={(e) => setEmail(e.target.value)} 
+              className="border border-gray-300 rounded-md p-2 w-full"
+              required
+            />
+            <input 
+              type="text" 
+              placeholder="Address" 
+              value={address} 
+              onChange={(e) => setAddress(e.target.value)} 
+              className="border border-gray-300 rounded-md p-2 w-full"
+              required
+            />
+            <input 
+              type="text" 
+              placeholder="Basic Salary" 
+              value={basicSalary} 
+              onChange={(e) => setBasicSalary(e.target.value)} 
+              className="border border-gray-300 rounded-md p-2 w-full"
+              required
+            />
+            <textarea 
+              placeholder="Description" 
+              value={description} 
+              onChange={(e) => setDescription(e.target.value)} 
+              className="border border-gray-300 rounded-md p-2 w-full h-32 resize-none"
+              required
+            />
+            {workingHospitals.map((hospital, index) => (
+              <div key={index} className="grid grid-cols-2 gap-4">
+                <input 
+                  type="text" 
+                  placeholder="Hospital Name" 
+                  value={hospital.HospitalName} 
+                  onChange={(e) => handleHospitalChange(index, 'HospitalName', e.target.value)} 
+                  className="border border-gray-300 rounded-md p-2"
+                  required
+                />
+                <input 
+                  type="text" 
+                  placeholder="Hospital Address" 
+                  value={hospital.HospitalAddress} 
+                  onChange={(e) => handleHospitalChange(index, 'HospitalAddress', e.target.value)} 
+                  className="border border-gray-300 rounded-md p-2"
+                  required
+                />
+                <button 
+                  type="button" 
+                  onClick={() => handleRemoveHospital(index)} 
+                  className="bg-red-500 text-white rounded-md p-2 mt-1"
+                >
+                  Remove Hospital
+                </button>
+              </div>
+            ))}
+            <button 
+              type="button" 
+              onClick={handleAddHospital} 
+              className="bg-green-500 text-white rounded-md p-2"
+            >
+              Add Hospital
+            </button>
+            <input 
+              type="password" 
+              placeholder="Password" 
+              value={Password} 
+              onChange={(e) => setPassword(e.target.value)} 
+              className="border border-gray-300 rounded-md p-2 w-full"
+              required
+            />
+            <button 
+              type="submit" 
+              className="w-full bg-blue-600 text-white p-2 rounded-md hover:bg-blue-700 transition"
+            >
+              Save Doctor
+            </button>
+          </form>
+        )}
       </div>
     </div>
   );

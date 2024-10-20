@@ -17,13 +17,26 @@ import DoctorsReport from './pages/dataAnalysis/DoctorsReport.jsx'; // Only keep
 import AdminDash from './pages/dataAnalysis/AdminDash.jsx';
 import AdminDashboard from './pages/AdminDashBoard.jsx';
 
+import DoctorCards from './pages/Doctor/DoctorCards.jsx';
+import SpecializationCard from './pages/Doctor/SpecializationCard';
 import ShowAllDoctors from './pages/Doctor/ShowAllDoctors';
 import ReadOneDoctor from './pages/Doctor/ReadOneDoctor';
 import CreateDoctor from './pages/Doctor/CreateDoctor';
 import EditDoctor from './pages/Doctor/EditDoctor';
 import DeleteDoctor from './pages/Doctor/DeleteDoctor';
 import DoctorLogin from './components/DoctorLogin';
+import ReadOneHome from './pages/Doctor/ReadOneHome';
+
+import CreateDoctorSchedule from './pages/DoctorShedule/CreateDoctorShedule.jsx';
+import DeletedoctorShedule from './pages/DoctorShedule/DeleteDoctorShedule.jsx';
+import EditDoctorSchedule from './pages/DoctorShedule/EditDoctorShedule.jsx';
+import ReadOneDoctorShedule from './pages/DoctorShedule/ReadOneDoctorShedule';
+import ShowAllDoctorsShedule from './pages/DoctorShedule/ShowAllDoctorsShedule';
+
+import MyAppoitments from './pages/Doctor/MyAppointments.jsx';
+import MyShedule from './pages/Doctor/MyShedule';
 import AppointmentsTable from './pages/Appointment/AllAppointmentTable.jsx';
+
 
 
 const App = () => {
@@ -44,12 +57,25 @@ const App = () => {
         <Route path="/admindash" element={<AdminDash />} />
 
         {/* Doctor Routes */}
+        <Route path='/doctors/cards' element={<DoctorCards />} />
+        <Route path='/SpecializationCard' element={<SpecializationCard />} />
         <Route path='/doctors/alldoctors' element={<ShowAllDoctors />} />
         <Route path='/doctors/details/:id' element={<ReadOneDoctor />} />
         <Route path='/doctors/create' element={<CreateDoctor />} />
         <Route path='/doctors/edit/:id' element={<EditDoctor />} />
         <Route path='/doctors/delete/:id' element={<DeleteDoctor />} />
         <Route path='/doctorlogin' element={<DoctorLogin />} />
+        <Route path="/docHome/:id" element={<ReadOneHome />} />
+
+        
+        <Route path='/doctorShedules/alldoctorShedules' element={<ShowAllDoctorsShedule/>} />
+        <Route path='/doctorShedules/create' element={<CreateDoctorSchedule/>} />
+        <Route path='/doctorShedules/details/:id' element={<ReadOneDoctorShedule />} />
+        <Route path='/doctorShedules/edit/:id' element={<EditDoctorSchedule />} />
+        <Route path='/doctorShedules/delete/:id' element={<DeletedoctorShedule/>} />
+
+        <Route path='/myAppointments/:id' element={<MyAppoitments/>} />
+        <Route path='/myShedule/:doctorId' element={<MyShedule/>} />
 
         <Route path="/appointments" element={<CreateAppointment />} />
         <Route path="/payment" element={<Payment />} />

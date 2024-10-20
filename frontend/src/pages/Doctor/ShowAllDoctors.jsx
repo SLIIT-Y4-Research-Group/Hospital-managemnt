@@ -45,21 +45,21 @@ const ShowDoctor = () => {
     return (
         <div className='p-6 bg-gray-100 min-h-screen'>
             <li>
-                <Link to="/" className="text-green-800 hover:text-green-600">Home</Link>
+                <Link to="/admindash" className="text-blue-800 hover:text-blue-600">Admin dashboard</Link>
             </li>
-            <h1 className="show-Doctors-title text-3xl my-4 text-green-800">Doctor's List</h1>
+            <h1 className="show-Doctors-title text-3xl my-4 text-blue-800">Doctor's List</h1>
             <div className='flex flex-col md:flex-row justify-between items-center mb-6'>
                 <label htmlFor="search" className="sr-only">Search doctors</label>
                 <input
                     id="search"
                     type="text"
                     placeholder="Search doctors..."
-                    className='text-lg my-4 p-2 border border-green-500 rounded-md focus:outline-none focus:ring-2 focus:ring-green-500'
+                    className='text-lg my-4 p-2 border border-blue-500 rounded-md focus:outline-none focus:ring-2 focus:ring-blue-500'
                     onChange={handleSearchChange}
                 />
                 <div className="flex items-center space-x-4">
                     <Link to='/doctors/create' className="flex items-center">
-                        <MdOutlineAddBox className='text-green-800 text-4xl' />
+                        <MdOutlineAddBox className='text-blue-800 text-4xl' />
                     </Link>
                 </div>
             </div>
@@ -69,49 +69,50 @@ const ShowDoctor = () => {
             ) : error ? (
                 <div className="text-red-600">{error}</div>
             ) : (
-                <table className='w-full border border-green-500 rounded-lg bg-white'>
+                <div className="overflow-x-auto border border-blue-500 rounded-lg bg-white">
+                <table className='min-w-full border-collapse'>
                     <thead>
-                        <tr className='bg-green-100'>
-                            <th className='p-4 border border-green-300'>Doctor ID</th>
-                            <th className='p-4 border border-green-300'>Profile Pic</th>
-
-                            <th className='p-4 border border-green-300'>Doctor Name</th>
-                            <th className='p-4 border border-green-300'>Specialization</th>
-                            <th className='p-4 border border-green-300'>Contact No</th>
-                            <th className='p-4 border border-green-300'>Email</th>
-                            <th className='p-4 border border-green-300'>Address</th>
-                            <th className='p-4 border border-green-300'>BasicSalary</th>
-                            <th className='p-4 border border-green-300'>Description</th>
-                            <th className='p-4 border border-green-300'>Password</th>
-
-                            <th className='p-4 border border-green-300'>Working Hospitals</th> {/* New header */}
-                            <th className='p-4 border border-green-300'>Operations</th>
+                        <tr className='bg-blue-100'>
+                            <th className='p-4 border border-blue-300'>Doctor ID</th>
+                            <th className='p-4 border border-blue-300'>Profile Pic</th>
+                            <th className='p-4 border border-blue-300'>Doctor Name</th>
+                            <th className='p-4 border border-blue-300'>Specialization</th>
+                            <th className='p-4 border border-blue-300'>Contact No</th>
+                            <th className='p-4 border border-blue-300'>Email</th>
+                            <th className='p-4 border border-blue-300'>Address</th>
+                            <th className='p-4 border border-blue-300'>Basic Salary</th>
+                            <th className='p-4 border border-blue-300'>Description</th>
+                            <th className='p-4 border border-blue-300'>Password</th>
+                            <th className='p-4 border border-blue-300'>Working Hospitals</th>
+                            <th className='p-4 border border-blue-300'>Operations</th>
                         </tr>
                     </thead>
                     <tbody>
                         {filteredDoctors.map((doctor) => (
-                            <tr key={doctor._id} className='text-center bg-white even:bg-green-50'>
-                                <td className='p-4 border border-green-300'>{doctor.DoctorID}</td>
-                                <td className='p-4 border border-green-300'>
+                            <tr key={doctor._id} className='text-center bg-white even:bg-blue-50'>
+                                <td className='p-4 border border-blue-300'>{doctor.DoctorID}</td>
+                                <td className='p-4 border border-blue-300'>
                                     <img src={doctor.image} alt="Profile Pic" className="w-16 h-16 object-cover rounded-full" />
                                 </td>
-                                <td className='p-4 border border-green-300'>{doctor.Name}</td>
-                                <td className='p-4 border border-green-300'>{doctor.Specialization}</td>
-                                <td className='p-4 border border-green-300'>{doctor.ContactNo}</td>
-                                <td className='p-4 border border-green-300'>{doctor.Email}</td>
-                                <td className='p-4 border border-green-300'>{doctor.Address}</td>
-                                <td className='p-4 border border-green-300'>{doctor.BasicSalary}</td>
-                                <td className='p-4 border border-green-300'>{doctor.Description}</td>
-                                <td className='p-4 border border-green-300'>{doctor.Password}</td>
-                                <td className='p-4 border border-green-300'>
+                                <td className='p-4 border border-blue-300'>{doctor.Name}</td>
+                                <td className='p-4 border border-blue-300'>{doctor.Specialization}</td>
+                                <td className='p-4 border border-blue-300'>{doctor.ContactNo}</td>
+                                <td className='p-4 border border-blue-300'>{doctor.Email}</td>
+                                <td className='p-4 border border-blue-300'>{doctor.Address}</td>
+                                <td className='p-4 border border-blue-300'>{doctor.BasicSalary}</td>
+                                <td className='p-4 border border-blue-300'>
+                                    <div className="h-24 max-h-24 overflow-y-auto p-2 bg-blue-50">{doctor.Description}</div>
+                                </td>
+                                <td className='p-4 border border-blue-300'>{doctor.Password}</td>
+                                <td className='p-4 border border-blue-300'>
                                     {doctor.WorkingHospitals.map(hospital => 
                                         `${hospital.HospitalName} (${hospital.HospitalAddress})`
                                     ).join(', ')}
                                 </td>
-                                <td className='p-4 border border-green-300'>
+                                <td className='p-4 border border-blue-300'>
                                     <div className='flex justify-center gap-4'>
                                         <Link to={`/doctors/details/${doctor._id}`}>
-                                            <BsInfoCircle className='text-2xl text-green-800 hover:text-green-600' />
+                                            <BsInfoCircle className='text-2xl text-blue-800 hover:text-blue-600' />
                                         </Link>
                                         <Link to={`/doctors/edit/${doctor._id}`}>
                                             <AiOutlineEdit className='text-2xl text-yellow-600 hover:text-yellow-500' />
@@ -125,6 +126,7 @@ const ShowDoctor = () => {
                         ))}
                     </tbody>
                 </table>
+            </div>
 
             )}
         </div>
