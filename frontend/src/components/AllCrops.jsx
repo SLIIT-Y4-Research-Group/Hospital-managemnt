@@ -110,7 +110,7 @@ const AllCrops = () => {
                                 <h2 className='mb-4 border-b-2 text-xl'>Medical Record</h2>
                                 <div className='info'>
                                     <h6>Id: <span className='text-gray-700'>{selectedCrop._id}</span></h6>
-                                    <h6>Patient Name: <span className='text-gray-700'>{selectedCrop.CropArea}</span></h6>
+                                    <h6>Patient Name: <span className='text-gray-700'>{selectedCrop.SoilType}</span></h6>
                                     <h6>Test Type: <span className='text-gray-700'>{selectedCrop.CropName}</span></h6>
                                     <h6>Test Name: <span className='text-gray-700'>{selectedCrop.ScientificName}</span></h6>
                                     <h6>Result: <span className='text-gray-700'>{selectedCrop.Location}</span></h6>

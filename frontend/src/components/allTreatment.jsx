@@ -113,8 +113,8 @@ const AllTreatment = () => {
                                     <h6>Patient Name: <span className='text-gray-700'>{selectedTreatment.CropArea}</span></h6>
                                     <h6>Treatment Name: <span className='text-gray-700'>{selectedTreatment.CropName}</span></h6>
                                     <h6>Doctor Name: <span className='text-gray-700'>{selectedTreatment.ScientificName}</span></h6>
-                                    <h6>Start Date: <span className='text-gray-700'>{selectedTreatment.Location}</span></h6>
-                                    <h6>End Date: <span className='text-gray-700'>{selectedTreatment.GrowthStage}</span></h6>
+                                    <h6>Start Date: <span className='text-gray-700'>{selectedTreatment.RainFall}</span></h6>
+                                    <h6>End Date: <span className='text-gray-700'>{selectedTreatment.Temperature}</span></h6>
                                     <h6>Medication: <span className='text-gray-700'>{selectedTreatment.SoilpHLevel}</span></h6>
                                     <h6>Frequency: <span className='text-gray-700'>{selectedTreatment.IrrigationType}</span></h6>
                                 </div>
