@@ -20,7 +20,7 @@ h1 {
     display: flex;
     flex-direction: column;
     align-items: center;
-    background-color: rgba(255, 255, 255, 0.9); /* White background with slight transparency */
+    background-color: lightblue; /* White background with slight transparency */
     padding: 20px;
     border-radius: 10px;
     box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
@@ -105,4 +105,34 @@ h1 {
 
 .expiring-soon {
     background-color: #fff3cd; /* Yellow background for soon-to-expire items */
+}
+.view-button, .update-button, .delete-button {
+    margin-right: 8px;
+    padding: 6px 12px;
+    border-radius: 5px;
+    font-size: 14px;
+    cursor: pointer;
+}
+
+.view-button {
+    background-color: #4CAF50;
+    color: white;
+}
+
+.update-button {
+    background-color: #008CBA;
+    color: white;
+}
+
+.delete-button {
+    background-color: #f44336;
+    color: white;
+}
+
+.expired {
+    background-color: #ffcccc; /* Red background for expired stocks */
+}
+
+.expiring-soon {
+    background-color: #fff3cd; /* Yellow background for soon-to-expire stocks */
 }

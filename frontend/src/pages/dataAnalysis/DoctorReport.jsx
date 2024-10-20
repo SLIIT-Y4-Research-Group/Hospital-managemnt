@@ -6,6 +6,7 @@ import { AiOutlineEdit } from 'react-icons/ai';
 import { BsInfoCircle } from 'react-icons/bs';
 import { MdOutlineAddBox, MdOutlineDelete } from 'react-icons/md';
 import Chart from 'react-apexcharts';
+import DoctorPdf from './DoctorPdf';
 
 const DoctorReport = () => {
     const [doctors, setDoctors] = useState([]);
@@ -146,7 +147,10 @@ const DoctorReport = () => {
             <li>
                 <Link to="/" className="text-blue-800 hover:text-blue-600">Home</Link>
             </li>
+            
             <h1 className="show-Doctors-title text-4xl my-4 text-blue-800">Doctor's Report</h1>
+            <DoctorPdf/>
+
 
             {/* Flex container for charts */}
             <div className="flex flex-col md:flex-row gap-6 mb-6">
