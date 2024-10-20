@@ -6,7 +6,6 @@ import { useNavigate } from 'react-router-dom';
 import Swal from 'sweetalert2';
 import backgroundImage from '../../assets/background.png'; // Import your background image
 
-
 const timeOptions = [
   "09:00-10:00",
   "10:00-11:00",
@@ -28,6 +27,7 @@ const CreateDoctorSchedule = () => {
   const [timeSlots, setTimeSlots] = useState(['']);
   const [maxAppointments, setMaxAppointments] = useState('');
   const [location, setLocation] = useState('');
+  const [appointmentFee, setAppointmentFee] = useState(''); // New state for appointment fee
   const [loading, setLoading] = useState(false);
   const [doctors, setDoctors] = useState([]);
   const navigate = useNavigate();
@@ -84,6 +84,7 @@ const CreateDoctorSchedule = () => {
       Specialization: specialization,
       Date: date,
       TimeSlots: timeSlots,
+      AppointmentFee: appointmentFee, // Include the appointment fee
       MaxAppointments: maxAppointments,
       Location: location,
     };
@@ -106,9 +107,9 @@ const CreateDoctorSchedule = () => {
 
   return (
     <div
-            className="flex items-center justify-center min-h-screen"
-            style={{ backgroundImage: `url(${backgroundImage})`, backgroundSize: 'cover', backgroundPosition: 'center' }}
-        >
+      className="flex items-center justify-center min-h-screen"
+      style={{ backgroundImage: `url(${backgroundImage})`, backgroundSize: 'cover', backgroundPosition: 'center' }}
+    >
       <div className="bg-white bg-opacity-90 shadow-md rounded-lg p-8 w-11/12 mt-5 mb-6 md:w-1/2">
         {/* <BackButton destination='/doctorShedules/alldoctorShedules' /> */}
         <h1 className="text-3xl font-bold text-center mb-6">Create Doctor Schedule</h1>
@@ -208,8 +209,22 @@ const CreateDoctorSchedule = () => {
             />
           </div>
 
-          <button className="p-2 bg-sky-300 w-full mt-4 rounded-md hover:bg-sky-400 transition" onClick={handleSaveSchedule}>
-            Create Schedule
+          <div className="my-4">
+            <label className="text-xl mr-4 text-gray-500">Appointment Fee</label>
+            <input
+              type='text'
+              value={appointmentFee}
+              onChange={(e) => setAppointmentFee(e.target.value)} // Update appointment fee state
+              className="border-2 border-gray-300 rounded-md p-2 focus:outline-none focus:ring-2 focus:ring-blue-400 w-full"
+              placeholder="Enter Appointment Fee"
+            />
+          </div>
+
+          <button
+            onClick={handleSaveSchedule}
+            className="bg-blue-500 text-white py-2 rounded-md hover:bg-blue-600 transition"
+          >
+            Save Schedule
           </button>
         </div>
       </div>

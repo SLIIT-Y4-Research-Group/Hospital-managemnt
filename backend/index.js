@@ -10,7 +10,7 @@ import Doctor_Route from './routes/Doctor_Route.js';
 import paymentRoutes from './routes/PaymentRoute.js';
 import doctorRoutes from './routes/doctorRoute.js';
 
-import Email from './routes/AppointmentEmail.js';
+//import Email from './routes/AppointmentEmail.js';
 
 import DoctorShedule_Route from './routes/DoctorShedule_Route.js';
 import Hospital_Route from './routes/Hospital_Route.js';
@@ -30,10 +30,10 @@ app.use(express.json());
 app.use(cors());
 
 // Simple welcome route
-// app.get('/', (req, res) => {
-//   console.log(req);
-//   return res.status(234).send("Welcome");
-// });
+app.get('/', (req, res) => {
+  console.log(req);
+  return res.status(234).send("Welcome");
+});
 
 
 // Connecting to the MongoDB database
@@ -68,6 +68,13 @@ app.use('/', cropRoutesF);
 app.use('/', reportRoutes);
 app.use('/', treatmentRoutes);
 app.use('/', userRoute);
+app.use('/api/auth', authRoutes);
+app.use('/appointments', AppointmentRoute);
+//app.use('/', Email);
+app.use('/stocks', StockRoute);
+app.use('/doctors', Doctor_Route);
+app.use('/doctorShedules', DoctorShedule_Route);
+app.use('/hospitals', Hospital_Route);
 
 
 
