@@ -16,6 +16,10 @@ import DoctorShedule_Route from './routes/DoctorShedule_Route.js';
 import Hospital_Route from './routes/Hospital_Route.js';
 
 
+import cropRoutesF from "./routes/cropRoute.js";
+import reportRoutes from "./routes/reportRoute.js";
+import treatmentRoutes from "./routes/treatmentRoute.js";
+import userRoute from "./routes/userRoute.js";
 // Create an instance of the Express application
 const app = express();
 
@@ -44,15 +48,26 @@ mongoose.connect(mongoDBURL)
     console.log(error);
   });
 
-  app.use('/api/auth', authRoutes);
-  app.use('/appointments', AppointmentRoute);
-  app.use('/', Email);
-  app.use('/stocks', StockRoute);
-  app.use('/doctors', Doctor_Route);
-  app.use('/doctorShedules', DoctorShedule_Route);
-  app.use('/hospitals', Hospital_Route);
+app.use('/api/auth', authRoutes);
+app.use('/appointments', AppointmentRoute);
+app.use('/', Email);
+app.use('/stocks', StockRoute);
+app.use('/doctors', Doctor_Route);
+app.use('/doctorShedules', DoctorShedule_Route);
+app.use('/hospitals', Hospital_Route);
+app.use('/api/auth', authRoutes);
+app.use('/appointments', AppointmentRoute);
 
-  app.use('/payments', paymentRoutes);
-  app.use('/api/doctors', doctorRoutes);
+app.use('/stocks', StockRoute);
+app.use('/doctors', Doctor_Route);
+
+app.use('/payments', paymentRoutes);
+app.use('/api/doctors', doctorRoutes);
+
+app.use('/', cropRoutesF);
+app.use('/', reportRoutes);
+app.use('/', treatmentRoutes);
+app.use('/', userRoute);
+
 
 

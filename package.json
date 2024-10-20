@@ -1,6 +1,0 @@
-{
-  "dependencies": {
-    "apexcharts": "^3.54.1",
-    "nodemailer": "^6.9.15"
-  }
-}
