@@ -120,12 +120,23 @@ const StockReport = () => {
         navigate('/doctorsreport'); // Ensure this route exists in your app's routing configuration
     };
 
+    // Function to delete a stock item
+    const handleDeleteStock = async (id) => {
+        try {
+            await axios.delete(`http://localhost:5000/stocks/${id}`);
+            setStocks(stocks.filter(stock => stock._id !== id)); // Remove the deleted stock from the list
+        } catch (error) {
+            console.error("Error deleting stock item:", error);
+        }
+    };
+
     // Get the current date
     const currentDate = new Date();
 
     return (
-        <div className="stock-report-container">
-            <h1>Stock Report</h1>
+        <div className="stock-report-container" >
+             <h1 className="show-Doctors-title text-4xl my-4 text-blue-800">Stock Report</h1>
+            
 
             {/* Container with white background for the chart and table */}
             <div className="report-content">
@@ -157,12 +168,13 @@ const StockReport = () => {
                             <th>Expiry Date</th>
                             <th>Price</th>
                             <th>Quantity</th>
+                            <th>Actions</th> {/* New actions column */}
                         </tr>
                     </thead>
                     <tbody>
                         {stocks.length === 0 ? (
                             <tr>
-                                <td colSpan="5">No stock details available</td>
+                                <td colSpan="6">No stock details available</td>
                             </tr>
                         ) : (
                             stocks.map(stock => {
@@ -184,6 +196,26 @@ const StockReport = () => {
                                         <td>{expireDate.toLocaleDateString()}</td>
                                         <td>{stock.price}</td>
                                         <td>{stock.quantity}</td>
+                                        <td>
+                                        <button
+                                                className="view-button"
+                                                onClick={() => navigate(`/stocks/viewstock/${stock._id}`)}
+                                            >
+                                                View
+                                            </button>
+                                            <button
+                                                className="update-button"
+                                                onClick={() => navigate(`/stocks/update/${stock._id}`)}
+                                            >
+                                                Update
+                                            </button>
+                                            <button
+                                                className="delete-button"
+                                                onClick={() => handleDeleteStock(stock._id)}
+                                            >
+                                                Delete
+                                            </button>
+                                        </td>
                                     </tr>
                                 );
                             })

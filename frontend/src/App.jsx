@@ -17,7 +17,7 @@ import AddStocks from './pages/dataAnalysis/AddStocks.jsx';
 import DoctorReport from './pages/dataAnalysis/DoctorReport.jsx'; // Only keep this one
 import AdminDash from './pages/dataAnalysis/AdminDash.jsx';
 import AdminDashboard from './pages/AdminDashBoard.jsx';
-
+import ViewStocks from './pages/dataAnalysis/ViewStocks.jsx';
 import DoctorCards from './pages/Doctor/DoctorCards.jsx';
 import DoctorSchedule  from './pages/Doctor/DoctorSchedule';
 import SpecializationCard from './pages/Doctor/SpecializationCard';
@@ -54,6 +54,9 @@ import ShowAllHospital from './pages/Hospital/ShowAllHospital';
 import AppointmentsTable from './pages/Appointment/AllAppointmentTable.jsx';
 
 import AppointmentReport from './pages/dataAnalysis/AppoinmentReport.jsx';
+import DoctorPdf from './pages/dataAnalysis/DoctorPdf.jsx';
+import "slick-carousel/slick/slick.css"; 
+import "slick-carousel/slick/slick-theme.css";
 
 
 import AddCrop from './pages/Medical/addCrop';
@@ -83,7 +86,9 @@ const App = () => {
         <Route path="/addstock" element={<AddStocks />} />
         <Route path="/apoinreport" element={<AppointmentReport />} />
         <Route path="/doctoreport" element={<DoctorReport />} />
+        <Route path="/doctorpdf" element={<DoctorPdf />} />
         <Route path="/admindash" element={<AdminDash />} />
+        <Route path="/viewstock" element={<ViewStocks />} />
 
         {/* Doctor Routes */}
         <Route path='/doctors/cards' element={<DoctorCards />} />
