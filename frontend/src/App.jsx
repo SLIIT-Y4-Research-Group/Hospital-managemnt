@@ -18,6 +18,7 @@ import AdminDash from './pages/dataAnalysis/AdminDash.jsx';
 import AdminDashboard from './pages/AdminDashBoard.jsx';
 
 import DoctorCards from './pages/Doctor/DoctorCards.jsx';
+import DoctorSchedule  from './pages/Doctor/DoctorSchedule';
 import SpecializationCard from './pages/Doctor/SpecializationCard';
 import ShowAllDoctors from './pages/Doctor/ShowAllDoctors';
 import ReadOneDoctor from './pages/Doctor/ReadOneDoctor';
@@ -65,6 +66,7 @@ const App = () => {
 
         {/* Doctor Routes */}
         <Route path='/doctors/cards' element={<DoctorCards />} />
+        <Route path='/DoctorSchedule/:doctorId' element={<DoctorSchedule />} />
         <Route path='/SpecializationCard' element={<SpecializationCard />} />
         <Route path='/doctors/alldoctors' element={<ShowAllDoctors />} />
         <Route path='/doctors/details/:id' element={<ReadOneDoctor />} />
