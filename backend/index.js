@@ -9,9 +9,10 @@ import StockRoute from './routes/StockRoute.js';
 import Doctor_Route from './routes/Doctor_Route.js';
 import paymentRoutes from './routes/PaymentRoute.js';
 import doctorRoutes from './routes/doctorRoute.js';
-import DoctorShedule_Route from './routes/DoctorShedule_Route.js';
 
 import Email from './routes/AppointmentEmail.js';
+
+import DoctorShedule_Route from './routes/DoctorShedule_Route.js';
 // Create an instance of the Express application
 const app = express();
 
