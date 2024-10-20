@@ -20,7 +20,7 @@ const AllCrops = () => {
         }).catch((err) => {
             console.log(err);
         });
-    }, [crops]);
+    }, []);
 
     const togglePopupFretilizer = (crop) => {
         setSelectedCrop(crop); // Set the selected crop

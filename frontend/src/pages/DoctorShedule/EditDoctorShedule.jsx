@@ -1,8 +1,8 @@
 import React, { useState, useEffect } from 'react';
-// import BackButton from '../../components/BackButton';
 import Spinner from '../../components/Spinner';
 import axios from 'axios';
 import { useNavigate, useParams } from 'react-router-dom';
+import Swal from 'sweetalert2';
 import backgroundImage from '../../assets/background.png'; // Import your background image
 
 const timeOptions = [
@@ -50,13 +50,21 @@ const EditDoctorSchedule = () => {
             });
     }, [id]);
 
-    const handleTimeSlotChange = (index, value) => {
-        const newTimeSlots = [...timeSlots];
-        newTimeSlots[index] = value;
-        setTimeSlots(newTimeSlots);
+    const validateForm = () => {
+        if (!doctorID || !doctorName || !specialization || !date || !maxAppointments || !location || timeSlots.some(slot => !slot)) {
+            Swal.fire({
+                icon: 'error',
+                title: 'Validation Error',
+                text: 'Please fill out all fields correctly!',
+            });
+            return false;
+        }
+        return true;
     };
 
     const handleEditSchedule = () => {
+        if (!validateForm()) return; // If validation fails, stop here
+
         const data = {
             DoctorID: doctorID,
             DoctorName: doctorName,
@@ -71,11 +79,21 @@ const EditDoctorSchedule = () => {
         axios.put(`http://localhost:5000/doctorShedules/${id}`, data)
             .then(() => {
                 setLoading(false);
+                Swal.fire({
+                    icon: 'success',
+                    title: 'Success!',
+                    text: 'Schedule updated successfully!',
+                });
                 navigate('/doctorShedules/alldoctorShedules');
             })
             .catch((error) => {
                 setLoading(false);
                 console.error('Error updating schedule:', error.response ? error.response.data : error);
+                Swal.fire({
+                    icon: 'error',
+                    title: 'Error',
+                    text: 'Failed to update schedule!',
+                });
             });
     };
 
@@ -98,7 +116,6 @@ const EditDoctorSchedule = () => {
             }}
         >
             <div className="bg-white bg-opacity-90 shadow-md rounded-lg p-8 w-11/12 mt-5 mb-6 md:w-1/2">
-                {/* <BackButton destination='/doctorShedules/alldoctorShedules' /> */}
                 <h1 className='text-3xl text-center my-4 text-blue-600'>Edit Doctor Schedule</h1>
                 {loading ? <Spinner /> : (
                     <div className='flex flex-col'>

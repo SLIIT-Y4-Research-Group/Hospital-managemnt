@@ -1,15 +1,15 @@
 import React, { useState, useEffect } from 'react';
-// import BackButton from '../../components/BackButton';
 import Spinner from '../../components/Spinner';
 import axios from 'axios';
 import { useNavigate, useParams } from 'react-router-dom';
 import { getStorage, ref, uploadBytesResumable, getDownloadURL } from "firebase/storage";
 import { app } from "../../config/firebase";
+import Swal from 'sweetalert2'; // Import SweetAlert2
 import backgroundImage from '../../assets/background.png'; // Import your background image
 
 const EditDoctor = () => {
   const [image, setImage] = useState(null);
-  const [imageURL, setImageURL] = useState(''); // State for holding the image URL
+  const [imageURL, setImageURL] = useState('');
   const [name, setName] = useState('');
   const [specialization, setSpecialization] = useState('');
   const [contactNo, setContactNo] = useState('');
@@ -30,7 +30,7 @@ const EditDoctor = () => {
     axios.get(`http://localhost:5000/doctors/${id}`)
       .then((response) => {
         const doctor = response.data;
-        setImageURL(doctor.image);  // Set the initial image URL
+        setImageURL(doctor.image);
         setName(doctor.Name || '');
         setSpecialization(doctor.Specialization || '');
         setContactNo(doctor.ContactNo || '');
@@ -54,10 +54,21 @@ const EditDoctor = () => {
     setWorkingHospitals(newHospitals);
   };
 
+  const validateForm = () => {
+    if (!name || !specialization || !contactNo || !email || !address || !basicSalary || !description) {
+      Swal.fire('Validation Error', 'Please fill in all the required fields.', 'error');
+      return false;
+    }
+    // Add more specific validations as needed, e.g. email format, contact number format, etc.
+    return true;
+  };
+
   const handleEditDoctor = () => {
+    if (!validateForm()) return; // Validate before proceeding
+
     const uploadImageAndSubmit = (downloadURL) => {
       const data = {
-        image: downloadURL || imageURL, // Use existing image URL if no new image uploaded
+        image: downloadURL || imageURL,
         Name: name,
         Specialization: specialization,
         ContactNo: contactNo,
@@ -76,11 +87,13 @@ const EditDoctor = () => {
         .put(`http://localhost:5000/doctors/${id}`, data)
         .then(() => {
           setLoading(false);
+          Swal.fire('Success', 'Doctor details updated successfully!', 'success'); // Success alert
           navigate(`/docHome/${id}`); // Navigate after successful update
         })
         .catch((error) => {
           setLoading(false);
           console.error('Error updating doctor:', error.response ? error.response.data : error);
+          Swal.fire('Error', 'Failed to update doctor details. Please try again.', 'error'); // Error alert
         });
     };
 
@@ -120,13 +133,12 @@ const EditDoctor = () => {
       style={{ backgroundImage: `url(${backgroundImage})`, backgroundSize: 'cover', backgroundPosition: 'center' }}
     >
       <div className='bg-white bg-opacity-90 shadow-md rounded-lg p-8 w-11/12 mt-5 mb-6 md:w-1/2'>
-        {/* <BackButton destination='/doctors/alldoctors' /> */}
         <h1 className='text-3xl font-bold text-center my-4 text-blue-600'>Edit Doctor</h1>
         {loading ? <Spinner /> : (
           <div className='flex flex-col'>
             <div className='my-4'>
               <label className='text-xl mr-4 text-gray-500'>Current Image</label>
-              {imageURL && <img src={imageURL} alt="Doctor" className="w-32 h-32 object-cover mb-4" />} {/* Display the image */}
+              {imageURL && <img src={imageURL} alt="Doctor" className="w-32 h-32 object-cover mb-4" />}
             </div>
             <div className="flex flex-wrap -mx-3 mb-6">
               <div className="w-full px-3 mb-6">
@@ -184,7 +196,7 @@ const EditDoctor = () => {
             <div className='my-4'>
               <label className='text-xl mr-4 text-gray-500'>Basic Salary</label>
               <input
-                type='text'
+                type='number'
                 value={basicSalary}
                 onChange={(e) => setBasicSalary(e.target.value)}
                 className='border border-gray-300 rounded-md p-2 w-full focus:outline-none focus:ring-2 focus:ring-blue-400'
@@ -195,47 +207,42 @@ const EditDoctor = () => {
               <textarea
                 value={description}
                 onChange={(e) => setDescription(e.target.value)}
-                placeholder="Enter a detailed description here..."
-                rows={6}
-                className='border border-gray-300 rounded-md p-2 w-full focus:outline-none focus:ring-2 focus:ring-blue-400 resize-none'
+                className='border border-gray-300 rounded-md p-2 w-full focus:outline-none focus:ring-2 focus:ring-blue-400'
               />
             </div>
-            <button 
-              type="button" 
-              onClick={addHospital} 
-              className="w-full bg-blue-600 text-white p-2 rounded hover:bg-blue-700"
-            >
-              Add Working Hospital
-            </button>
-            {workingHospitals.map((hospital, index) => (
-              <div key={index} className='flex my-4'>
-                <input
-                  type='text'
-                  value={hospital.HospitalName}
-                  onChange={(e) => handleHospitalChange(index, 'HospitalName', e.target.value)}
-                  placeholder='Hospital Name'
-                  className='border border-gray-300 rounded-md p-2 mr-2 w-1/2 focus:outline-none focus:ring-2 focus:ring-blue-400'
-                />
-                <input
-                  type='text'
-                  value={hospital.HospitalAddress}
-                  onChange={(e) => handleHospitalChange(index, 'HospitalAddress', e.target.value)}
-                  placeholder='Hospital Address'
-                  className='border border-gray-300 rounded-md p-2 mr-2 w-1/2 focus:outline-none focus:ring-2 focus:ring-blue-400'
-                />
-                <button 
-                  type="button" 
-                  onClick={() => removeHospital(index)} 
-                  className="text-red-600 hover:text-red-800"
-                >
-                  Remove
-                </button>
-              </div>
-            ))}
-            <button 
-              onClick={handleEditDoctor} 
-              className="w-full bg-green-600 text-white p-2 rounded hover:bg-green-700 mt-4"
-            >
+            <div className='my-4'>
+              <label className='text-xl mr-4 text-gray-500'>Working Hospitals</label>
+              {workingHospitals.map((hospital, index) => (
+                <div key={index} className="flex mb-4">
+                  <input
+                    type="text"
+                    value={hospital.HospitalName}
+                    onChange={(e) => handleHospitalChange(index, 'HospitalName', e.target.value)}
+                    placeholder="Hospital Name"
+                    className='border border-gray-300 rounded-md p-2 mr-2 w-1/2 focus:outline-none focus:ring-2 focus:ring-blue-400'
+                  />
+                  <input
+                    type="text"
+                    value={hospital.HospitalAddress}
+                    onChange={(e) => handleHospitalChange(index, 'HospitalAddress', e.target.value)}
+                    placeholder="Hospital Address"
+                    className='border border-gray-300 rounded-md p-2 w-1/2 focus:outline-none focus:ring-2 focus:ring-blue-400'
+                  />
+                  <button type="button" onClick={() => removeHospital(index)} className="text-red-600 ml-2">Remove</button>
+                </div>
+              ))}
+              <button type="button" onClick={addHospital} className="text-blue-600">Add Hospital</button>
+            </div>
+            <div className='my-4'>
+              <label className='text-xl mr-4 text-gray-500'>Password</label>
+              <input
+                type='password'
+                value={Password}
+                onChange={(e) => setPassword(e.target.value)}
+                className='border border-gray-300 rounded-md p-2 w-full focus:outline-none focus:ring-2 focus:ring-blue-400'
+              />
+            </div>
+            <button onClick={handleEditDoctor} className='bg-blue-600 text-white font-bold py-2 px-4 rounded mt-4 hover:bg-blue-500'>
               Update Doctor
             </button>
           </div>

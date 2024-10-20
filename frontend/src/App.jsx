@@ -42,6 +42,7 @@ import ShowAllDoctorsShedule from './pages/DoctorShedule/ShowAllDoctorsShedule';
 
 import MyAppoitments from './pages/Doctor/MyAppointments.jsx';
 import MyShedule from './pages/Doctor/MyShedule';
+import DocSignup from './pages/Doctor/DocSignup.jsx';
 
 
 import CreateHospital from './pages/Hospital/CreateHospital.jsx';
@@ -113,6 +114,7 @@ const App = () => {
 
         <Route path='/myAppointments/:id' element={<MyAppoitments />} />
         <Route path='/myShedule/:doctorId' element={<MyShedule />} />
+        <Route path='/docSignup' element={<DocSignup />} />
 
         <Route path='/Hospital/allHospital' element={<ShowAllHospital />} />
         <Route path='/Hospital/create' element={<CreateHospital />} />
