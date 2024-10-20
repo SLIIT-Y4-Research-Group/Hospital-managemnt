@@ -21,43 +21,59 @@ const CreateAppointment = () => {
         reasonForVisit: '',
         status: 'Pending', // Default to 'Pending'
     });
-
+    const [error, setError] = useState(null);
     const [doctors, setDoctors] = useState([]);
-    const [hospitals, setHospitals] = useState([]);
+    const [hospitals, setHospitals] = useState([]); // State to hold hospitals
+    const [loading, setLoading] = useState(true);
 
     const navigate = useNavigate();
 
     useEffect(() => {
-        const fetchDoctors = async () => {
+        const fetchDoctorSchedules = async () => {
             try {
-                const response = await axios.get('http://localhost:5000/doctors'); // Adjusted endpoint
-                setDoctors(response.data.data); // Assuming the response contains data with an array of doctors
+                const response = await axios.get('http://localhost:5000/doctorShedules'); // Adjust API endpoint if needed
+                if (response.data && Array.isArray(response.data.data)) {
+                    setDoctors(response.data.data); // Access the array of doctorSchedules here
+                } else {
+                    console.error("Invalid data format:", response.data);
+                }
             } catch (error) {
-                console.error('Error fetching doctors:', error);
-                alert('Failed to fetch doctors: ' + (error.response ? error.response.data : error.message));
+                console.error("Error fetching doctorSchedules:", error);
+                setError("Failed to fetch doctorSchedules.");
+            } finally {
+                setLoading(false);
             }
         };
 
-        fetchDoctors();
+        fetchDoctorSchedules();
     }, []);
 
+    // Fetch hospitals based on the selected doctor
     useEffect(() => {
         const fetchHospitals = async () => {
             if (formData.doctor) {
                 try {
-                    const response = await axios.get(`http://localhost:5000/doctors/${formData.doctor}`); // Adjusted endpoint
-                    setHospitals(response.data.WorkingHospitals); // Assume WorkingHospitals is an array in the response
+                    const response = await axios.get(`http://localhost:5000/doctorShedules?doctorId=${formData.doctor}`); // Adjust API endpoint to match your backend
+                    if (response.data && Array.isArray(response.data.data)) {
+                        const selectedDoctor = response.data.data.find(doctor => doctor.DoctorID === formData.doctor);
+                        if (selectedDoctor) {
+                            // Extract hospitals from the selected doctor's schedule
+                            setHospitals([{ _id: selectedDoctor.ShedulesID, Location: selectedDoctor.Location }]); // Adjust if needed to your data structure
+                        }
+                    } else {
+                        console.error("Invalid hospital data format:", response.data);
+                    }
                 } catch (error) {
-                    console.error('Error fetching hospitals:', error);
-                    alert('Failed to fetch hospitals: ' + (error.response ? error.response.data : error.message));
+                    console.error("Error fetching hospitals:", error);
+                    setError("Failed to fetch hospitals.");
                 }
             } else {
-                setHospitals([]);
+                setHospitals([]); // Clear hospitals if no doctor is selected
             }
         };
 
         fetchHospitals();
-    }, [formData.doctor]);
+    }, [formData.doctor]); // Fetch hospitals when doctor changes
 
     const handleChange = (e) => {
         const { name, value } = e.target;
@@ -187,25 +203,29 @@ const CreateAppointment = () => {
                         >
                             <option value="">Select Doctor</option>
                             {doctors.map((doctor) => (
-                                <option key={doctor._id} value={doctor._id}>{doctor.Name} : {doctor.Specialization}</option>
+                                <option key={doctor.DoctorID} value={doctor.DoctorID}>
+                                    {doctor.DoctorName} : {doctor.Specialization}
+                                </option>
                             ))}
                         </select>
 
-                        {/* Conditionally render the hospital select box */}
+                        {/* Conditionally render the hospital select box based on the selected doctor */}
                         {formData.doctor && (
-                            <select
-                                name="hospital"
-                                value={formData.hospital}
-                                onChange={handleChange}
-                                required
-                                className="border border-gray-300 rounded-md p-2 focus:outline-none focus:ring-2 focus:ring-blue-400"
-                            >
-                                <option value="">Select Hospital</option>
-                                {hospitals.map((hospital, index) => (
-                                    <option key={index} value={hospital.HospitalName}>{hospital.HospitalName}</option>
-                                ))}
-                            </select>
-                        )}
+                                                <select
+                                                    name="hospital"
+                                                    value={formData.hospital}
+                                                    onChange={handleChange}
+                                                    required
+                                                    className="border border-gray-300 rounded-md p-2 focus:outline-none focus:ring-2 focus:ring-blue-400"
+                                                >
+                                                    <option value="">Select Hospital</option>
+                                                    {hospitals.map((hospital) => (
+                                                        <option key={hospital._id} value={hospital.Location}>
+                                                            {hospital.Location}
+                                                        </option>
+                                                    ))}
+                                                </select>
+                                            )}
 
                         <div>
                             <label className="block text-sm font-medium text-gray-700 mb-1">Appointment Time</label>
@@ -236,12 +256,14 @@ const CreateAppointment = () => {
                             className="border border-gray-300 rounded-md p-2 focus:outline-none focus:ring-2 focus:ring-blue-400 w-full"
                         />
                     </div>
+
                     <button
                         type="submit"
-                        className="w-full bg-blue-500 text-white rounded-md py-2 hover:bg-blue-600 transition duration-200"
+                        className="bg-blue-600 text-white font-bold py-2 px-4 rounded mt-4 w-full hover:bg-blue-700 transition"
                     >
                         Create Appointment
                     </button>
+                    {error && <p className="text-red-500">{error}</p>}
                 </form>
             </div>
         </div>

@@ -105,7 +105,9 @@ const ShowDoctorSchedule = () => {
                                 <th className="p-4 border border-blue-300">Time Slots</th>
                                 <th className="p-4 border border-blue-300">Max Appointments</th>
                                 <th className="p-4 border border-blue-300">Location</th>
+                                <th className="p-4 border border-blue-300">Fee</th>
                                 <th className="p-4 border border-blue-300">Operations</th>
+                                
                             </tr>
                         </thead>
                         <tbody>
@@ -121,6 +123,7 @@ const ShowDoctorSchedule = () => {
                                     </td>
                                     <td className="p-4 border border-blue-300">{schedule.MaxAppointments}</td>
                                     <td className="p-4 border border-blue-300">{schedule.Location}</td>
+                                    <td className="p-4 border border-blue-300">{schedule.AppointmentFee}</td>
                                     <td className="p-4 border border-blue-300">
                                         <div className="flex justify-center gap-4">
                                             <Link to={`/doctorShedules/details/${schedule._id}`}>
