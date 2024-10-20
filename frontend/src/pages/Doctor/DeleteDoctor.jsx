@@ -17,7 +17,7 @@ const DeleteDoctor = () => {
       .delete(`http://localhost:5000/doctors/${id}`)
       .then(() => {
         setLoading(false);
-        navigate('/doctors/alldoctors');
+        navigate('/doctorLogin');
       })
       .catch((error) => {
         setLoading(false);
