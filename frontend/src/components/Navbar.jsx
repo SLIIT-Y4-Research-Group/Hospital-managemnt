@@ -12,7 +12,7 @@ const Navbar = () => {
         <div className="space-x-4">
           <Link to="/" className="hover:underline">Home</Link>
           <Link to="/appointments" className="hover:underline">Appointments</Link>
-          <Link to="/doctors" className="hover:underline">Doctors</Link>
+          <Link to="/doctors/cards" className="hover:underline">Doctors</Link>
           <Link to="/admindash" className="hover:underline">Admin Dashboard</Link>
           <Link to="/services" className="hover:underline">Services</Link>
           {user ? (
