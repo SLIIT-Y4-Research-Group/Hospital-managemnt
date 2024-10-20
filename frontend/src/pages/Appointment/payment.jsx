@@ -27,12 +27,14 @@ const PaymentForm = () => {
     const fetchDoctorFee = async (appointmentId) => {
         try {
             const response = await axios.get(`http://localhost:5000/appointments/${appointmentId}`);
+
             const { doctor } = response.data; // Ensure this exists
             console.log('Doctor ID:', doctor); // Add this line to see the doctor ID
             
             // Fetch the doctor's fee using DoctorID
             const doctorResponse = await axios.get(`http://localhost:5000/api/appointment-fee/${doctor}`);
             setDoctorFee(doctorResponse.data.fee);
+
             setFormData((prevData) => ({
                 ...prevData,
                 amount: doctorResponse.data.fee,
