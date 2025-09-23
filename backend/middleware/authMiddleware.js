@@ -1,5 +1,5 @@
 import { auth } from '../config/firebaseConfig.js';
-import User from '../models/User.js';
+import User from '../models/user.js';
 
 // Middleware to verify Firebase ID token
 export const authenticateToken = async (req, res, next) => {
