@@ -4,10 +4,19 @@ import { useParams, Link } from 'react-router-dom';
 import { BsInfoCircle } from 'react-icons/bs';
 import { AiOutlineEdit } from 'react-icons/ai';
 import { MdOutlineDelete } from 'react-icons/md';
+import { FaLock } from 'react-icons/fa';
+import Swal from 'sweetalert2';
+import DOMPurify from 'dompurify';
+
 
 const DoctorProfile = () => {
   const [doctor, setDoctor] = useState({});
   const [loading, setLoading] = useState(false);
+  const [showPasswordPopup, setShowPasswordPopup] = useState(false);
+  const [oldPassword, setOldPassword] = useState('');
+  const [newPassword, setNewPassword] = useState('');
+  const [confirmPassword, setConfirmPassword] = useState('');
+
   const { id } = useParams();
 
   useEffect(() => {
@@ -24,6 +33,40 @@ const DoctorProfile = () => {
       });
   }, [id]);
 
+  const handleChangePassword = async () => {
+  if (newPassword !== confirmPassword) {
+    Swal.fire({
+      icon: 'error',
+      title: 'Passwords do not match',
+      text: 'Please re-enter your new password.',
+    });
+    return;
+  }
+
+  try {
+    const response = await axios.post('http://localhost:5000/doctors/change-password', {
+      doctorId: doctor._id,
+      oldPassword,
+      newPassword,
+    });
+    Swal.fire({
+      icon: 'success',
+      title: 'Success',
+      text: response.data.message,
+    });
+    setShowPasswordPopup(false);
+    setOldPassword('');
+    setNewPassword('');
+    setConfirmPassword('');
+  } catch (err) {
+    Swal.fire({
+      icon: 'error',
+      title: 'Error',
+      text: err.response?.data?.message || 'Error updating password',
+    });
+  }
+};
+
   return (
     <div className="doctor-profile-container">
       <div className="sidebar">
@@ -34,6 +77,7 @@ const DoctorProfile = () => {
           <li><Link to={`/myAppointments/${id}`}>My Appointments</Link></li>
           <li><Link to={`/myShedule/${doctor.DoctorID}`}>My Shedule</Link></li> 
           <li><Link to="/SpecializationCard">SpecializationCard</Link></li>
+          
         </ul>
       </div>
 
@@ -56,6 +100,9 @@ const DoctorProfile = () => {
                   <Link to={`/doctors/delete/${doctor._id}`}>
                     <MdOutlineDelete className='text-2xl text-red-600 hover:text-red-500' />
                   </Link>
+                  <button onClick={() => setShowPasswordPopup(true)}>
+                    <FaLock className="text-2xl text-blue-600 hover:text-blue-500" />
+                  </button>
                 </div>
                 <h2>Specialist {doctor.Specialization}</h2>
                 <p className="rating">⭐⭐⭐⭐⭐</p>
@@ -71,7 +118,8 @@ const DoctorProfile = () => {
 
             <div className="profile-details">
               <h3>About Doctor</h3>
-              <p>{doctor.Description}</p>
+              {/* <p>{doctor.Description}</p> */}
+              <p dangerouslySetInnerHTML={{ __html: DOMPurify.sanitize(doctor.Description || '') }} />
 
               <div className="contact-info">
                 <p><strong>Email:</strong> {doctor.Email}</p>
@@ -90,7 +138,8 @@ const DoctorProfile = () => {
                   {doctor.WorkingHospitals?.length > 0 ? (
                     doctor.WorkingHospitals.map((hospital, index) => (
                       <li key={index}>
-                        <strong>{hospital.HospitalName}</strong> - {hospital.HospitalAddress}
+                        {/* <strong>{hospital.HospitalName}</strong> - {hospital.HospitalAddress} */}
+                        <strong>{DOMPurify.sanitize(hospital.HospitalName || '')}</strong> - {DOMPurify.sanitize(hospital.HospitalAddress || '')}
                       </li>
                     ))
                   ) : (
@@ -102,9 +151,65 @@ const DoctorProfile = () => {
           </div>
         )}
       </div>
+      {showPasswordPopup && (
+  <div className="popup-overlay">
+    <div className="popup">
+      <h2>Change Password</h2>
+      <input
+        type="password"
+        placeholder="Current Password"
+        value={oldPassword}
+        onChange={(e) => setOldPassword(e.target.value)}
+      />
+      <input
+        type="password"
+        placeholder="New Password"
+        value={newPassword}
+        onChange={(e) => setNewPassword(e.target.value)}
+      />
+      <input
+        type="password"
+        placeholder="Confirm New Password"
+        value={confirmPassword}
+        onChange={(e) => setConfirmPassword(e.target.value)}
+      />
+      <div className="popup-buttons">
+        <button onClick={handleChangePassword} className="save-btn">Save</button>
+        <button onClick={() => setShowPasswordPopup(false)} className="cancel-btn">Cancel</button>
+      </div>
+    </div>
+  </div>
+)}
 
       {/* Inline CSS */}
       <style jsx>{`
+      .popup-overlay {
+          position: fixed;
+          top: 0; left: 0; right: 0; bottom: 0;
+          background: rgba(0,0,0,0.6);
+          display: flex;
+          justify-content: center;
+          align-items: center;
+        }
+        .popup {
+          background: #fff;
+          padding: 20px;
+          border-radius: 12px;
+          width: 350px;
+          text-align: center;
+        }
+        .popup input {
+          display: block;
+          width: 100%;
+          margin: 10px 0;
+          padding: 8px;
+          border-radius: 6px;
+          border: 1px solid #ccc;
+        }
+        .popup-buttons {
+          display: flex;
+          justify-content: space-between;
+      }
         .doctor-profile-container {
           display: flex;
           justify-content: flex-start;

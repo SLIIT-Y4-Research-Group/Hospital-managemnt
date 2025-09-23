@@ -7,6 +7,18 @@ import { getStorage, ref, uploadBytesResumable, getDownloadURL } from "firebase/
 import { app } from "../../config/firebase";
 import Swal from 'sweetalert2';
 import backgroundImage from '../../assets/background.png'; // Import your background image
+import DOMPurify from 'dompurify';
+
+const specializations = [
+  'Cardiology',
+  'Dermatology',
+  'Neurology',
+  'Pediatrics',
+  'Radiology',
+  'Surgery',
+  'General Practice',
+  // Add more specializations as needed
+];
 
 const CreateDoctor = () => {
   const [image, setImage] = useState(null);
@@ -45,7 +57,15 @@ const CreateDoctor = () => {
       return false;
     }
 
-    // Additional validation checks can be added here
+    // Password validation: minimum 8 characters, at least one uppercase letter, one lowercase letter, and one number
+    const passwordRegex = /^(?=.*[a-z])(?=.*[A-Z])(?=.*\d).{8,}$/;
+    if (!passwordRegex.test(Password)) {
+      Swal.fire('Validation Error', 'Password must be at least 8 characters long and include at least one uppercase letter, one lowercase letter, and one number.', 'error');
+      return false;
+    }
+
+    // Additional validation checks can be added here (e.g., email format, contact number format)
+
     return true;
   };
 
@@ -53,6 +73,16 @@ const CreateDoctor = () => {
     if (!validateInputs()) return; // Only proceed if validation passes
 
     const uploadImageAndSubmit = (downloadURL) => {
+
+       // Sanitize description
+  const cleanDescription = DOMPurify.sanitize(description);
+
+  // Sanitize hospital names and addresses
+  const cleanHospitals = workingHospitals.map(hospital => ({
+    HospitalName: DOMPurify.sanitize(hospital.HospitalName),
+    HospitalAddress: DOMPurify.sanitize(hospital.HospitalAddress)
+  }));
+
       const data = {
         image: downloadURL || null,
         Name: name,
@@ -61,8 +91,8 @@ const CreateDoctor = () => {
         Email: email,
         Address: address,
         BasicSalary: basicSalary,
-        Description: description,
-        WorkingHospitals: workingHospitals,
+        Description: cleanDescription,
+        WorkingHospitals: cleanHospitals,
         Password: Password,
       };
 
@@ -122,14 +152,17 @@ const CreateDoctor = () => {
               className="border border-gray-300 rounded-md p-2 w-full"
               required
             />
-            <input 
-              type="text" 
-              placeholder="Specialization" 
-              value={specialization} 
-              onChange={(e) => setSpecialization(e.target.value)} 
+            <select
+              value={specialization}
+              onChange={(e) => setSpecialization(e.target.value)}
               className="border border-gray-300 rounded-md p-2 w-full"
               required
-            />
+            >
+              <option value="" disabled>Select Specialization</option>
+              {specializations.map((spec, index) => (
+                <option key={index} value={spec}>{spec}</option>
+              ))}
+            </select>
             <input 
               type="text" 
               placeholder="Contact No" 
@@ -156,7 +189,7 @@ const CreateDoctor = () => {
             />
             <input 
               type="text" 
-              placeholder="Basic Salary" 
+              placeholder="Appointment Fee" 
               value={basicSalary} 
               onChange={(e) => setBasicSalary(e.target.value)} 
               className="border border-gray-300 rounded-md p-2 w-full"
