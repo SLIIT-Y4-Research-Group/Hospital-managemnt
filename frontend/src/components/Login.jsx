@@ -1,10 +1,14 @@
-import React, { useState } from 'react';
+import { useState, useContext } from 'react';
+import { useNavigate } from 'react-router-dom';
 import axios from 'axios';
 import { Link } from 'react-router-dom'; // Import Link for navigation
+import { UserContext } from '../context/UserContext';
 import Spinner from "./Spinner";
 import backgroundImage from '../assets/background3.jpg'; // Import your background image
 
 const Login = () => {
+    const navigate = useNavigate();
+    const { setUser } = useContext(UserContext);
     const [email, setEmail] = useState('');
     const [password, setPassword] = useState('');
     const [loading, setLoading] = useState(false);
@@ -16,9 +20,31 @@ const Login = () => {
         setError('');
 
         try {
-            const response = await axios.post('http://localhost:5000/login', { email, password });
-            // Handle successful login (e.g., redirect to dashboard)
+            const response = await axios.post('http://localhost:5000/api/auth/login', { email, password });
+            
+            // Handle successful login - navigate based on role
             console.log(response.data);
+            
+            if (response.data && response.data.user) {
+                // Store user data in context
+                setUser(response.data);
+                
+                // Navigate based on user role
+                const userRole = response.data.user.role;
+                
+                switch (userRole) {
+                    case 'admin':
+                        navigate('/admin');
+                        break;
+                    case 'doctor':
+                        navigate(`/docHome/${response.data.user.id}`);
+                        break;
+                    case 'patient':
+                    default:
+                        navigate('/');
+                        break;
+                }
+            }
         } catch (error) {
             console.error("Login failed:", error);
             setError("Invalid email or password.");
@@ -83,7 +109,7 @@ const Login = () => {
                     </div>
                 
                 <div className="text-center text-gray-600">
-                    <span>Don't have an account? <a href="/docSignup" className="text-blue-500 hover:underline">Sign up</a></span>
+                    <span>Don&apos;t have an account? <a href="/docSignup" className="text-blue-500 hover:underline">Sign up</a></span>
                 </div>
                 </form>
 

@@ -14,7 +14,7 @@ class Database {
     }
 
     async connect() {
-        const mongoDBURL = 'mongodb+srv://Dhanuka:20020502@mernapp.emyz11d.mongodb.net/?retryWrites=true&w=majority&appName=MERNApp'; // Use the environment variable
+        const mongoDBURL = process.env.MONGODB_URL || 'mongodb+srv://Dhanuka:20020502@mernapp.emyz11d.mongodb.net/?retryWrites=true&w=majority&appName=MERNApp';
         try {
             // Remove deprecated options
             await mongoose.connect(mongoDBURL);
