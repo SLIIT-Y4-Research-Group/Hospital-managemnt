@@ -1,10 +1,11 @@
-import React, { useState, useEffect } from "react";
+import { useState, useEffect } from "react";
 import axios from "axios";
+import DOMPurify from "dompurify";
 import "./slider.css";
 
 
 const Slider = () => {
-    const [myCrops, setMyCrops] = useState([]);
+    // Removed unused myCrops state
     const [slides, setSlides] = useState([]);
     const [currentIndex, setCurrentIndex] = useState(0);
     const [showPopup, setShowPopup] = useState(false);
@@ -18,7 +19,6 @@ const Slider = () => {
             .get("http://localhost:5556/myCrops")
             .then((response) => {
                 const crops = response.data;
-                setMyCrops(crops);
 
                 // Create slides from crops and update the slides state
                 const newSlides = crops.map((crop) => ({
@@ -149,7 +149,14 @@ const Slider = () => {
                                     </>
                                     :
                                     <div style={{ margin: '30px 0' }}>
-                                        <div dangerouslySetInnerHTML={{ __html: aiResponse }} />
+                                        <div
+                                            dangerouslySetInnerHTML={{
+                                                __html: DOMPurify.sanitize(aiResponse, {
+                                                    ALLOWED_TAGS: ["ul", "li", "h4", "p", "br"],
+                                                    ALLOWED_ATTR: ["class"],
+                                                }),
+                                            }}
+                                        />
                                     </div>}
                             </div>
                         </div>
