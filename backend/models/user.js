@@ -29,4 +29,7 @@ const userSchema = new mongoose.Schema({
 // Index for OTP cleanup
 userSchema.index({ otpExpires: 1 }, { expireAfterSeconds: 0 });
 
-export default mongoose.model('User', userSchema);
+// Check if model exists before creating it (prevents OverwriteModelError)
+const User = mongoose.models.User || mongoose.model('User', userSchema);
+
+export default User;
