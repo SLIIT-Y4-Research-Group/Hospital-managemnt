@@ -14,7 +14,7 @@ import DoctorDetails from './pages/Appointment/doctordetails.jsx';
 import AllAppointments from './pages/Appointment/AllApointments.jsx';
 import Navbar from './components/Navbar.jsx';
 
-import StockReport from './pages/dataAnalysis/stockreport.jsx';
+import StockReport from './pages/dataAnalysis/Stockreport.jsx';
 import AddStocks from './pages/dataAnalysis/AddStocks.jsx';
 import DoctorReport from './pages/dataAnalysis/DoctorReport.jsx'; // Only keep this one
 import AdminDash from './pages/dataAnalysis/AdminDash.jsx';
