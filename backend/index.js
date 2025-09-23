@@ -3,6 +3,10 @@ import express from 'express';
 import { PORT, mongoDBURL } from "./config.js";
 import mongoose from 'mongoose';
 import cors from 'cors';
+
+// Import Firebase config to initialize Firebase Admin
+import './config/firebaseConfig.js';
+
 import AppointmentRoute from './routes/AppointmentRoute.js';
 import authRoutes from './routes/authRoutes.js';
 import StockRoute from './routes/StockRoute.js';
