@@ -1,9 +1,11 @@
 import { useState } from 'react';
 import { BrowserRouter, Route, Routes } from 'react-router-dom';
+import RequireAuth from './components/RequireAuth.jsx';
 import { Toaster } from "react-hot-toast";
 import HomePage from './Home.jsx'; // Update the import statement
 import Signup from './components/Signup.jsx';
 import Login from './components/Login.jsx';
+import OTPVerification from './components/OTPVerification.jsx';
 import Profile from './components/Profile.jsx';
 import CreateAppointment from './pages/Appointment/CreateAppointment.jsx';
 import Payment from './pages/Appointment/payment.jsx';
@@ -80,9 +82,10 @@ const App = () => {
       <Routes>
         <Route path='/' element={<HomePage user={user} />} />
         <Route path="/signup" element={<Signup />} />
+        <Route path="/verify-otp" element={<OTPVerification />} />
         <Route path="/login" element={<Login setUser={setUser} />} />
-        <Route path="/profile" element={<Profile user={user} />} />
-        <Route path="/admin" element={<AdminDashboard />} />
+  <Route path="/profile" element={<RequireAuth requireType="user"><Profile user={user} /></RequireAuth>} />
+  <Route path="/admin" element={<RequireAuth requireType="user"><AdminDashboard /></RequireAuth>} />
         <Route path="/stockreport" element={<StockReport />} />
         <Route path="/addstock" element={<AddStocks />} />
         <Route path="/apoinreport" element={<AppointmentReport />} />
@@ -93,28 +96,28 @@ const App = () => {
 
         {/* Doctor Routes */}
         <Route path='/doctors/cards' element={<DoctorCards />} />
-        <Route path='/DoctorSchedule/:doctorId' element={<DoctorSchedule />} />
+  <Route path='/DoctorSchedule/:doctorId' element={<RequireAuth requireType="any"><DoctorSchedule /></RequireAuth>} />
         <Route path='/SpecializationCard' element={<SpecializationCard />} />
         <Route path='/doctors/alldoctors' element={<ShowAllDoctors />} />
         <Route path='/doctors/details/:id' element={<ReadOneDoctor />} />
-        <Route path='/doctors/create' element={<CreateDoctor />} />
-        <Route path='/doctors/edit/:id' element={<EditDoctor />} />
-        <Route path='/doctors/delete/:id' element={<DeleteDoctor />} />
+  <Route path='/doctors/create' element={<RequireAuth requireType="doctor"><CreateDoctor /></RequireAuth>} />
+  <Route path='/doctors/edit/:id' element={<RequireAuth requireType="doctor"><EditDoctor /></RequireAuth>} />
+  <Route path='/doctors/delete/:id' element={<RequireAuth requireType="doctor"><DeleteDoctor /></RequireAuth>} />
         <Route path='/doctorlogin' element={<DoctorLogin />} />
-        <Route path="/docHome/:id" element={<ReadOneHome />} />
+  <Route path="/docHome/:id" element={<RequireAuth requireType="doctor"><ReadOneHome /></RequireAuth>} />
 
-        <Route path='/doctorsAdmin/details/:id' element={<ReadOneDoctorAdmin />} />
-        <Route path='/doctorsAdmin/edit/:id' element={<EditDoctorAdmin />} />
-        <Route path='/doctorsAdmin/delete/:id' element={<DeleteDoctorAdmin />} />
+  <Route path='/doctorsAdmin/details/:id' element={<RequireAuth requireType="user"><ReadOneDoctorAdmin /></RequireAuth>} />
+  <Route path='/doctorsAdmin/edit/:id' element={<RequireAuth requireType="user"><EditDoctorAdmin /></RequireAuth>} />
+  <Route path='/doctorsAdmin/delete/:id' element={<RequireAuth requireType="user"><DeleteDoctorAdmin /></RequireAuth>} />
 
         <Route path='/doctorShedules/alldoctorShedules' element={<ShowAllDoctorsShedule />} />
-        <Route path='/doctorShedules/create' element={<CreateDoctorSchedule />} />
-        <Route path='/doctorShedules/details/:id' element={<ReadOneDoctorShedule />} />
-        <Route path='/doctorShedules/edit/:id' element={<EditDoctorSchedule />} />
-        <Route path='/doctorShedules/delete/:id' element={<DeletedoctorShedule />} />
+  <Route path='/doctorShedules/create' element={<RequireAuth requireType="doctor"><CreateDoctorSchedule /></RequireAuth>} />
+  <Route path='/doctorShedules/details/:id' element={<RequireAuth requireType="any"><ReadOneDoctorShedule /></RequireAuth>} />
+  <Route path='/doctorShedules/edit/:id' element={<RequireAuth requireType="doctor"><EditDoctorSchedule /></RequireAuth>} />
+  <Route path='/doctorShedules/delete/:id' element={<RequireAuth requireType="doctor"><DeletedoctorShedule /></RequireAuth>} />
 
-        <Route path='/myAppointments/:id' element={<MyAppoitments />} />
-        <Route path='/myShedule/:doctorId' element={<MyShedule />} />
+  <Route path='/myAppointments/:id' element={<RequireAuth requireType="doctor"><MyAppoitments /></RequireAuth>} />
+  <Route path='/myShedule/:doctorId' element={<RequireAuth requireType="doctor"><MyShedule /></RequireAuth>} />
         <Route path='/docSignup' element={<DocSignup />} />
 
         <Route path='/Hospital/allHospital' element={<ShowAllHospital />} />
@@ -128,8 +131,8 @@ const App = () => {
 
 
 
-        <Route path="/appointments" element={<CreateAppointment />} />
-        <Route path="/payment" element={<Payment />} />
+  <Route path="/appointments" element={<RequireAuth requireType="user"><CreateAppointment /></RequireAuth>} />
+  <Route path="/payment" element={<RequireAuth requireType="user"><Payment /></RequireAuth>} />
         <Route path="/register" element={<DoctorRegister />} />
         <Route path="/doctors" element={<DoctorDetails />} />
         <Route path="/all" element={<AllAppointments />} />
@@ -139,11 +142,11 @@ const App = () => {
 
 
         <Route path='/addCrop' element={<AddCrop />} />
-        <Route path='/myCrops' element={<MyCrops />} />
-        <Route path="/profile" element={<Profile />} />
-        <Route path='/allCrops' element={<AllCrops />} />
-        <Route path='/treatment' element={<AllTreatment />} />
-        <Route path='/updateCrop/:id' element={<EditItems />} />
+  <Route path='/myCrops' element={<RequireAuth requireType="user"><MyCrops /></RequireAuth>} />
+  <Route path="/profile" element={<RequireAuth requireType="user"><Profile /></RequireAuth>} />
+  <Route path='/allCrops' element={<RequireAuth requireType="user"><AllCrops /></RequireAuth>} />
+  <Route path='/treatment' element={<RequireAuth requireType="user"><AllTreatment /></RequireAuth>} />
+  <Route path='/updateCrop/:id' element={<RequireAuth requireType="user"><EditItems /></RequireAuth>} />
 
         <Route path='/addReport/:id' element={<AddReport />} />
         <Route path='/addTreatment/:id' element={<AddTreatment />} />
