@@ -1,6 +1,6 @@
 import React, { useEffect, useState } from 'react';
 import { useNavigate } from "react-router-dom";
-import axios from 'axios';
+import api from '../config/api';
 import PDF from '../components/reportPDF';
 import Sidebar from './verticalNavBar'; // Import the Sidebar component
 import backgroundImage from '../assets/background.png';
@@ -13,7 +13,7 @@ const AllCrops = () => {
     const navigate = useNavigate();
 
     useEffect(() => {
-        axios.get('http://localhost:5000/myReports').then((response) => {
+        api.get('/myReports').then((response) => {
             const crops = response.data;
             setCrops(crops);
             setSearch(crops);
@@ -28,7 +28,7 @@ const AllCrops = () => {
 
     const deleteCrop = async (id) => {
         try {
-            await axios.delete('http://localhost:5000/Report/delete/' + id);
+            await api.delete('/Report/delete/' + id);
         } catch (error) {
             console.log(error);
         }

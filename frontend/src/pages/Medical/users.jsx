@@ -1,13 +1,13 @@
 import React, { useEffect, useState } from 'react';
-import { useNavigate } from "react-router-dom";
-import axios from 'axios';
+import { useNavigate } from 'react-router-dom';
+import api from '../../config/api';
 
 const Users = () => {
     const [crops, setCrops] = useState([]);
     const navigate = useNavigate();
 
     useEffect(() => {
-        axios.get('http://localhost:5000/users')
+        api.get('/users')
             .then((response) => {
                 setCrops(response.data);
             })

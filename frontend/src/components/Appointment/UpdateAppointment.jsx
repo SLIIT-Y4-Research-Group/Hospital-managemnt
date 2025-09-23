@@ -1,5 +1,5 @@
 import React, { useEffect, useState } from 'react';
-import axios from 'axios';
+import api from '../../config/api';
 
 const UpdateAppointment = ({ appointment, onClose, onUpdate }) => {
   const [formData, setFormData] = useState({
@@ -33,7 +33,7 @@ const UpdateAppointment = ({ appointment, onClose, onUpdate }) => {
   const handleSubmit = async (e) => {
     e.preventDefault();
     try {
-      const response = await axios.put(`http://localhost:5000/appointments/${appointment._id}`, formData);
+      const response = await api.put(`/appointments/${appointment._id}`, formData);
       onUpdate(response.data); // Update the appointment in the parent component
       setAlert({ visible: true, message: 'Appointment updated successfully!' });
       setTimeout(() => {

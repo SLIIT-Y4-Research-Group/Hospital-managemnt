@@ -1,5 +1,5 @@
 import React, { useEffect, useState } from 'react';
-import axios from 'axios';
+import api from '../../config/api';
 import Spinner from "../../components/Spinner";
 import { Link } from 'react-router-dom';
 import { AiOutlineEdit } from 'react-icons/ai';
@@ -19,7 +19,7 @@ const DoctorReport = () => {
     useEffect(() => {
         const fetchDoctors = async () => {
             try {
-                const response = await axios.get('http://localhost:5000/doctors');
+                const response = await api.get('/doctors');
                 if (response.data && Array.isArray(response.data.data)) {
                     setDoctors(response.data.data);
                     countSpecializations(response.data.data);

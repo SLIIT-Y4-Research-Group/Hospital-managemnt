@@ -1,5 +1,5 @@
 import React, { useEffect, useState } from 'react';
-import axios from 'axios';
+import api from '../../config/api';
 import Chart from 'react-apexcharts';
 
 const AppointmentsTable = () => {
@@ -12,7 +12,7 @@ const AppointmentsTable = () => {
     useEffect(() => {
         const fetchAppointments = async () => {
             try {
-                const response = await axios.get('http://localhost:5000/appointments/all'); // Adjust the endpoint as necessary
+                const response = await api.get('/appointments/all'); // Adjust the endpoint as necessary
                 setAppointments(response.data);
 
                 // Count the genders

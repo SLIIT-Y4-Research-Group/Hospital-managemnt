@@ -1,6 +1,6 @@
 import React, { useState, useEffect } from 'react';
 import Spinner from '../../components/Spinner';
-import axios from 'axios';
+import api from '../../config/api';
 import { useNavigate } from 'react-router-dom';
 import Swal from 'sweetalert2';
 import backgroundImage from '../../assets/background.png'; // Import your background image
@@ -19,7 +19,7 @@ const CreateHospital = () => {
   useEffect(() => {
     const fetchDoctors = async () => {
       try {
-        const response = await axios.get('http://localhost:5000/doctors');
+        const response = await api.get('/doctors');
         console.log("Doctors response:", response.data);
         setDoctors(Array.isArray(response.data.data) ? response.data.data : []);
       } catch (error) {
@@ -108,8 +108,8 @@ const CreateHospital = () => {
     };
 
     setLoading(true);
-    axios
-      .post('http://localhost:5000/hospitals', data)
+    api
+      .post('hospitals', data)
       .then(() => {
         setLoading(false);
         navigate('/Hospital/allHospital'); // Adjust this path based on your routes

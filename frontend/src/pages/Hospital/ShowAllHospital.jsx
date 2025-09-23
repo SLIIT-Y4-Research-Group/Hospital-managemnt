@@ -1,5 +1,5 @@
 import React, { useEffect, useState } from 'react';
-import axios from 'axios';
+import api from '../../config/api';
 import { Link } from 'react-router-dom';
 import { AiOutlineEdit } from 'react-icons/ai';
 import { BsInfoCircle } from 'react-icons/bs';
@@ -16,7 +16,7 @@ const ShowHospital = () => {
     useEffect(() => {
         const fetchHospitals = async () => {
             try {
-                const response = await axios.get('http://localhost:5000/hospitals'); // Adjust API endpoint if needed
+                const response = await api.get('/hospitals'); // Adjust API endpoint if needed
                 if (response.data && Array.isArray(response.data.data)) {
                     setHospitals(response.data.data); // Access the array of hospitals here
                 } else {

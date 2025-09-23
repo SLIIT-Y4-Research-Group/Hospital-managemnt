@@ -1,7 +1,7 @@
 import React, { useState, useContext, useEffect } from 'react';
 import { useNavigate } from 'react-router-dom';
 import { UserContext } from '../../context/UserContext';
-import axios from 'axios';
+import api from '../../config/api';
 import backgroundImage from '../../assets/background.png'; // Import your background image
 
 const CreateAppointment = () => {
@@ -31,7 +31,7 @@ const CreateAppointment = () => {
     useEffect(() => {
         const fetchDoctorSchedules = async () => {
             try {
-                const response = await axios.get('http://localhost:5000/doctorShedules'); // Adjust API endpoint if needed
+                const response = await api.get('/doctorShedules'); // Adjust API endpoint if needed
                 if (response.data && Array.isArray(response.data.data)) {
                     setDoctors(response.data.data); // Access the array of doctorSchedules here
                 } else {
@@ -53,7 +53,7 @@ const CreateAppointment = () => {
         const fetchHospitals = async () => {
             if (formData.doctor) {
                 try {
-                    const response = await axios.get(`http://localhost:5000/doctorShedules?doctorId=${formData.doctor}`); // Adjust API endpoint to match your backend
+                    const response = await api.get(`/doctorShedules?doctorId=${formData.doctor}`); // Adjust API endpoint to match your backend
                     if (response.data && Array.isArray(response.data.data)) {
                         const selectedDoctor = response.data.data.find(doctor => doctor.DoctorID === formData.doctor);
                         if (selectedDoctor) {
@@ -88,7 +88,7 @@ const CreateAppointment = () => {
         }
         try {
             const appointmentData = { ...formData, user_id: user.user._id };  // Use user._id from context
-            const response = await axios.post('http://localhost:5000/appointments/add', appointmentData);
+            const response = await api.post('/appointments/add', appointmentData);
 
             const { appointmentId } = response.data;
 

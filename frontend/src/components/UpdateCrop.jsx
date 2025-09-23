@@ -1,5 +1,5 @@
 import React, { useState, useEffect } from 'react';
-import axios from 'axios';
+import api from '../config/api';
 import { useParams, useNavigate } from 'react-router-dom'
 import Sidebar from './verticalNavBar'; // Import the Sidebar component
 import backgroundImage from '../assets/background.png';
@@ -23,7 +23,7 @@ const EditItems = () => {
     });
 
     useEffect(() => {
-        axios.get('http://localhost:5000/myCrop/' + id).then((response) => {
+        api.get('/myCrop/' + id).then((response) => {
             const crops = response.data;
             setCropData(crops);
         }).catch((err) => {
@@ -42,7 +42,7 @@ const EditItems = () => {
     const handleUpdate = async (e) => {
         e.preventDefault();
         try {
-            const response = await axios.put('http://localhost:5000/crop/update/' + id, cropData)
+            const response = await api.put('/crop/update/' + id, cropData)
             if (response.data.success) {
                 navigate('/allCrops');
                 alert(response.data.message);

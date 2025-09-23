@@ -1,5 +1,5 @@
 import React, { useState } from 'react';
-import axios from 'axios';
+import api from '../config/api';
 import { useNavigate } from 'react-router-dom';
 import Spinner from "./Spinner";
 import backgroundImage from '../assets/background3.jpg'; // Import your background image
@@ -21,7 +21,7 @@ const Login = () => {
         const credentials = { DoctorID, Password: password };
 
         try {
-            const response = await axios.post("http://localhost:5000/doctors/Login", credentials);
+            const response = await api.post("/doctors/Login", credentials);
             const userData = response.data;
 
             if (userData) {

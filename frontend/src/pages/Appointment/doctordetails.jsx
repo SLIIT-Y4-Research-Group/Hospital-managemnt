@@ -1,5 +1,5 @@
 import React, { useState } from 'react';
-import axios from 'axios';
+import api from '../../config/api';
 
 const DoctorDetails = () => {
     const [name, setName] = useState('');
@@ -21,7 +21,7 @@ const DoctorDetails = () => {
         setError('');
 
         try {
-            const response = await axios.get(`http://localhost:5000/api/doctors/name/${name}`);
+            const response = await api.get(`/api/doctors/name/${name}`);
             setDoctors(response.data);
         } catch (error) {
             setError(
@@ -37,7 +37,7 @@ const DoctorDetails = () => {
         setError('');
 
         try {
-            const response = await axios.get('http://localhost:5000/api/doctors');
+            const response = await api.get('/api/doctors');
             setDoctors(response.data);
         } catch (error) {
             setError(

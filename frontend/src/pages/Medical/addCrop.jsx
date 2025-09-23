@@ -1,5 +1,5 @@
 import { useEffect, useState } from "react";
-import axios from "axios";
+import api from "../../config/api";
 import "./add service.css";
 import { toast } from "react-hot-toast";
 
@@ -18,7 +18,7 @@ function AddCrop() {
     const handlesubmit = async (e) => {
         e.preventDefault();
         try {
-            const crop = await axios.post("http://localhost:5000/addCrop", {
+            const crop = await api.post("/addCrop", {
                 cropName,
                 growthStage,
                 soilType,
@@ -31,7 +31,7 @@ function AddCrop() {
                 location
             });
             if (crop.error) {
-                toast.error("Something Went Wrong" + error);
+                toast.error("Something Went Wrong" + crop.error);
             } else {
                 toast.success("Crop Added Successfully");
             }

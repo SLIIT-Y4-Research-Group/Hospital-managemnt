@@ -1,6 +1,6 @@
 import React, { useEffect, useState } from 'react';
 import { useParams } from 'react-router-dom';
-import axios from 'axios';
+import api from '../../config/api';
 import Spinner from '../../components/Spinner';
 import backgroundImage from '../../assets/blue_bg.jpg'; // Import the background image
 import BackButton from '../../components/BackButton';
@@ -12,8 +12,8 @@ const ViewStocks = () => {
 
     useEffect(() => {
         setLoading(true);
-        axios
-            .get(`http://localhost:5000/stocks/${id}`) // Adjust the API URL as needed
+        api
+            .get(`/stocks/${id}`) // Adjust the API URL as needed
             .then((response) => {
                 setStock(response.data); // Adjust according to your API response structure
                 setLoading(false);

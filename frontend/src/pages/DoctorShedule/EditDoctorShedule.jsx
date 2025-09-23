@@ -1,6 +1,6 @@
 import React, { useState, useEffect } from 'react';
 import Spinner from '../../components/Spinner';
-import axios from 'axios';
+import api from '../../config/api';
 import { useNavigate, useParams } from 'react-router-dom';
 import Swal from 'sweetalert2';
 import backgroundImage from '../../assets/background.png'; // Import your background image
@@ -32,7 +32,7 @@ const EditDoctorSchedule = () => {
 
     useEffect(() => {
         setLoading(true);
-        axios.get(`http://localhost:5000/doctorShedules/${id}`)
+        api.get(`/doctorShedules/${id}`)
             .then((response) => {
                 const schedule = response.data;
                 setDoctorID(schedule.DoctorID || '');
@@ -76,7 +76,7 @@ const EditDoctorSchedule = () => {
         };
 
         setLoading(true);
-        axios.put(`http://localhost:5000/doctorShedules/${id}`, data)
+        api.put(`/doctorShedules/${id}`, data)
             .then(() => {
                 setLoading(false);
                 Swal.fire({

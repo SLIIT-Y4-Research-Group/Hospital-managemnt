@@ -1,5 +1,5 @@
 import React, { useEffect, useState } from 'react';
-import axios from 'axios';
+import api from '../../config/api';
 import { useParams, Link } from 'react-router-dom';
 import { BsInfoCircle } from 'react-icons/bs';
 import { AiOutlineEdit } from 'react-icons/ai';
@@ -12,8 +12,8 @@ const DoctorProfile = () => {
 
   useEffect(() => {
     setLoading(true);
-    axios
-      .get(`http://localhost:5000/doctors/${id}`)
+    api
+      .get(`/doctors/${id}`)
       .then((response) => {
         setDoctor(response.data);
         setLoading(false);

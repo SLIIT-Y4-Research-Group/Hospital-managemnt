@@ -1,6 +1,6 @@
 import React, { useEffect, useState } from 'react';
 import { useNavigate } from "react-router-dom";
-import axios from 'axios';
+import api from '../config/api';
 import PDF from '../components/reportPDF';
 import Sidebar from './verticalNavBar'; // Import the Sidebar component
 import backgroundImage from '../assets/background.png';
@@ -13,7 +13,7 @@ const AllTreatment = () => {
     const navigate = useNavigate();
 
     useEffect(() => {
-        axios.get('http://localhost:5000/myTreatment').then((response) => {
+        api.get('/myTreatment').then((response) => {
             const treatments = response.data;
             setTreatments(treatments);
             setSearch(treatments);
@@ -28,7 +28,7 @@ const AllTreatment = () => {
 
     const deleteTreatment = async (id) => {
         try {
-            await axios.delete('http://localhost:5000/Treatment/delete/' + id);
+            await api.delete('/Treatment/delete/' + id);
         } catch (error) {
             console.log(error);
         }
