@@ -1,11 +1,11 @@
 import { auth } from '../config/firebaseConfig.js';
-import User from '../models/User.js';
+import User from '../models/user.js';
 
 // Middleware to verify Firebase ID token
 export const authenticateToken = async (req, res, next) => {
   try {
     const authHeader = req.headers.authorization;
-    const token = authHeader && authHeader.split(' ')[1]; // Bearer TOKEN
+    const token = authHeader && authHeader.split(' ')[1];
 
     if (!token) {
       return res.status(401).json({ message: 'Access token required' });

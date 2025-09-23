@@ -1,5 +1,5 @@
 import React, { useEffect, useState } from 'react';
-import axios from 'axios';
+import api from '../../config/api';
 import { useParams, Link } from 'react-router-dom';
 
 const AppointmentsTable = () => {
@@ -11,7 +11,7 @@ const AppointmentsTable = () => {
     useEffect(() => {
         const fetchAppointments = async () => {
             try {
-                const response = await axios.get('http://localhost:5000/appointments/all'); // Adjust the endpoint as necessary
+                const response = await api.get('/appointments/all'); // Adjust the endpoint as necessary
                 // Filter appointments by doctor ID
                 const filteredAppointments = response.data.filter(appointment => appointment.doctor === id);
                 setAppointments(filteredAppointments);
@@ -28,7 +28,7 @@ const AppointmentsTable = () => {
 
     const handleStatusChange = async (appointmentId, newStatus) => {
         try {
-            await axios.put(`http://localhost:5000/appointments/${appointmentId}`, { status: newStatus });
+            await api.put(`/appointments/${appointmentId}`, { status: newStatus });
             setAppointments((prevAppointments) =>
                 prevAppointments.map((appointment) =>
                     appointment._id === appointmentId ? { ...appointment, status: newStatus } : appointment

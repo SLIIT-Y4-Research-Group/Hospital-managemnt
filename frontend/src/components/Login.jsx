@@ -1,6 +1,6 @@
 import { useState, useContext } from 'react';
 import { useNavigate } from 'react-router-dom';
-import axios from 'axios';
+import api from '../config/api';
 import { Link } from 'react-router-dom'; // Import Link for navigation
 import { UserContext } from '../context/UserContext';
 import Spinner from "./Spinner";
@@ -20,7 +20,7 @@ const Login = () => {
         setError('');
 
         try {
-            const response = await axios.post('http://localhost:5000/api/auth/login', { email, password });
+            const response = await api.post('/api/auth/login', { email, password });
             
             // Handle successful login - navigate based on role
             console.log(response.data);

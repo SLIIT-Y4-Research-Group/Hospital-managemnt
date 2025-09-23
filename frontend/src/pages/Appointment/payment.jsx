@@ -1,6 +1,6 @@
 import React, { useState, useEffect } from 'react';
 import { useNavigate, useLocation } from 'react-router-dom';
-import axios from 'axios';
+import api from '../../config/api';
 
 const PaymentForm = () => {
     const [formData, setFormData] = useState({
@@ -26,13 +26,13 @@ const PaymentForm = () => {
 
     const fetchDoctorFee = async (appointmentId) => {
         try {
-            const response = await axios.get(`http://localhost:5000/appointments/${appointmentId}`);
+            const response = await api.get(`/appointments/${appointmentId}`);
 
             const { doctor } = response.data; // Ensure this exists
             console.log('Doctor ID:', doctor); // Add this line to see the doctor ID
             
             // Fetch the doctor's fee using DoctorID
-            const doctorResponse = await axios.get(`http://localhost:5000/api/appointment-fee/${doctor}`);
+            const doctorResponse = await api.get(`/api/appointment-fee/${doctor}`);
             setDoctorFee(doctorResponse.data.fee);
 
             setFormData((prevData) => ({
@@ -54,14 +54,14 @@ const PaymentForm = () => {
         e.preventDefault();
         try {
             // Process the payment
-            const paymentResponse = await axios.post('http://localhost:5000/payments/add', {
+            const paymentResponse = await api.post('/payments/add', {
                 ...formData,
                 appointmentId,
             });
             alert('Payment successful');
 
             // Update appointment status to "Confirmed"
-            await axios.put(`http://localhost:5000/appointments/${appointmentId}`, {
+            await api.put(`/appointments/${appointmentId}`, {
                 status: 'Confirmed', // Set the new status
             });
 

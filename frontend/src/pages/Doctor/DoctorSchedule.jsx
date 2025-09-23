@@ -1,5 +1,5 @@
 import React, { useEffect, useState } from 'react';
-import axios from 'axios';
+import api from '../../config/api';
 import { Link, useParams } from 'react-router-dom';
 import Spinner from "../../components/Spinner";
 import { BsInfoCircle } from 'react-icons/bs';
@@ -15,7 +15,7 @@ const ShowDoctorSchedule = () => {
     useEffect(() => {
         const fetchDoctorSchedules = async () => {
             try {
-                const response = await axios.get('http://localhost:5000/doctorShedules'); // Adjust API endpoint if needed
+                const response = await api.get('/doctorShedules'); // Adjust API endpoint if needed
                 if (response.data && Array.isArray(response.data.data)) {
                     setDoctorSchedules(response.data.data);
                 } else {

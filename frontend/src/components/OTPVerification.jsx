@@ -1,6 +1,6 @@
 import { useState, useRef, useEffect } from 'react';
 import { useNavigate, useLocation } from 'react-router-dom';
-import axios from 'axios';
+import api from '../config/api';
 import Spinner from "./Spinner";
 import backgroundImage from '../assets/background3.jpg';
 
@@ -73,7 +73,7 @@ const OTPVerification = () => {
         setSuccess('');
 
         try {
-            await axios.post('http://localhost:5000/api/auth/verify-otp', {
+            await api.post('/api/auth/verify-otp', {
                 email: email,
                 otp: otpValue
             });
@@ -101,7 +101,7 @@ const OTPVerification = () => {
         setSuccess('');
 
         try {
-            await axios.post('http://localhost:5000/api/auth/resend-otp', { email });
+            await api.post('/api/auth/resend-otp', { email });
             setSuccess('OTP resent successfully! Check your email.');
         } catch (error) {
             console.error("Resend OTP failed:", error);
@@ -122,7 +122,7 @@ const OTPVerification = () => {
                 setSuccess('');
 
                 try {
-                    await axios.post('http://localhost:5000/api/auth/verify-otp', {
+                    await api.post('/api/auth/verify-otp', {
                         email: email,
                         otp: otpValue
                     });

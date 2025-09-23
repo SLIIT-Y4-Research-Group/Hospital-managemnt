@@ -1,5 +1,5 @@
 import { useEffect, useState } from "react";
-import axios from "axios";
+import api from "../../config/api";
 import "./add service.css";
 import { useParams, useNavigate } from 'react-router-dom'
 import { toast } from "react-hot-toast";
@@ -22,7 +22,7 @@ function AddReport() {
     const handlesubmit = async (e) => {
         e.preventDefault();
         try {
-            const crop = await axios.post("http://localhost:5000/addReport/" + id, {
+            const crop = await api.post("/addReport/" + id, {
                 cropName,
                 id,
                 growthStage,
@@ -36,7 +36,7 @@ function AddReport() {
                 location
             });
             if (crop.error) {
-                toast.error("Something Went Wrong" + error);
+                toast.error("Something Went Wrong" + crop.error);
             } else {
                 toast.success("Crop Added Successfully");
             }

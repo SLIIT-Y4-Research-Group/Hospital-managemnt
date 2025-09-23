@@ -1,3 +1,7 @@
+import React, { useContext, useState, useEffect } from 'react';
+import api from '../../config/api';
+import { UserContext } from '../../context/UserContext';
+
 const UserAppointments = () => {
     const { user } = useContext(UserContext); // Retrieve user info from context
     const [appointments, setAppointments] = useState([]);
@@ -13,7 +17,7 @@ const UserAppointments = () => {
             }
 
             try {
-                const response = await axios.get(`http://localhost:5000/appointments/user/${user.user._id}`);
+                const response = await api.get(`/appointments/user/${user.user._id}`);
                 const appointmentsData = response.data;
 
                 // Fetch doctor names for each appointment
@@ -21,7 +25,7 @@ const UserAppointments = () => {
                     appointmentsData.map(async (appointment) => {
                         try {
                             // Fetch by DoctorID
-                            const doctorResponse = await axios.get(`http://localhost:5000/api/doctors/${appointment.doctorId}`);
+                            const doctorResponse = await api.get(`/api/doctors/${appointment.doctorId}`);
                             return {
                                 ...appointment,
                                 doctorName: doctorResponse.data.Name, // Use the doctor's name from the response

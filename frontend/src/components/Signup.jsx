@@ -1,6 +1,6 @@
 import { useState } from 'react';
 import { useNavigate } from 'react-router-dom';
-import axios from 'axios';
+import api from '../config/api';
 
 const Signup = () => {
   const navigate = useNavigate();
@@ -13,7 +13,7 @@ const Signup = () => {
   const handleSubmit = async (e) => {
     e.preventDefault();
     try {
-      await axios.post('http://localhost:5000/api/auth/signup', formData);
+      await api.post('/api/auth/signup', formData);
       alert('Signup Successful! Please check your email for OTP verification.');
       navigate('/verify-otp', { state: { email: formData.email } }); // Navigate to OTP verification with email
     } catch (error) {

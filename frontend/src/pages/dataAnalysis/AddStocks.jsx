@@ -1,5 +1,5 @@
 import React, { useState } from 'react';
-import axios from 'axios';
+import api from '../../config/api';
 import './AddStocks.css'; // Add custom styles for the page
 
 const AddStocks = () => {
@@ -25,8 +25,8 @@ const AddStocks = () => {
     const handleSubmit = async (e) => {
         e.preventDefault();
         try {
-            const response = await axios.post('http://localhost:5000/stocks/add', stockData); // Replace <your_port> with the actual backend port
-            setMessage('Stock added successfully!');
+            const response = await api.post('/stocks/add', stockData); // Replace <your_port> with the actual backend port
+            setMessage('Stock added successfully!',response);
             setStockData({
                 drugName: '',
                 expireDate: '',

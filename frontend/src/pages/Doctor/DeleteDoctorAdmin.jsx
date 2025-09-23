@@ -1,7 +1,7 @@
 import React, { useState } from 'react';
 // import BackButton from '../../components/BackButton';
 import Spinner from '../../components/Spinner';
-import axios from 'axios';
+import api from '../../config/api';
 import { useNavigate, useParams } from 'react-router-dom';
 import backgroundImage from '../../assets/background.png'; // Import your background image
 
@@ -13,8 +13,8 @@ const DeleteDoctor = () => {
 
   const handleDeleteDoctor = () => {
     setLoading(true);
-    axios
-      .delete(`http://localhost:5000/doctors/${id}`)
+    api
+      .delete(`/doctors/${id}`)
       .then(() => {
         setLoading(false);
         navigate('/doctors/alldoctors');

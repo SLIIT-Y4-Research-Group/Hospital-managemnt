@@ -1,5 +1,5 @@
 import React, { useEffect, useState } from 'react';
-import axios from 'axios';
+import api from '../../config/api';
 import { useParams } from 'react-router-dom';
 // import BackButton from '../../components/BackButton';
 import Spinner from '../../components/Spinner';
@@ -12,8 +12,8 @@ const ShowDoctorSchedule = () => {
 
   useEffect(() => {
     setLoading(true);
-    axios
-      .get(`http://localhost:5000/doctorShedules/${id}`)
+    api
+      .get(`/doctorShedules/${id}`)
       .then((response) => {
         setSchedule(response.data);
         setLoading(false);

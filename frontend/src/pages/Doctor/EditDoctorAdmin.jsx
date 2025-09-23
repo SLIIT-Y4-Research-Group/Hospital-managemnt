@@ -1,7 +1,7 @@
 import React, { useState, useEffect } from 'react';
 // import BackButton from '../../components/BackButton';
 import Spinner from '../../components/Spinner';
-import axios from 'axios';
+import api from '../../config/api';
 import { useNavigate, useParams } from 'react-router-dom';
 import { getStorage, ref, uploadBytesResumable, getDownloadURL } from "firebase/storage";
 import { app } from "../../config/firebase";
@@ -28,7 +28,7 @@ const EditDoctor = () => {
 
   useEffect(() => {
     setLoading(true);
-    axios.get(`http://localhost:5000/doctors/${id}`)
+    api.get(`/doctors/${id}`)
       .then((response) => {
         const doctor = response.data;
         setImageURL(doctor.image);  // Set the initial image URL
@@ -83,8 +83,8 @@ const EditDoctor = () => {
       console.log('Data to be sent:', data); // Log the data being sent
 
       setLoading(true);
-      axios
-        .put(`http://localhost:5000/doctors/${id}`, data)
+      api
+        .put(`/doctors/${id}`, data)
         .then(() => {
           setLoading(false);
           navigate('/doctors/alldoctors'); // Navigate after successful update

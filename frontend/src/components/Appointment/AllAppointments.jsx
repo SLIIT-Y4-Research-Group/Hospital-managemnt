@@ -1,5 +1,5 @@
 import React, { useEffect, useState } from 'react';
-import axios from 'axios';
+import api from '../../config/api';
 import UpdateAppointment from './UpdateAppointment'; // Import the UpdateAppointment component
 import { useNavigate } from 'react-router-dom';
 
@@ -14,7 +14,7 @@ const AppointmentsList = ({ userId }) => {
     useEffect(() => {
         const fetchAppointments = async () => {
             try {
-                const response = await axios.get(`http://localhost:5000/appointments/user/${userId}`);
+                const response = await api.get(`/appointments/user/${userId}`);
                 const fetchedAppointments = response.data;
                 setAppointments(fetchedAppointments);
                 
@@ -24,7 +24,7 @@ const AppointmentsList = ({ userId }) => {
                 const doctorDetails = await Promise.all(
                     doctorIds.map(async (id) => {
                         try {
-                            const res = await axios.get(`http://localhost:5000/api/doctors/${id}`);
+                            const res = await api.get(`/api/doctors/${id}`);
                             return res.data; // return doctor details
                         } catch (error) {
                             console.error(`Error fetching doctor ${id}:`, error.message);
@@ -55,7 +55,7 @@ const AppointmentsList = ({ userId }) => {
     const handleDelete = async (id) => {
         if (window.confirm('Are you sure you want to delete this appointment?')) {
             try {
-                await axios.delete(`http://localhost:5000/appointments/${id}`);
+                await api.delete(`/appointments/${id}`);
                 setAppointments(appointments.filter((appointment) => appointment._id !== id));
             } catch (error) {
                 console.error('Error deleting appointment:', error);

@@ -1,5 +1,5 @@
 import React, { useEffect, useState } from 'react';
-import axios from 'axios';
+import api from '../../config/api';
 import { useParams } from 'react-router-dom';
 import Spinner from '../../components/Spinner';
 import backgroundImage from '../../assets/background.png'; // Import your background image
@@ -11,8 +11,8 @@ const ShowHospital = () => {
 
   useEffect(() => {
     setLoading(true);
-    axios
-      .get(`http://localhost:5000/hospitals/${id}`) // Updated API endpoint
+    api
+      .get(`hospitals/${id}`) // Updated API endpoint
       .then((response) => {
         setHospital(response.data);
         setLoading(false);

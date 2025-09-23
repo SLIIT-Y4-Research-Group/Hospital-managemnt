@@ -1,5 +1,5 @@
 import React, { useState, useEffect } from 'react';
-import axios from 'axios';
+import api from '../../config/api';
 import { useNavigate } from 'react-router-dom';
 import ApexCharts from 'apexcharts';
 import './StockReport.css'; // To style the page
@@ -12,7 +12,7 @@ const StockReport = () => {
     useEffect(() => {
         const fetchStocks = async () => {
             try {
-                const response = await axios.get('http://localhost:5000/stocks/all'); // Replace with actual backend URL
+                const response = await api.get('/stocks/all'); // Replace with actual backend URL
                 const stockItems = response.data;
                 setStocks(stockItems);
 
@@ -123,7 +123,7 @@ const StockReport = () => {
     // Function to delete a stock item
     const handleDeleteStock = async (id) => {
         try {
-            await axios.delete(`http://localhost:5000/stocks/${id}`);
+            await api.delete(`/stocks/${id}`);
             setStocks(stocks.filter(stock => stock._id !== id)); // Remove the deleted stock from the list
         } catch (error) {
             console.error("Error deleting stock item:", error);

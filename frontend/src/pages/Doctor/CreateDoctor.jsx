@@ -1,7 +1,7 @@
 import React, { useState } from 'react';
 import BackButton from '../../components/BackButton';
 import Spinner from '../../components/Spinner';
-import axios from 'axios';
+import api from '../../config/api';
 import { useNavigate } from 'react-router-dom';
 import { getStorage, ref, uploadBytesResumable, getDownloadURL } from "firebase/storage";
 import { app } from "../../config/firebase";
@@ -67,8 +67,8 @@ const CreateDoctor = () => {
       };
 
       setLoading(true);
-      axios
-        .post('http://localhost:5000/doctors', data)
+      api
+        .post('doctors', data)
         .then(() => {
           setLoading(false);
           Swal.fire('Success', 'Doctor created successfully!', 'success');

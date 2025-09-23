@@ -1,5 +1,5 @@
 import React, { useState } from 'react';
-import axios from 'axios';
+import api from '../../config/api';
 
 const DoctorRegister = () => {
     const [formData, setFormData] = useState({
@@ -45,7 +45,7 @@ const DoctorRegister = () => {
     const handleSubmit = async (e) => {
         e.preventDefault();
         try {
-            const response = await axios.post('http://localhost:5000/api/doctors/register', formData);
+            const response = await api.post('/api/doctors/register', formData);
             alert(response.data.message);
         } catch (error) {
             alert('Error registering doctor: ' + (error.response ? error.response.data.message : error.message));
