@@ -6,7 +6,7 @@ import { useNavigate } from 'react-router-dom';
 import { getStorage, ref, uploadBytesResumable, getDownloadURL } from "firebase/storage";
 import { app } from "../../config/firebase";
 import Swal from 'sweetalert2';
-import backgroundImage from '../../assets/background.png'; // Import your background image
+import backgroundImage from '../../assets/background.png'; 
 import DOMPurify from 'dompurify';
 
 const specializations = [
@@ -57,31 +57,33 @@ const CreateDoctor = () => {
       return false;
     }
 
-    // Password validation: minimum 8 characters, at least one uppercase letter, one lowercase letter, and one number
     const passwordRegex = /^(?=.*[a-z])(?=.*[A-Z])(?=.*\d).{8,}$/;
     if (!passwordRegex.test(Password)) {
       Swal.fire('Validation Error', 'Password must be at least 8 characters long and include at least one uppercase letter, one lowercase letter, and one number.', 'error');
       return false;
     }
 
-    // Additional validation checks can be added here (e.g., email format, contact number format)
-
+    
     return true;
   };
 
   const handleSaveDoctor = () => {
-    if (!validateInputs()) return; // Only proceed if validation passes
+    if (!validateInputs()) return; 
 
     const uploadImageAndSubmit = (downloadURL) => {
 
-       // Sanitize description
-  const cleanDescription = DOMPurify.sanitize(description);
+      // sanitize description and each hospital field before sending to the db
+      // Avoided using dangerouslySetInnerHTML or any direct innerHTML rendering of untrusted data.
+      // Sanitizing here ensures no malicious scripts are stored or rendered later.
 
-  // Sanitize hospital names and addresses
-  const cleanHospitals = workingHospitals.map(hospital => ({
-    HospitalName: DOMPurify.sanitize(hospital.HospitalName),
-    HospitalAddress: DOMPurify.sanitize(hospital.HospitalAddress)
-  }));
+       // Sanitize description
+      const cleanDescription = DOMPurify.sanitize(description);
+
+      // Sanitize hospital names and addresses
+      const cleanHospitals = workingHospitals.map(hospital => ({
+        HospitalName: DOMPurify.sanitize(hospital.HospitalName),
+        HospitalAddress: DOMPurify.sanitize(hospital.HospitalAddress)
+      }));
 
       const data = {
         image: downloadURL || null,

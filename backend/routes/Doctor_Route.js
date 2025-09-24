@@ -3,13 +3,13 @@ import mongoose from 'mongoose';
 import sanitize from 'mongo-sanitize';
 import { body, param, validationResult } from 'express-validator';
 import bcrypt from 'bcryptjs';
-import { Doctor } from '../models/Doctor.js'; // keep your model import
+import { Doctor } from '../models/Doctor.js';
 
 const router = express.Router();
 
 /**
- * Middleware: sanitize incoming payloads (body, query, params)
- * This removes keys starting with '$' and dots that could be used in NoSQL injection.
+ * sanitize incoming payloads (body, query, params)
+ * removes keys starting with '$' and dots that could be used in NoSQL injection.
  */
 router.use((req, res, next) => {
   req.body = sanitize(req.body);
@@ -18,9 +18,10 @@ router.use((req, res, next) => {
   next();
 });
 
-/**
- * Helper: centralize validation result handling
- */
+// centralize validation result handling
+// validate and normalize fields with express-validator
+// Rejects unexpected types and missing fields.
+
 function handleValidationErrors(req, res) {
   const errors = validationResult(req);
   if (!errors.isEmpty()) {
@@ -29,12 +30,7 @@ function handleValidationErrors(req, res) {
   return null;
 }
 
-/**
- * Create Doctor
- * - Validate required fields
- * - Whitelist fields used for create
- * - Hash password before saving
- */
+// Create Doctor
 router.post(
   '/',
   [
@@ -95,9 +91,8 @@ router.post(
   }
 );
 
-/**
- * Get all doctors
- */
+// Get all doctors
+ 
 router.get('/', async (req, res) => {
   try {
     const doctors = await Doctor.find({});
@@ -108,10 +103,8 @@ router.get('/', async (req, res) => {
   }
 });
 
-/**
- * Get Doctor by Mongo ObjectId
- * path: /id/:id
- */
+//Get Doctor by Mongo ObjectId
+
 router.get(
   '/:id',
   [param('id').custom((v) => mongoose.Types.ObjectId.isValid(v))],
@@ -130,15 +123,13 @@ router.get(
   }
 );
 
-/**
- * Update Doctor by Mongo ObjectId
- * path: /id/:id (PUT)
- */
+//Update Doctor by Mongo ObjectId
 router.put(
   '/:id',
   [
     param('id').custom((v) => mongoose.Types.ObjectId.isValid(v)),
-    // optional validations for updateable fields:
+    // optional validations for updateable fields
+    // This prevents malformed or attacker-controlled IDs from causing unexpected behavior
     body('Name').optional().isString().trim(),
     body('Specialization').optional().isString().trim(),
     body('ContactNo').optional().isString().trim(),
@@ -168,6 +159,9 @@ router.put(
       ];
 
       // Only pick whitelisted fields
+      // build an object of allowed fields (a whitelist) and only write that to the DB
+      // This blocks any unexpected operator keys and fields
+
       for (const key of allowed) {
         if (req.body[key] !== undefined) fields[key] = req.body[key];
       }
@@ -188,10 +182,8 @@ router.put(
   }
 );
 
-/**
- * Delete doctor by ObjectId
- * path: /id/:id (DELETE)
- */
+// Delete doctor by ObjectId
+
 router.delete(
   '/:id',
   [param('id').custom((v) => mongoose.Types.ObjectId.isValid(v))],
@@ -210,10 +202,7 @@ router.delete(
   }
 );
 
-/**
- * Login (by DoctorID)
- * path: /login
- */
+// Login (by DoctorID)
 router.post(
   '/login',
   [
