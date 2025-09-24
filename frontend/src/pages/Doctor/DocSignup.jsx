@@ -6,7 +6,19 @@ import { useNavigate } from 'react-router-dom';
 import { getStorage, ref, uploadBytesResumable, getDownloadURL } from "firebase/storage";
 import { app } from "../../config/firebase";
 import Swal from 'sweetalert2';
-import backgroundImage from '../../assets/background.png'; // Import your background image
+import backgroundImage from '../../assets/background.png'; 
+import DOMPurify from 'dompurify';
+
+const specializations = [
+  'Cardiology',
+  'Dermatology',
+  'Neurology',
+  'Pediatrics',
+  'Radiology',
+  'Surgery',
+  'General Practice',
+  // Add more specializations as needed
+];
 
 const CreateDoctor = () => {
   const [image, setImage] = useState(null);
@@ -45,14 +57,34 @@ const CreateDoctor = () => {
       return false;
     }
 
-    // Additional validation checks can be added here
+    const passwordRegex = /^(?=.*[a-z])(?=.*[A-Z])(?=.*\d).{8,}$/;
+    if (!passwordRegex.test(Password)) {
+      Swal.fire('Validation Error', 'Password must be at least 8 characters long and include at least one uppercase letter, one lowercase letter, and one number.', 'error');
+      return false;
+    }
+
+    
     return true;
   };
 
   const handleSaveDoctor = () => {
-    if (!validateInputs()) return; // Only proceed if validation passes
+    if (!validateInputs()) return; 
 
     const uploadImageAndSubmit = (downloadURL) => {
+
+      // sanitize description and each hospital field before sending to the db
+      // Avoided using dangerouslySetInnerHTML or any direct innerHTML rendering of untrusted data.
+      // Sanitizing here ensures no malicious scripts are stored or rendered later.
+
+       // Sanitize description
+      const cleanDescription = DOMPurify.sanitize(description);
+
+      // Sanitize hospital names and addresses
+      const cleanHospitals = workingHospitals.map(hospital => ({
+        HospitalName: DOMPurify.sanitize(hospital.HospitalName),
+        HospitalAddress: DOMPurify.sanitize(hospital.HospitalAddress)
+      }));
+
       const data = {
         image: downloadURL || null,
         Name: name,
@@ -61,8 +93,8 @@ const CreateDoctor = () => {
         Email: email,
         Address: address,
         BasicSalary: basicSalary,
-        Description: description,
-        WorkingHospitals: workingHospitals,
+        Description: cleanDescription,
+        WorkingHospitals: cleanHospitals,
         Password: Password,
       };
 
@@ -122,14 +154,17 @@ const CreateDoctor = () => {
               className="border border-gray-300 rounded-md p-2 w-full"
               required
             />
-            <input 
-              type="text" 
-              placeholder="Specialization" 
-              value={specialization} 
-              onChange={(e) => setSpecialization(e.target.value)} 
+            <select
+              value={specialization}
+              onChange={(e) => setSpecialization(e.target.value)}
               className="border border-gray-300 rounded-md p-2 w-full"
               required
-            />
+            >
+              <option value="" disabled>Select Specialization</option>
+              {specializations.map((spec, index) => (
+                <option key={index} value={spec}>{spec}</option>
+              ))}
+            </select>
             <input 
               type="text" 
               placeholder="Contact No" 
@@ -156,7 +191,7 @@ const CreateDoctor = () => {
             />
             <input 
               type="text" 
-              placeholder="Basic Salary" 
+              placeholder="Appointment Fee" 
               value={basicSalary} 
               onChange={(e) => setBasicSalary(e.target.value)} 
               className="border border-gray-300 rounded-md p-2 w-full"

@@ -7,6 +7,17 @@ import { app } from "../../config/firebase";
 import Swal from 'sweetalert2'; // Import SweetAlert2
 import backgroundImage from '../../assets/background.png'; // Import your background image
 
+const specializations = [
+  'Cardiology',
+  'Dermatology',
+  'Neurology',
+  'Pediatrics',
+  'Radiology',
+  'Surgery',
+  'General Practice',
+  // Add more specializations as needed
+];
+
 const EditDoctor = () => {
   const [image, setImage] = useState(null);
   const [imageURL, setImageURL] = useState('');
@@ -18,7 +29,7 @@ const EditDoctor = () => {
   const [basicSalary, setBasicSalary] = useState('');
   const [description, setDescription] = useState('');
   const [workingHospitals, setWorkingHospitals] = useState([{ HospitalName: '', HospitalAddress: '' }]);
-  const [Password, setPassword] = useState('');
+  //const [Password, setPassword] = useState('');
 
   const [loading, setLoading] = useState(false);
   const navigate = useNavigate();
@@ -39,7 +50,7 @@ const EditDoctor = () => {
         setBasicSalary(doctor.BasicSalary || '');
         setDescription(doctor.Description || '');
         setWorkingHospitals(doctor.WorkingHospitals || [{ HospitalName: '', HospitalAddress: '' }]);
-        setPassword(doctor.Password || '');
+        //setPassword(doctor.Password || '');
         setLoading(false);
       })
       .catch((error) => {
@@ -77,7 +88,7 @@ const EditDoctor = () => {
         BasicSalary: basicSalary,
         Description: description,
         WorkingHospitals: workingHospitals,
-        Password: Password,
+        //Password: Password,
       };
 
       console.log('Data to be sent:', data); // Log the data being sent
@@ -159,12 +170,17 @@ const EditDoctor = () => {
             </div>
             <div className='my-4'>
               <label className='text-xl mr-4 text-gray-500'>Specialization</label>
-              <input
+              <select
                 type='text'
                 value={specialization}
                 onChange={(e) => setSpecialization(e.target.value)}
                 className='border border-gray-300 rounded-md p-2 w-full focus:outline-none focus:ring-2 focus:ring-blue-400'
-              />
+              >
+                <option value="" disabled>Select Specialization</option>
+              {specializations.map((spec, index) => (
+                <option key={index} value={spec}>{spec}</option>
+              ))}
+              </select>
             </div>
             <div className='my-4'>
               <label className='text-xl mr-4 text-gray-500'>Contact Number</label>
@@ -233,7 +249,7 @@ const EditDoctor = () => {
               ))}
               <button type="button" onClick={addHospital} className="text-blue-600">Add Hospital</button>
             </div>
-            <div className='my-4'>
+            {/* <div className='my-4' hidden>
               <label className='text-xl mr-4 text-gray-500'>Password</label>
               <input
                 type='password'
@@ -241,7 +257,7 @@ const EditDoctor = () => {
                 onChange={(e) => setPassword(e.target.value)}
                 className='border border-gray-300 rounded-md p-2 w-full focus:outline-none focus:ring-2 focus:ring-blue-400'
               />
-            </div>
+            </div> */}
             <button onClick={handleEditDoctor} className='bg-blue-600 text-white font-bold py-2 px-4 rounded mt-4 hover:bg-blue-500'>
               Update Doctor
             </button>
