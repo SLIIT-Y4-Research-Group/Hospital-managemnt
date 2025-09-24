@@ -1,12 +1,12 @@
 import express from 'express';
-import StockController from '../controllers/StockController.js'; // Adjust the path as needed
+import StockController from '../controllers/StockController.js';
 
 const router = express.Router();
 
-// Routes for stock
-router.route('/add').post(StockController.addStock); // Add a stock item
-router.route('/all').get(StockController.getAllStock); // Get all stock items
-router.route('/:id').get(StockController.getStockById); // Get a stock item by ID
-router.route('/:id').put(StockController.updateStock); // Update a stock item by ID
+// POST/PUT are already CSRF-protected by the global guard in app.js
+router.post('/add', StockController.addStock);
+router.get('/all',  StockController.getAllStock);
+router.get('/:id',  StockController.getStockById);
+router.put('/:id',  StockController.updateStock);
 
 export default router;
