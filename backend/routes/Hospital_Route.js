@@ -1,10 +1,11 @@
 import express from 'express';
 import { DoctorHospital } from '../models/Hospital.js'; // Import your Hospital model
+import { authenticateToken, requireAdmin, requireStaffOrAdmin } from '../middleware/authMiddleware.js';
 
 const router = express.Router();
 
-// Route to save a new Hospital
-router.post('/', async (request, response) => {
+// Route to save a new Hospital (Admin only)
+router.post('/', authenticateToken, requireAdmin, async (request, response) => {
     try {
         console.log('Request Body:', request.body); // Log the incoming request body
 
@@ -39,8 +40,8 @@ router.post('/', async (request, response) => {
     }
 });
 
-// Route for Get All Hospitals from database
-router.get('/', async (request, response) => {
+// Route for Get All Hospitals from database (Staff or Admin)
+router.get('/', authenticateToken, requireStaffOrAdmin, async (request, response) => {
     try {
         const hospitals = await DoctorHospital.find({});
         return response.status(200).json({
@@ -53,8 +54,8 @@ router.get('/', async (request, response) => {
     }
 });
 
-// Route for Get One Hospital from database by id
-router.get('/:id', async (request, response) => {
+// Route for Get One Hospital from database by id (Authenticated users)
+router.get('/:id', authenticateToken, async (request, response) => {
     try {
         const { id } = request.params;
         const hospital = await DoctorHospital.findById(id);
@@ -70,8 +71,8 @@ router.get('/:id', async (request, response) => {
     }
 });
 
-// Route for Update a Hospital
-router.put('/:id', async (request, response) => {
+// Route for Update a Hospital (Admin only)
+router.put('/:id', authenticateToken, requireAdmin, async (request, response) => {
     try {
         const { Name, Departments, ContactNo, Email, Address, Doctors } = request.body;
 
@@ -101,8 +102,8 @@ router.put('/:id', async (request, response) => {
     }
 });
 
-// Route for Delete a Hospital
-router.delete('/:id', async (request, response) => {
+// Route for Delete a Hospital (Admin only)
+router.delete('/:id', authenticateToken, requireAdmin, async (request, response) => {
     try {
         const { id } = request.params;
         const result = await DoctorHospital.findByIdAndDelete(id);
