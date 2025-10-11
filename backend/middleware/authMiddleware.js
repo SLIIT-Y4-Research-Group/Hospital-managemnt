@@ -7,7 +7,7 @@ import {
   validateTokenFormat 
 } from '../utils/jwt.js';
 
-// Middleware to verify JWT token
+
 export const authenticateToken = async (req, res, next) => {
   try {
     const authHeader = req.headers.authorization;
@@ -28,15 +28,15 @@ export const authenticateToken = async (req, res, next) => {
       return res.status(401).json({ message: 'Token has been revoked' });
     }
 
-    // Verify the JWT token
+    
     const decodedToken = verifyAccessToken(token);
     
-    // Ensure it's an access token
+   
     if (decodedToken.type !== 'access') {
       return res.status(401).json({ message: 'Invalid token type' });
     }
 
-    // Get user from database
+ 
     const user = await User.findById(decodedToken.userId);
     
     if (!user) {
@@ -51,7 +51,7 @@ export const authenticateToken = async (req, res, next) => {
       return res.status(403).json({ message: 'Email not verified' });
     }
 
-    // Add user info to request object
+   
     req.user = {
       userId: user._id,
       email: user.email,
@@ -60,7 +60,7 @@ export const authenticateToken = async (req, res, next) => {
       firebaseUID: user.firebaseUID
     };
 
-    // Add token to request for potential blacklisting
+    
     req.token = token;
 
     next();

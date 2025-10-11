@@ -9,12 +9,12 @@ import {
 
 const router = express.Router();
 
-// Route to save a new Doctor (All authenticated users can create)
+
 router.post("/", authenticateToken, async (request, response) => {
   try {
-    console.log("Request Body:", request.body); // Log the incoming request body
+    console.log("Request Body:", request.body); 
 
-    // Check if Email is present and valid
+   
     if (
       !request.body.image ||
       !request.body.Name ||
@@ -26,7 +26,7 @@ router.post("/", authenticateToken, async (request, response) => {
       !request.body.Description ||
       !request.body.WorkingHospitals ||
       !request.body.Password ||
-      !request.body.Email.trim() // Check if Email is not just whitespace
+      !request.body.Email.trim() 
     ) {
       return response.status(400).send({
         message:
@@ -55,7 +55,6 @@ router.post("/", authenticateToken, async (request, response) => {
   }
 });
 
-// Route for Get All Doctors from database (Admin and Staff can view all, others need authentication)
 router.get("/", authenticateToken, async (request, response) => {
   try {
     const Doctors = await Doctor.find({});
@@ -69,7 +68,7 @@ router.get("/", authenticateToken, async (request, response) => {
   }
 });
 
-// Route for Get One Doctor from database by id (Authenticated users)
+
 router.get("/:id", authenticateToken, async (request, response) => {
   try {
     const { id } = request.params;
@@ -86,7 +85,7 @@ router.get("/:id", authenticateToken, async (request, response) => {
   }
 });
 
-// Route for Update a Doctor (All authenticated users can update)
+
 router.put("/:id", authenticateToken, async (req, res) => {
   try {
     const {
@@ -102,7 +101,7 @@ router.put("/:id", authenticateToken, async (req, res) => {
       Password,
     } = req.body;
 
-    // Check for required fields
+ 
     if (
       !image ||
       !Name ||
@@ -137,7 +136,7 @@ router.put("/:id", authenticateToken, async (req, res) => {
   }
 });
 
-// Route for Delete a Doctor (Admin only)
+
 router.delete(
   "/:id",
   authenticateToken,
@@ -161,7 +160,7 @@ router.delete(
   }
 );
 
-// Route for doctor login
+
 router.post("/login", async (req, res) => {
   try {
     const { DoctorID, Password } = req.body;
@@ -184,12 +183,12 @@ router.post("/login", async (req, res) => {
   }
 });
 
-// Route for updating a doctor by ID or DoctorID using PUT (All authenticated users)
+
 router.put("/:identifier", authenticateToken, async (req, res) => {
   try {
     const { identifier } = req.params;
 
-    // Check if the identifier is a valid MongoDB ObjectId
+   
     if (mongoose.Types.ObjectId.isValid(identifier)) {
       const doctor = await Doctor.findByIdAndUpdate(identifier, req.body, {
         new: true,
@@ -198,7 +197,7 @@ router.put("/:identifier", authenticateToken, async (req, res) => {
       return res.status(200).send(doctor);
     }
 
-    // If not a valid ObjectId, try searching by DoctorID
+    
     const doctorByDoctorID = await Doctor.findOneAndUpdate(
       { DoctorID: identifier },
       req.body,
@@ -221,7 +220,7 @@ router.get("/:doctorId", async (req, res) => {
     }
     res.json(doctor);
   } catch (error) {
-    console.error("Error fetching doctor details:", error); // Log the error for debugging
+    console.error("Error fetching doctor details:", error); 
     res.status(500).json({ message: "Server error" });
   }
 });
